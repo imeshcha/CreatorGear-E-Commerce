@@ -285,18 +285,18 @@ export default function HeroShowcase() {
                 style={style}
                 className="absolute w-[95%] sm:w-[86%] lg:w-[78%] max-w-4xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-5 sm:p-7 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
-                {/* 1. TOP BOX: "Featured Product name" */}
-                <div className="rounded-2xl bg-white px-5 py-3 shadow-sm mb-4 flex flex-wrap items-center justify-between gap-2 border border-neutral-200/80">
+                {/* 1. TOP TITLE: Product Name directly in white text (no background box) */}
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
                   <div className="flex items-center gap-2.5">
-                    <span className="bg-neutral-900 text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">
+                    <span className="bg-white/10 text-white border border-white/20 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md backdrop-blur-xs">
                       {item.tag}
                     </span>
-                    <h2 className="text-base sm:text-lg font-black tracking-tight text-neutral-900 line-clamp-1">
+                    <h2 className="text-lg sm:text-xl font-black tracking-tight text-white line-clamp-1">
                       {item.title}
                     </h2>
                   </div>
 
-                  <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+                  <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-0.5 text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
                     {item.condition}
                   </span>
                 </div>
