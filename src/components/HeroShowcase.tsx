@@ -226,30 +226,6 @@ export default function HeroShowcase() {
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
       >
-        {/* Navigation Indicators & Labels */}
-        <div className="hidden sm:flex items-center justify-between px-10 mb-2 text-xs font-bold text-neutral-500 uppercase tracking-widest">
-          <button
-            type="button"
-            onClick={prevCard}
-            className="flex items-center gap-1.5 hover:text-neutral-900 transition group"
-          >
-            <ChevronLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-            <span>Previous Product</span>
-          </button>
-
-          <span className="text-[10px] bg-white border border-neutral-200 text-neutral-700 px-3 py-0.5 rounded-full font-mono shadow-2xs">
-            {currentIndex + 1} / {total}
-          </span>
-
-          <button
-            type="button"
-            onClick={nextCard}
-            className="flex items-center gap-1.5 hover:text-neutral-900 transition group"
-          >
-            <span>Next Product</span>
-            <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-          </button>
-        </div>
 
         {/* 3D Stage Viewport with Increased Height */}
         <div className="relative min-h-[590px] sm:h-[560px] lg:h-[540px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
@@ -383,26 +359,6 @@ export default function HeroShowcase() {
           })}
         </div>
 
-        {/* Carousel Floating Nav Buttons on Mobile */}
-        <div className="flex sm:hidden items-center justify-between mt-4 px-4">
-          <button
-            type="button"
-            onClick={prevCard}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-800 shadow-sm"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <span className="text-xs font-bold text-neutral-500">
-            {currentIndex + 1} of {total}
-          </span>
-          <button
-            type="button"
-            onClick={nextCard}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-800 shadow-sm"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
 
         {/* Bottom Step Indicator Dots */}
         <div className="mt-4 flex items-center justify-center gap-2">
