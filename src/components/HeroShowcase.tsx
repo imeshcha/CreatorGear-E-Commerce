@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, ShieldCheck, ChevronLeft, ChevronRight, Star, ShoppingBag, Eye } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { ArrowRight, Sparkles, ShieldCheck, ChevronLeft, ChevronRight, Star, Eye } from 'lucide-react';
 
 const FEATURED_ITEMS = [
   {
@@ -21,7 +20,6 @@ const FEATURED_ITEMS = [
     tag: 'Flagship Cinema',
     spec: '10.2MP BSI • 4K 120p All-Intra • Dual Base ISO • Active Fan Cooling',
     image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80',
-    stock: 4,
   },
   {
     id: 'prod-red-komodo',
@@ -38,7 +36,6 @@ const FEATURED_ITEMS = [
     tag: 'Global Shutter',
     spec: '19.9MP Super 35 • 6K 40fps REDCODE RAW • 142 Runtime Hours Only',
     image: 'https://images.unsplash.com/photo-1589872765807-4475903b4720?auto=format&fit=crop&w=1200&q=80',
-    stock: 1,
   },
   {
     id: 'prod-rode-wireless-pro',
@@ -55,7 +52,6 @@ const FEATURED_ITEMS = [
     tag: '32-Bit Float',
     spec: '32-Bit Float On-Board Recording • 260m Range • SMPTE Timecode Sync',
     image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=80',
-    stock: 15,
   },
   {
     id: 'prod-aputure-600d',
@@ -72,7 +68,6 @@ const FEATURED_ITEMS = [
     tag: 'Daylight Flagship',
     spec: '720W High Draw • 8,500+ lux at 3m • Bowens Mount • Weatherproof Case',
     image: 'https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?auto=format&fit=crop&w=1200&q=80',
-    stock: 1,
   },
   {
     id: 'prod-dji-rs3-pro',
@@ -89,7 +84,6 @@ const FEATURED_ITEMS = [
     tag: 'LiDAR Focus Ready',
     spec: '4.5kg Tested Payload • Automated Axis Locks • Carbon Fiber Arms',
     image: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=1200&q=80',
-    stock: 3,
   },
   {
     id: 'prod-sennheiser-mkh416',
@@ -106,7 +100,6 @@ const FEATURED_ITEMS = [
     tag: 'Broadcast Standard',
     spec: 'Supercardioid RF Condenser • Extreme Humidity Immunity • Balanced XLR',
     image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
-    stock: 8,
   },
 ];
 
@@ -149,20 +142,18 @@ export default function HeroShowcase() {
     if (touchStartX.current === null || touchEndX.current === null) return;
     const distance = touchStartX.current - touchEndX.current;
     if (distance > 45) {
-      // Swiped Left -> Next Card
       nextCard();
     } else if (distance < -45) {
-      // Swiped Right -> Prev Card
       prevCard();
     }
     touchStartX.current = null;
     touchEndX.current = null;
   };
 
-  // Scroll / Wheel Gesture Handling (debounced)
+  // Scroll / Wheel Gesture Handling
   const handleWheel = (e: React.WheelEvent) => {
     if (wheelLock.current) return;
-    if (Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 60) {
+    if (Math.abs(e.deltaX) > 25 || Math.abs(e.deltaY) > 50) {
       wheelLock.current = true;
       if (e.deltaX > 0 || e.deltaY > 0) {
         nextCard();
@@ -171,35 +162,33 @@ export default function HeroShowcase() {
       }
       setTimeout(() => {
         wheelLock.current = false;
-      }, 700);
+      }, 650);
     }
   };
 
-  // Helper to calculate card position relative to current index
+  // 3D Depth Card Stacking Calculation
   const getCardStyle = (index: number) => {
     let diff = (index - currentIndex) % total;
     if (diff < -Math.floor(total / 2)) diff += total;
     if (diff > Math.floor(total / 2)) diff -= total;
 
-    // Center Active Card (Featured product - Main View)
+    // Center Active Card (Main View)
     if (diff === 0) {
       return {
         transform: 'translateX(0%) scale(1) translateZ(0)',
         zIndex: 30,
         opacity: 1,
         pointerEvents: 'auto' as const,
-        filter: 'brightness(1)',
       };
     }
 
     // Previous Product (Left Card)
     if (diff === -1) {
       return {
-        transform: 'translateX(-54%) scale(0.88) translateZ(-50px)',
+        transform: 'translateX(-52%) scale(0.88) translateZ(-40px)',
         zIndex: 20,
-        opacity: 0.72,
+        opacity: 0.65,
         pointerEvents: 'auto' as const,
-        filter: 'brightness(0.92)',
         cursor: 'pointer',
       };
     }
@@ -207,18 +196,17 @@ export default function HeroShowcase() {
     // Next Product (Right Card)
     if (diff === 1) {
       return {
-        transform: 'translateX(54%) scale(0.88) translateZ(-50px)',
+        transform: 'translateX(52%) scale(0.88) translateZ(-40px)',
         zIndex: 20,
-        opacity: 0.72,
+        opacity: 0.65,
         pointerEvents: 'auto' as const,
-        filter: 'brightness(0.92)',
         cursor: 'pointer',
       };
     }
 
-    // Behind / Hidden Cards
+    // Hidden / Behind Cards
     return {
-      transform: `translateX(${diff > 0 ? '90%' : '-90%'}) scale(0.72) translateZ(-100px)`,
+      transform: `translateX(${diff > 0 ? '90%' : '-90%'}) scale(0.72) translateZ(-80px)`,
       zIndex: 10,
       opacity: 0,
       pointerEvents: 'none' as const,
@@ -247,7 +235,7 @@ export default function HeroShowcase() {
         </div>
       </div>
 
-      {/* 3D Depth-Stacked Carousel Stage Matching the Sketch */}
+      {/* 3D Depth-Stacked Carousel Stage Matching Website Component Theme */}
       <div
         className="relative mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
         onMouseEnter={() => setIsPaused(true)}
@@ -257,8 +245,8 @@ export default function HeroShowcase() {
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
       >
-        {/* Previous & Next Label Cues from the Sketch */}
-        <div className="hidden sm:flex items-center justify-between px-10 mb-2 text-xs font-bold text-neutral-400 uppercase tracking-widest">
+        {/* Navigation Indicators & Labels */}
+        <div className="hidden sm:flex items-center justify-between px-10 mb-2 text-xs font-bold text-neutral-500 uppercase tracking-widest">
           <button
             type="button"
             onClick={prevCard}
@@ -268,7 +256,7 @@ export default function HeroShowcase() {
             <span>Previous Product</span>
           </button>
 
-          <span className="text-[10px] bg-neutral-200/70 text-neutral-600 px-3 py-0.5 rounded-full font-mono">
+          <span className="text-[10px] bg-white border border-neutral-200 text-neutral-700 px-3 py-0.5 rounded-full font-mono shadow-2xs">
             {currentIndex + 1} / {total}
           </span>
 
@@ -295,10 +283,10 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[94%] sm:w-[86%] lg:w-[78%] max-w-4xl rounded-3xl bg-[#144b68] text-white p-5 sm:p-7 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[95%] sm:w-[86%] lg:w-[78%] max-w-4xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-5 sm:p-7 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
-                {/* 1. TOP BOX: "Featured Product name" (As drawn in sketch) */}
-                <div className="rounded-2xl bg-white px-5 py-3 shadow-md mb-4 flex flex-wrap items-center justify-between gap-2">
+                {/* 1. TOP BOX: "Featured Product name" */}
+                <div className="rounded-2xl bg-white px-5 py-3 shadow-sm mb-4 flex flex-wrap items-center justify-between gap-2 border border-neutral-200/80">
                   <div className="flex items-center gap-2.5">
                     <span className="bg-neutral-900 text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">
                       {item.tag}
@@ -313,35 +301,35 @@ export default function HeroShowcase() {
                   </span>
                 </div>
 
-                {/* Main Content: Left Image Box + Right Details Box [Background Visible] */}
+                {/* 2. MAIN CONTENT: Left Image Box + Right Details Box */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
                   
-                  {/* 2. LEFT / CENTER BOX: "Image" (As drawn in sketch) */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-64 rounded-2xl overflow-hidden bg-neutral-950/40 border border-white/20 shadow-inner group">
+                  {/* Left Product Image Box */}
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-64 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 shadow-inner group">
                     <img
                       src={item.image}
                       alt={item.title}
                       className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    {/* Badge Overlay */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-neutral-950/70 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/10">
+                    {/* Clean Overlay Badges */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-neutral-950/80 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-neutral-800">
                       <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-                      <span>{item.brand} Official Gear</span>
+                      <span>{item.brand} Official</span>
                     </div>
 
-                    <div className="absolute bottom-3 right-3 rounded-md bg-neutral-950/70 px-2 py-1 text-[10px] font-mono text-neutral-300 backdrop-blur-md">
+                    <div className="absolute bottom-3 right-3 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
                       {item.category}
                     </div>
                   </div>
 
-                  {/* 3. RIGHT BOX: "Details and butttons [ Background visible ]" (As drawn in sketch) */}
-                  <div className="md:col-span-5 rounded-2xl bg-white p-5 text-neutral-900 shadow-md flex flex-col justify-between">
+                  {/* Right Details & Buttons Box */}
+                  <div className="md:col-span-5 rounded-2xl bg-white p-5 text-neutral-900 shadow-sm border border-neutral-200/80 flex flex-col justify-between">
                     <div>
                       {/* Price Section */}
                       <div className="border-b border-neutral-100 pb-3">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
-                          Marketplace Listing Price
+                          Listing Price
                         </span>
                         <div className="flex items-baseline gap-2 mt-0.5">
                           <span className="text-2xl font-black text-neutral-900 font-mono">
@@ -361,7 +349,7 @@ export default function HeroShowcase() {
                       {/* Specs */}
                       <div className="py-2.5 text-xs text-neutral-600">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
-                          Key Specifications:
+                          Specifications:
                         </span>
                         <p className="line-clamp-2 text-[11px] leading-relaxed text-neutral-700 font-medium">
                           {item.spec}
@@ -384,7 +372,7 @@ export default function HeroShowcase() {
                       </div>
                     </div>
 
-                    {/* Action Buttons as in sketch */}
+                    {/* Action Buttons */}
                     <div className="pt-3 border-t border-neutral-100 flex items-center gap-2">
                       <Link
                         href={`/product/${item.slug}`}
@@ -432,7 +420,7 @@ export default function HeroShowcase() {
           </button>
         </div>
 
-        {/* Dynamic Card Indicator Dots */}
+        {/* Bottom Step Indicator Dots */}
         <div className="mt-4 flex items-center justify-center gap-2">
           {FEATURED_ITEMS.map((_, idx) => (
             <button
@@ -441,7 +429,7 @@ export default function HeroShowcase() {
               onClick={() => setCurrentIndex(idx)}
               className={`h-1.5 rounded-full transition-all duration-500 ${
                 currentIndex === idx
-                  ? 'w-8 bg-[#144b68]'
+                  ? 'w-8 bg-neutral-900'
                   : 'w-2 bg-neutral-300 hover:bg-neutral-400'
               }`}
               aria-label={`Go to featured card ${idx + 1}`}
