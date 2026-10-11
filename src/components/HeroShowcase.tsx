@@ -251,8 +251,8 @@ export default function HeroShowcase() {
           </button>
         </div>
 
-        {/* 3D Stage Viewport */}
-        <div className="relative h-[480px] sm:h-[450px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
+        {/* 3D Stage Viewport with Increased Height */}
+        <div className="relative min-h-[590px] sm:h-[560px] lg:h-[540px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
           {FEATURED_ITEMS.map((item, idx) => {
             const isCenter = idx === currentIndex;
             const style = getCardStyle(idx);
@@ -264,29 +264,29 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[95%] sm:w-[86%] lg:w-[78%] max-w-4xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-5 sm:p-7 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[95%] sm:w-[88%] lg:w-[82%] max-w-5xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-6 sm:p-8 lg:p-9 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
                 {/* 1. TOP TITLE: Product Name directly in white text (no background box) */}
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
-                  <div className="flex items-center gap-2.5">
-                    <span className="bg-white/10 text-white border border-white/20 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md backdrop-blur-xs">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3 px-1">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-white/10 text-white border border-white/20 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md backdrop-blur-xs">
                       {item.tag}
                     </span>
-                    <h2 className="text-lg sm:text-xl font-black tracking-tight text-white line-clamp-1">
+                    <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white line-clamp-1">
                       {item.title}
                     </h2>
                   </div>
 
-                  <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-0.5 text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+                  <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3.5 py-1 text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
                     {item.condition}
                   </span>
                 </div>
 
                 {/* 2. MAIN CONTENT: Left Image Box + Right Details Box */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
                   
-                  {/* Left Product Image Box */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-64 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 shadow-inner group">
+                  {/* Left Product Image Box (Taller cinematic view) */}
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-80 lg:h-88 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 shadow-inner group">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -294,35 +294,35 @@ export default function HeroShowcase() {
                     />
 
                     {/* Clean Overlay Badges */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-neutral-950/80 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-neutral-800">
-                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-full bg-neutral-950/80 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-md border border-neutral-800">
+                      <ShieldCheck className="h-4 w-4 text-emerald-400" />
                       <span>{item.brand} Official</span>
                     </div>
 
-                    <div className="absolute bottom-3 right-3 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
+                    <div className="absolute bottom-3.5 right-3.5 rounded-md bg-neutral-950/80 px-3 py-1 text-[11px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
                       {item.category}
                     </div>
                   </div>
 
                   {/* Right Details & Buttons Box */}
-                  <div className="md:col-span-5 rounded-2xl bg-white p-5 text-neutral-900 shadow-sm border border-neutral-200/80 flex flex-col justify-between">
+                  <div className="md:col-span-5 rounded-2xl bg-white p-6 text-neutral-900 shadow-sm border border-neutral-200/80 flex flex-col justify-between">
                     <div>
                       {/* Price Section */}
-                      <div className="border-b border-neutral-100 pb-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
+                      <div className="border-b border-neutral-100 pb-4">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
                           Listing Price
                         </span>
-                        <div className="flex items-baseline gap-2 mt-0.5">
-                          <span className="text-2xl font-black text-neutral-900 font-mono">
+                        <div className="flex items-baseline gap-2 mt-1">
+                          <span className="text-3xl font-black text-neutral-900 font-mono">
                             ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                           {item.comparePrice && (
-                            <span className="text-xs text-neutral-400 line-through font-mono">
+                            <span className="text-sm text-neutral-400 line-through font-mono">
                               ${item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-emerald-600 font-bold">
+                        <span className="text-[11px] text-emerald-600 font-bold block mt-1">
                           ✓ Escrow Verified • Tax Included
                         </span>
                       </div>
