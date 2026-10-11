@@ -11,7 +11,7 @@ const FEATURED_ITEMS = [
     title: 'Sony FX3 Cinema Line Full-Frame Camera',
     brand: 'Sony',
     category: 'Cinema Cameras',
-    condition: 'Brand New (B2C)',
+    condition: 'Brand New',
     price: 3899.00,
     comparePrice: 4199.00,
     seller: 'CineGear Pro Store',
@@ -91,7 +91,7 @@ const FEATURED_ITEMS = [
     title: 'Sennheiser MKH 416-P48 Moisture-Resistant Mic',
     brand: 'Sennheiser',
     category: 'Field Audio',
-    condition: 'Brand New (B2C)',
+    condition: 'Brand New',
     price: 999.00,
     comparePrice: 1099.00,
     seller: 'CineGear Pro Store',
@@ -266,10 +266,10 @@ export default function HeroShowcase() {
                 style={style}
                 className="absolute w-[95%] sm:w-[88%] lg:w-[82%] max-w-5xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-6 sm:p-8 lg:p-9 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
-                {/* 1. TOP TITLE: Product Name directly in white text (no background box) */}
-                <div className="mb-5 flex flex-wrap items-center justify-between gap-3 px-1">
+                {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
+                <div className="mb-4 space-y-2 px-1">
                   <div className="flex items-center gap-3">
-                    <span className="bg-white/10 text-white border border-white/20 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md backdrop-blur-xs">
+                    <span className="bg-white/10 text-white border border-white/20 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md backdrop-blur-xs shrink-0">
                       {item.tag}
                     </span>
                     <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white line-clamp-1">
@@ -277,9 +277,12 @@ export default function HeroShowcase() {
                     </h2>
                   </div>
 
-                  <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3.5 py-1 text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
-                    {item.condition}
-                  </span>
+                  {/* Next line: Condition badge */}
+                  <div>
+                    <span className="inline-block rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3.5 py-1 text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
+                      {item.condition}
+                    </span>
+                  </div>
                 </div>
 
                 {/* 2. MAIN CONTENT: Left Image Box + Right Details Box */}

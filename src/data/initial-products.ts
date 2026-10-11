@@ -74,7 +74,7 @@ export const INITIAL_SELLERS: SellerProfile[] = [
     id: 'seller-cinegear',
     store_name: 'CineGear Pro Store',
     slug: 'cinegear-pro',
-    seller_type: 'business', // B2C
+    seller_type: 'business', // Business retailer
     bio: 'Authorized dealership for high-end professional cinema and broadcast gear.',
     business_registration_number: 'PV-98231',
     is_verified: true,
