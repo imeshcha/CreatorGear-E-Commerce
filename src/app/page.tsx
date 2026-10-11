@@ -62,7 +62,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
                   Verified Seller Identity
                 </h4>
                 <p className="mt-1 text-[11px] text-neutral-500">
-                  Strict compliance review for B2C businesses and C2C individual creators.
+                  Strict compliance review for verified stores and individual creators.
                 </p>
               </div>
             </div>

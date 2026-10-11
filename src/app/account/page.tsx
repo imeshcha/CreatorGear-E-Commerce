@@ -35,7 +35,7 @@ export default function AccountPage() {
                 <h1 className="text-xl font-black text-neutral-900">Alex Robertson</h1>
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
                   <ShieldCheck className="h-3 w-3 text-emerald-600" />
-                  Verified C2C Seller
+                  Verified Creator Seller
                 </span>
               </div>
               <p className="text-xs text-neutral-500">

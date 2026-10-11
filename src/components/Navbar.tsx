@@ -48,7 +48,7 @@ export default function Navbar() {
               Studio Sets
             </Link>
             <Link href="/?condition=used" className="hover:text-neutral-900 transition-colors flex items-center gap-1">
-              <span>Pre-Owned (C2C)</span>
+              <span>Pre-Owned</span>
               <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-1.5 py-0.2 rounded">
                 Verified
               </span>
@@ -79,15 +79,6 @@ export default function Navbar() {
           >
             <PlusCircle className="h-3.5 w-3.5 text-neutral-600" />
             <span>Sell Gear</span>
-          </Link>
-
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-1 text-xs font-medium text-neutral-500 hover:text-neutral-900 px-2 py-1 transition"
-            title="Admin Verification & Moderation Dashboard"
-          >
-            <LayoutDashboard className="h-3.5 w-3.5" />
-            <span className="hidden lg:inline">Admin</span>
           </Link>
 
           <Link

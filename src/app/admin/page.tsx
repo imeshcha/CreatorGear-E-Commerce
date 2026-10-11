@@ -178,7 +178,7 @@ export default function AdminDashboardPage() {
                       {app.storeName}
                     </p>
                     <p className={`text-[11px] ${selectedApp?.id === app.id ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                      {app.legalName} • {app.sellerType === 'business' ? 'B2C Business' : 'C2C Individual'}
+                      {app.legalName} • {app.sellerType === 'business' ? 'Business Seller' : 'Individual Seller'}
                     </p>
                   </div>
 
@@ -233,7 +233,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <span className="text-neutral-400 block text-[11px]">Seller Classification:</span>
                   <span className="font-medium text-neutral-800 capitalize">
-                    {selectedApp.sellerType === 'business' ? 'Business Seller (B2C)' : 'Individual Creator (C2C)'}
+                    {selectedApp.sellerType === 'business' ? 'Business Seller (Commercial)' : 'Individual Creator'}
                   </span>
                 </div>
 

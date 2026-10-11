@@ -188,13 +188,13 @@ export default function ProductCatalog({
           {/* Condition Filter */}
           <div className="border-t border-neutral-100 pt-4">
             <label className="mb-2 block text-xs font-bold text-neutral-800">
-              Condition (B2C & C2C)
+              Equipment Condition
             </label>
             <div className="space-y-1.5 text-xs text-neutral-600">
               {[
                 { label: 'Any Condition', value: 'all' },
-                { label: 'Brand New (Retail / B2C)', value: 'new' },
-                { label: 'Used / Pre-Owned (Creator C2C)', value: 'used' },
+                { label: 'Brand New', value: 'new' },
+                { label: 'Used / Pre-Owned', value: 'used' },
                 { label: 'Certified Refurbished', value: 'refurbished' },
               ].map(cond => (
                 <label key={cond.value} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">

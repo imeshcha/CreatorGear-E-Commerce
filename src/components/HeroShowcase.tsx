@@ -27,7 +27,7 @@ const FEATURED_ITEMS = [
     title: 'RED Komodo 6K Cinema Camera (Black Edition)',
     brand: 'RED Digital Cinema',
     category: 'Cinema Cameras',
-    condition: 'Pre-Owned (C2C Verified)',
+    condition: 'Pre-Owned (Verified)',
     price: 4450.00,
     comparePrice: 5995.00,
     seller: 'Alex Filmmaking',
@@ -43,7 +43,7 @@ const FEATURED_ITEMS = [
     title: 'Røde Wireless PRO Dual-Channel Mic System',
     brand: 'Røde Microphones',
     category: 'Field Audio',
-    condition: 'Brand New (B2C)',
+    condition: 'Brand New',
     price: 399.00,
     comparePrice: 449.00,
     seller: 'CineGear Pro Store',
@@ -59,7 +59,7 @@ const FEATURED_ITEMS = [
     title: 'Aputure Light Storm LS 600d Pro Daylight LED',
     brand: 'Aputure',
     category: 'Studio Lighting',
-    condition: 'Pre-Owned (C2C)',
+    condition: 'Pre-Owned',
     price: 1390.00,
     comparePrice: 1890.00,
     seller: 'Kasun Creative Tech',
@@ -215,25 +215,6 @@ export default function HeroShowcase() {
 
   return (
     <section className="relative overflow-hidden bg-[#F4F4F4] pt-6 pb-12 select-none">
-      {/* Top Header */}
-      <div className="mx-auto flex flex-col items-center text-center px-4 mb-4">
-        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300/80 bg-white/90 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-neutral-500 shadow-2xs backdrop-blur-xs">
-          <Sparkles className="h-3 w-3 text-neutral-800" />
-          <span>Featured Gear Marketplace</span>
-        </div>
-
-        <h1 className="mt-2 text-4xl font-black tracking-tighter text-neutral-900 sm:text-6xl lg:text-7xl">
-          CREATOR GEAR
-        </h1>
-
-        <div className="mt-1 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-neutral-500 uppercase">
-          <span>B2C & C2C Verified Hub</span>
-          <span>•</span>
-          <span>Auto-Switching Every 4s</span>
-          <span>•</span>
-          <span>Swipe or Scroll to Move</span>
-        </div>
-      </div>
 
       {/* 3D Depth-Stacked Carousel Stage Matching Website Component Theme */}
       <div
