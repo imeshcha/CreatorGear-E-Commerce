@@ -1,331 +1,454 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, ShieldCheck, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, ChevronLeft, ChevronRight, Star, ShoppingBag, Eye } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 const FEATURED_ITEMS = [
   {
     id: 'prod-sony-fx3',
     slug: 'sony-fx3-cinema-camera',
-    title: 'Sony FX3 Cinema Line Full-Frame',
+    title: 'Sony FX3 Cinema Line Full-Frame Camera',
     brand: 'Sony',
     category: 'Cinema Cameras',
-    condition: 'New (B2C)',
+    condition: 'Brand New (B2C)',
     price: 3899.00,
     comparePrice: 4199.00,
     seller: 'CineGear Pro Store',
     verified: true,
     rating: 4.95,
     tag: 'Flagship Cinema',
-    spec: '10.2MP BSI • 4K 120p • Dual Native ISO',
-    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80',
+    spec: '10.2MP BSI • 4K 120p All-Intra • Dual Base ISO • Active Fan Cooling',
+    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80',
+    stock: 4,
   },
   {
     id: 'prod-red-komodo',
     slug: 'red-komodo-6k-used',
-    title: 'RED Komodo 6K Cinema Camera',
-    brand: 'RED',
+    title: 'RED Komodo 6K Cinema Camera (Black Edition)',
+    brand: 'RED Digital Cinema',
     category: 'Cinema Cameras',
-    condition: 'Used (C2C)',
+    condition: 'Pre-Owned (C2C Verified)',
     price: 4450.00,
     comparePrice: 5995.00,
     seller: 'Alex Filmmaking',
     verified: true,
     rating: 5.0,
-    tag: 'Pre-Owned Verified',
-    spec: '6K Global Shutter • 142 Runtime Hours',
-    image: 'https://images.unsplash.com/photo-1589872765807-4475903b4720?auto=format&fit=crop&w=1000&q=80',
+    tag: 'Global Shutter',
+    spec: '19.9MP Super 35 • 6K 40fps REDCODE RAW • 142 Runtime Hours Only',
+    image: 'https://images.unsplash.com/photo-1589872765807-4475903b4720?auto=format&fit=crop&w=1200&q=80',
+    stock: 1,
   },
   {
     id: 'prod-rode-wireless-pro',
     slug: 'rode-wireless-pro-system',
-    title: 'Røde Wireless PRO Dual System',
-    brand: 'Røde',
+    title: 'Røde Wireless PRO Dual-Channel Mic System',
+    brand: 'Røde Microphones',
     category: 'Field Audio',
-    condition: 'New (B2C)',
+    condition: 'Brand New (B2C)',
     price: 399.00,
     comparePrice: 449.00,
     seller: 'CineGear Pro Store',
     verified: true,
     rating: 4.88,
     tag: '32-Bit Float',
-    spec: 'Dual Transmitters • Timecode Sync Case',
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1000&q=80',
+    spec: '32-Bit Float On-Board Recording • 260m Range • SMPTE Timecode Sync',
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=80',
+    stock: 15,
   },
   {
     id: 'prod-aputure-600d',
     slug: 'aputure-ls-600d-pro-used',
-    title: 'Aputure LS 600d Pro Daylight LED',
+    title: 'Aputure Light Storm LS 600d Pro Daylight LED',
     brand: 'Aputure',
     category: 'Studio Lighting',
-    condition: 'Used (C2C)',
+    condition: 'Pre-Owned (C2C)',
     price: 1390.00,
     comparePrice: 1890.00,
     seller: 'Kasun Creative Tech',
     verified: true,
     rating: 4.9,
-    tag: 'Cine Daylight',
-    spec: '720W Draw • Bowens Mount • Rolling Case',
-    image: 'https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?auto=format&fit=crop&w=1000&q=80',
+    tag: 'Daylight Flagship',
+    spec: '720W High Draw • 8,500+ lux at 3m • Bowens Mount • Weatherproof Case',
+    image: 'https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?auto=format&fit=crop&w=1200&q=80',
+    stock: 1,
   },
   {
     id: 'prod-dji-rs3-pro',
     slug: 'dji-rs-3-pro-combo',
-    title: 'DJI RS 3 Pro Gimbal Stabilizer',
+    title: 'DJI RS 3 Pro Gimbal Stabilizer Combo',
     brand: 'DJI',
     category: 'Video Production',
-    condition: 'Refurbished',
+    condition: 'Certified Refurbished',
     price: 749.00,
     comparePrice: 869.00,
     seller: 'Alex Filmmaking',
     verified: true,
     rating: 4.8,
-    tag: 'Carbon Fiber',
-    spec: '4.5kg Payload • LiDAR Autofocus Ready',
-    image: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=1000&q=80',
+    tag: 'LiDAR Focus Ready',
+    spec: '4.5kg Tested Payload • Automated Axis Locks • Carbon Fiber Arms',
+    image: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=1200&q=80',
+    stock: 3,
   },
   {
     id: 'prod-sennheiser-mkh416',
     slug: 'sennheiser-mkh-416',
-    title: 'Sennheiser MKH 416-P48 Shotgun',
+    title: 'Sennheiser MKH 416-P48 Moisture-Resistant Mic',
     brand: 'Sennheiser',
     category: 'Field Audio',
-    condition: 'New (B2C)',
+    condition: 'Brand New (B2C)',
     price: 999.00,
     comparePrice: 1099.00,
     seller: 'CineGear Pro Store',
     verified: true,
     rating: 5.0,
     tag: 'Broadcast Standard',
-    spec: 'RF Condenser • Moisture Resistant Tube',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1000&q=80',
+    spec: 'Supercardioid RF Condenser • Extreme Humidity Immunity • Balanced XLR',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
+    stock: 8,
   },
 ];
 
 export default function HeroShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(3);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const wheelLock = useRef(false);
 
+  const total = FEATURED_ITEMS.length;
+
+  const nextCard = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prevCard = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  // 4-Second Automatic Switching with smooth animation
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setCardsPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsPerView(2);
-      } else {
-        setCardsPerView(3);
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const maxIndex = Math.max(0, FEATURED_ITEMS.length - cardsPerView);
-
-  const nextCard = () => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const prevCard = () => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
-  // Subtle auto-advance every 5 seconds
-  useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
       nextCard();
-    }, 5000);
+    }, 4000);
     return () => clearInterval(interval);
-  }, [currentIndex, maxIndex]);
+  }, [nextCard, isPaused]);
 
-  // Exact CSS transform offset calculation
-  const getTransformStyle = () => {
-    if (cardsPerView === 1) {
-      return `translateX(calc(-${currentIndex} * (100% + 24px)))`;
+  // Mobile Touch Swipe Handling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > 45) {
+      // Swiped Left -> Next Card
+      nextCard();
+    } else if (distance < -45) {
+      // Swiped Right -> Prev Card
+      prevCard();
     }
-    if (cardsPerView === 2) {
-      return `translateX(calc(-${currentIndex} * (50% + 12px)))`;
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  // Scroll / Wheel Gesture Handling (debounced)
+  const handleWheel = (e: React.WheelEvent) => {
+    if (wheelLock.current) return;
+    if (Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 60) {
+      wheelLock.current = true;
+      if (e.deltaX > 0 || e.deltaY > 0) {
+        nextCard();
+      } else {
+        prevCard();
+      }
+      setTimeout(() => {
+        wheelLock.current = false;
+      }, 700);
     }
-    return `translateX(calc(-${currentIndex} * (33.333% + 8px)))`;
+  };
+
+  // Helper to calculate card position relative to current index
+  const getCardStyle = (index: number) => {
+    let diff = (index - currentIndex) % total;
+    if (diff < -Math.floor(total / 2)) diff += total;
+    if (diff > Math.floor(total / 2)) diff -= total;
+
+    // Center Active Card (Featured product - Main View)
+    if (diff === 0) {
+      return {
+        transform: 'translateX(0%) scale(1) translateZ(0)',
+        zIndex: 30,
+        opacity: 1,
+        pointerEvents: 'auto' as const,
+        filter: 'brightness(1)',
+      };
+    }
+
+    // Previous Product (Left Card)
+    if (diff === -1) {
+      return {
+        transform: 'translateX(-54%) scale(0.88) translateZ(-50px)',
+        zIndex: 20,
+        opacity: 0.72,
+        pointerEvents: 'auto' as const,
+        filter: 'brightness(0.92)',
+        cursor: 'pointer',
+      };
+    }
+
+    // Next Product (Right Card)
+    if (diff === 1) {
+      return {
+        transform: 'translateX(54%) scale(0.88) translateZ(-50px)',
+        zIndex: 20,
+        opacity: 0.72,
+        pointerEvents: 'auto' as const,
+        filter: 'brightness(0.92)',
+        cursor: 'pointer',
+      };
+    }
+
+    // Behind / Hidden Cards
+    return {
+      transform: `translateX(${diff > 0 ? '90%' : '-90%'}) scale(0.72) translateZ(-100px)`,
+      zIndex: 10,
+      opacity: 0,
+      pointerEvents: 'none' as const,
+    };
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#F4F4F4] pt-8 pb-10">
-      {/* Top Metadata Header */}
-      <div className="mx-auto flex flex-col items-center text-center px-4">
-        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300/80 bg-white/80 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-neutral-500 shadow-2xs backdrop-blur-xs">
+    <section className="relative overflow-hidden bg-[#F4F4F4] pt-6 pb-12 select-none">
+      {/* Top Header */}
+      <div className="mx-auto flex flex-col items-center text-center px-4 mb-4">
+        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300/80 bg-white/90 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-neutral-500 shadow-2xs backdrop-blur-xs">
           <Sparkles className="h-3 w-3 text-neutral-800" />
-          <span>Featured Marketplace Collection</span>
+          <span>Featured Gear Marketplace</span>
         </div>
 
-        {/* Massive Headline */}
-        <h1 className="mt-3 text-5xl font-black tracking-tighter text-neutral-900 sm:text-7xl lg:text-8xl">
+        <h1 className="mt-2 text-4xl font-black tracking-tighter text-neutral-900 sm:text-6xl lg:text-7xl">
           CREATOR GEAR
         </h1>
 
-        <div className="mt-2 flex items-center gap-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">
-          <span>Fall 2026 Release</span>
+        <div className="mt-1 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-neutral-500 uppercase">
+          <span>B2C & C2C Verified Hub</span>
           <span>•</span>
-          <span>B2C & C2C Verified Marketplace</span>
+          <span>Auto-Switching Every 4s</span>
           <span>•</span>
-          <span>Zero Counterfeit Guarantee</span>
+          <span>Swipe or Scroll to Move</span>
         </div>
       </div>
 
-      {/* Moveable Featured Cards Carousel Container */}
-      <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl border border-neutral-300/80 bg-white p-6 shadow-xl sm:p-8">
-          
-          {/* Top Bar of the Container: Section Title & Slide Controls */}
-          <div className="mb-6 flex items-center justify-between border-b border-neutral-100 pb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <h2 className="text-sm font-black uppercase tracking-wider text-neutral-900 sm:text-base">
-                  Featured Equipment Showcase
-                </h2>
-              </div>
-              <p className="text-xs text-neutral-400 mt-0.5">
-                Verified high-end gear moving card by card
-              </p>
-            </div>
+      {/* 3D Depth-Stacked Carousel Stage Matching the Sketch */}
+      <div
+        className="relative mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onWheel={handleWheel}
+      >
+        {/* Previous & Next Label Cues from the Sketch */}
+        <div className="hidden sm:flex items-center justify-between px-10 mb-2 text-xs font-bold text-neutral-400 uppercase tracking-widest">
+          <button
+            type="button"
+            onClick={prevCard}
+            className="flex items-center gap-1.5 hover:text-neutral-900 transition group"
+          >
+            <ChevronLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Previous Product</span>
+          </button>
 
-            {/* Carousel Navigation Arrows */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={prevCard}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-700 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white shadow-xs"
-                aria-label="Previous card"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                onClick={nextCard}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-700 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white shadow-xs"
-                aria-label="Next card"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
+          <span className="text-[10px] bg-neutral-200/70 text-neutral-600 px-3 py-0.5 rounded-full font-mono">
+            {currentIndex + 1} / {total}
+          </span>
 
-          {/* Moveable Cards Track */}
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-out gap-6"
-              style={{
-                transform: getTransformStyle(),
-              }}
-            >
-              {FEATURED_ITEMS.map((item) => (
-                <div
-                  key={item.id}
-                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 group flex flex-col justify-between rounded-2xl border border-neutral-200/90 bg-[#FAFAFA] p-4 transition-all duration-300 hover:border-neutral-900 hover:bg-white hover:shadow-xl"
-                >
-                  <div>
-                    {/* Image with Tag & Condition */}
-                    <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-neutral-100">
-                      <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">
-                        <span className="bg-neutral-900 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs">
-                          {item.tag}
-                        </span>
-                        <span
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                            item.condition.includes('New')
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                              : 'bg-amber-50 text-amber-700 border-amber-200'
-                          }`}
-                        >
-                          {item.condition}
-                        </span>
-                      </div>
-
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-
-                    {/* Metadata & Title */}
-                    <div className="mt-3 flex items-center justify-between text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">
-                      <span>{item.brand}</span>
-                      <span>{item.category}</span>
-                    </div>
-
-                    <h3 className="mt-1 text-sm font-bold text-neutral-900 group-hover:text-neutral-700 line-clamp-1">
-                      {item.title}
-                    </h3>
-
-                    <p className="mt-1 text-[11px] text-neutral-500 line-clamp-1">
-                      {item.spec}
-                    </p>
-
-                    {/* Seller details with verified badge */}
-                    <div className="mt-2.5 flex items-center gap-1.5 text-xs text-neutral-600">
-                      <span className="text-[10px] text-neutral-400">Seller:</span>
-                      <span className="font-semibold text-neutral-800 text-[11px]">{item.seller}</span>
-                      {item.verified && (
-                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-                      )}
-                      <div className="ml-auto flex items-center gap-0.5 text-[11px] font-bold text-neutral-700">
-                        <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                        <span>{item.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price & Action Button */}
-                  <div className="mt-4 pt-3 border-t border-neutral-200/60 flex items-center justify-between">
-                    <div>
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-base font-black text-neutral-900 font-mono">
-                          ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                        </span>
-                        {item.comparePrice && (
-                          <span className="text-xs text-neutral-400 line-through font-mono">
-                            ${item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-neutral-400 font-medium">USD • Tax incl.</span>
-                    </div>
-
-                    <Link
-                      href={`/product/${item.slug}`}
-                      className="inline-flex items-center gap-1 rounded-xl bg-neutral-900 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-neutral-800 shadow-xs"
-                    >
-                      <span>View</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom Step Indicator Dots */}
-          <div className="mt-6 flex items-center justify-center gap-1.5">
-            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  currentIndex === idx
-                    ? 'w-6 bg-neutral-900'
-                    : 'w-1.5 bg-neutral-300 hover:bg-neutral-400'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-
+          <button
+            type="button"
+            onClick={nextCard}
+            className="flex items-center gap-1.5 hover:text-neutral-900 transition group"
+          >
+            <span>Next Product</span>
+            <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+          </button>
         </div>
+
+        {/* 3D Stage Viewport */}
+        <div className="relative h-[480px] sm:h-[450px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
+          {FEATURED_ITEMS.map((item, idx) => {
+            const isCenter = idx === currentIndex;
+            const style = getCardStyle(idx);
+
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  if (!isCenter) setCurrentIndex(idx);
+                }}
+                style={style}
+                className="absolute w-[94%] sm:w-[86%] lg:w-[78%] max-w-4xl rounded-3xl bg-[#144b68] text-white p-5 sm:p-7 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+              >
+                {/* 1. TOP BOX: "Featured Product name" (As drawn in sketch) */}
+                <div className="rounded-2xl bg-white px-5 py-3 shadow-md mb-4 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <span className="bg-neutral-900 text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md">
+                      {item.tag}
+                    </span>
+                    <h2 className="text-base sm:text-lg font-black tracking-tight text-neutral-900 line-clamp-1">
+                      {item.title}
+                    </h2>
+                  </div>
+
+                  <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+                    {item.condition}
+                  </span>
+                </div>
+
+                {/* Main Content: Left Image Box + Right Details Box [Background Visible] */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+                  
+                  {/* 2. LEFT / CENTER BOX: "Image" (As drawn in sketch) */}
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-64 rounded-2xl overflow-hidden bg-neutral-950/40 border border-white/20 shadow-inner group">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
+
+                    {/* Badge Overlay */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-neutral-950/70 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/10">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                      <span>{item.brand} Official Gear</span>
+                    </div>
+
+                    <div className="absolute bottom-3 right-3 rounded-md bg-neutral-950/70 px-2 py-1 text-[10px] font-mono text-neutral-300 backdrop-blur-md">
+                      {item.category}
+                    </div>
+                  </div>
+
+                  {/* 3. RIGHT BOX: "Details and butttons [ Background visible ]" (As drawn in sketch) */}
+                  <div className="md:col-span-5 rounded-2xl bg-white p-5 text-neutral-900 shadow-md flex flex-col justify-between">
+                    <div>
+                      {/* Price Section */}
+                      <div className="border-b border-neutral-100 pb-3">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
+                          Marketplace Listing Price
+                        </span>
+                        <div className="flex items-baseline gap-2 mt-0.5">
+                          <span className="text-2xl font-black text-neutral-900 font-mono">
+                            ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </span>
+                          {item.comparePrice && (
+                            <span className="text-xs text-neutral-400 line-through font-mono">
+                              ${item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-emerald-600 font-bold">
+                          ✓ Escrow Verified • Tax Included
+                        </span>
+                      </div>
+
+                      {/* Specs */}
+                      <div className="py-2.5 text-xs text-neutral-600">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
+                          Key Specifications:
+                        </span>
+                        <p className="line-clamp-2 text-[11px] leading-relaxed text-neutral-700 font-medium">
+                          {item.spec}
+                        </p>
+                      </div>
+
+                      {/* Seller Tag */}
+                      <div className="flex items-center justify-between text-xs pt-1 border-t border-neutral-100">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] text-neutral-400">Seller:</span>
+                          <span className="font-semibold text-neutral-800 text-[11px]">{item.seller}</span>
+                          {item.verified && (
+                            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 inline" />
+                          )}
+                        </div>
+                        <div className="flex items-center gap-0.5 text-[11px] font-bold text-amber-500">
+                          <Star className="h-3 w-3 fill-amber-400" />
+                          <span>{item.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons as in sketch */}
+                    <div className="pt-3 border-t border-neutral-100 flex items-center gap-2">
+                      <Link
+                        href={`/product/${item.slug}`}
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
+                      >
+                        <Eye className="h-3.5 w-3.5" />
+                        <span>View Gear</span>
+                      </Link>
+
+                      <Link
+                        href={`/product/${item.slug}`}
+                        className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition"
+                        title="Direct Purchase"
+                      >
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Carousel Floating Nav Buttons on Mobile */}
+        <div className="flex sm:hidden items-center justify-between mt-4 px-4">
+          <button
+            type="button"
+            onClick={prevCard}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-800 shadow-sm"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <span className="text-xs font-bold text-neutral-500">
+            {currentIndex + 1} of {total}
+          </span>
+          <button
+            type="button"
+            onClick={nextCard}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-800 shadow-sm"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Dynamic Card Indicator Dots */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {FEATURED_ITEMS.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                currentIndex === idx
+                  ? 'w-8 bg-[#144b68]'
+                  : 'w-2 bg-neutral-300 hover:bg-neutral-400'
+              }`}
+              aria-label={`Go to featured card ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </div>
     </section>
   );
