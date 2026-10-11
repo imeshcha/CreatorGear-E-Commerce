@@ -1,6 +1,6 @@
 # CreatorGear (GEAR.)
 
-> A modern, premium multi-vendor (B2C + C2C) e-commerce web application engineered specifically for content creators (filmmakers, YouTubers, photographers, streamers, and production teams).
+> A modern, premium multi-vendor e-commerce web application engineered specifically for content creators (filmmakers, YouTubers, photographers, streamers, and production teams).
 
 Built strictly according to the architecture and design guidelines outlined in the **CreatorGear Specification Document**.
 
@@ -33,7 +33,7 @@ creatorgear/
 │   │   ├── cart/              # Multi-vendor cart with stock checks
 │   │   ├── checkout/          # Tri-Method Payment Checkout
 │   │   ├── order/success/     # Order tracking & on-chain verification confirmation
-│   │   ├── seller/apply/      # Seller Verification Onboarding (C2C & B2C)
+│   │   ├── seller/apply/      # Seller Verification Onboarding
 │   │   ├── admin/             # Seller verification moderation dashboard
 │   │   ├── account/           # Dual Buyer / Seller Dashboard with financial ledger
 │   │   └── api/

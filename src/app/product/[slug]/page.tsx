@@ -344,7 +344,7 @@ export default function ProductDetailPage() {
 
                 <div className="text-right">
                   <span className="rounded bg-neutral-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-600">
-                    {product.seller?.seller_type === 'business' ? 'B2C Business' : 'C2C Creator'}
+                    {product.seller?.seller_type === 'business' ? 'Verified Business' : 'Creator Seller'}
                   </span>
                 </div>
               </div>

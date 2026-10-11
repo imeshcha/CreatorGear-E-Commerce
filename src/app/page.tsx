@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import Navbar from '@/components/Navbar';
-import HeroLanding from '@/components/HeroLanding';
 import HeroShowcase from '@/components/HeroShowcase';
 import ProductCatalog from '@/components/ProductCatalog';
 import { getProducts } from '@/lib/db/products';
@@ -38,10 +37,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
       {/* Navigation */}
       <Navbar />
 
-      {/* 100vh Hero Landing Section (Matching User Diagram) */}
-      <HeroLanding />
-
-      {/* 3D Depth-Stacked Featured Equipment Showcase */}
+      {/* Luxury Hero Visual Showcase from PDF Page 21-22 */}
       <HeroShowcase />
 
       {/* Faceted Marketplace Catalog & Filters with Suspense */}

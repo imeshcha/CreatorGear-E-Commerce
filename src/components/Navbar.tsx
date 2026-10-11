@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
-import { Search, ShoppingBag, ShieldCheck, User, PlusCircle, LayoutDashboard } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { Search, ShoppingBag, User, PlusCircle, LogIn, LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
   const { totalItems } = useCart();
+  const { authUser, userProfile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (e: React.FormEvent) => {
@@ -81,13 +83,37 @@ export default function Navbar() {
             <span>Sell Gear</span>
           </Link>
 
-          <Link
-            href="/account"
-            className="inline-flex items-center gap-1 text-xs font-medium text-neutral-600 hover:text-neutral-900 px-2 py-1 transition"
-          >
-            <User className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Account</span>
-          </Link>
+          {authUser ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/account"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-800 hover:text-neutral-900 px-2 py-1 transition"
+              >
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-[10px] font-bold text-white">
+                  {(userProfile?.full_name || authUser.email || 'U')[0].toUpperCase()}
+                </div>
+                <span className="hidden sm:inline max-w-[100px] truncate">
+                  {userProfile?.full_name || authUser.email?.split('@')[0]}
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="text-neutral-400 hover:text-neutral-900 p-1 transition"
+                title="Sign Out"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 transition shadow-xs"
+            >
+              <LogIn className="h-3.5 w-3.5 text-neutral-600" />
+              <span>Sign In</span>
+            </Link>
+          )}
 
           <Link
             href="/cart"

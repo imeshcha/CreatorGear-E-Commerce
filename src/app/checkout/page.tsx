@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import {
   CreditCard,
   Banknote,
@@ -19,17 +20,28 @@ import {
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, subtotal, totalItems, clearCart } = useCart();
+  const { authUser, userProfile } = useAuth();
 
   const [formData, setFormData] = useState({
-    customerName: 'Kavinda Perera',
-    customerEmail: 'kavinda.creator@gmail.com',
-    customerPhone: '+94771234567',
-    addressLine1: '42 Lotus Road',
-    addressLine2: 'Apt 4B',
-    city: 'Colombo',
-    state: 'Western Province',
-    postalCode: '00100',
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    postalCode: '',
   });
+
+  React.useEffect(() => {
+    if (authUser || userProfile) {
+      setFormData(prev => ({
+        ...prev,
+        customerName: prev.customerName || userProfile?.full_name || '',
+        customerEmail: prev.customerEmail || authUser?.email || '',
+      }));
+    }
+  }, [authUser, userProfile]);
 
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'payhere' | 'crypto'>('payhere');
   const [submitting, setSubmitting] = useState(false);

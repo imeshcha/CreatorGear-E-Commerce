@@ -214,7 +214,7 @@ export default function HeroShowcase() {
   };
 
   return (
-    <section id="featured-showcase" className="relative overflow-hidden bg-[#F4F4F4] pt-8 pb-14 select-none">
+    <section className="relative overflow-hidden bg-[#F4F4F4] pt-6 pb-12 select-none">
 
       {/* 3D Depth-Stacked Carousel Stage Matching Website Component Theme */}
       <div

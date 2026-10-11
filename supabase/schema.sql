@@ -1,6 +1,6 @@
 -- ============================================================================
 -- CREATORGEAR DATABASE SCHEMA (PostgreSQL / Supabase)
--- Multi-Vendor B2C + C2C Marketplace for Content Creation Equipment
+-- Multi-Vendor Marketplace for Content Creation Equipment
 -- ============================================================================
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.user_addresses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- 2. SELLER PROFILES & VERIFICATION (C2C & B2C)
+-- 2. SELLER PROFILES & VERIFICATION
 CREATE TABLE IF NOT EXISTS public.seller_profiles (
     id UUID PRIMARY KEY REFERENCES public.users(id) ON DELETE CASCADE,
     store_name TEXT NOT NULL UNIQUE,

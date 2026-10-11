@@ -61,7 +61,7 @@ export const INITIAL_SELLERS: SellerProfile[] = [
     id: 'seller-alex',
     store_name: 'Alex Photography & Film',
     slug: 'alex-photography',
-    seller_type: 'individual', // C2C
+    seller_type: 'individual',
     bio: 'Independent documentary filmmaker and photographer upgrading gear for upcoming project.',
     is_verified: true,
     rating: 4.9,
@@ -88,7 +88,7 @@ export const INITIAL_SELLERS: SellerProfile[] = [
     id: 'seller-kasun',
     store_name: 'Kasun Creative Tech',
     slug: 'kasun-tech',
-    seller_type: 'individual', // C2C unverified applicant
+    seller_type: 'individual',
     bio: 'Commercial videographer selling studio backup equipment.',
     is_verified: false,
     rating: 4.6,

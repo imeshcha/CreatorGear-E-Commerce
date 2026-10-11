@@ -13,7 +13,12 @@ import {
   Loader2,
 } from 'lucide-react';
 
+import { useAuth } from '@/context/AuthContext';
+import { uploadVerificationDocument } from '@/lib/supabase/storage';
+import { createClient } from '@/lib/supabase/client';
+
 export default function SellerApplyPage() {
+  const { authUser } = useAuth();
   const [sellerType, setSellerType] = useState<'individual' | 'business'>('individual');
   const [formData, setFormData] = useState({
     legalName: '',
@@ -28,13 +33,37 @@ export default function SellerApplyPage() {
     bio: '',
   });
 
-  const [idFileUploaded, setIdFileUploaded] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [fileError, setFileError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [applicationId, setApplicationId] = useState('');
 
+  // Autofill email if user is authenticated
+  React.useEffect(() => {
+    if (authUser?.email) {
+      setFormData(prev => ({
+        ...prev,
+        email: prev.email || authUser.email || '',
+      }));
+    }
+  }, [authUser]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFileError('');
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 10 * 1024 * 1024) {
+        setFileError('File size exceeds 10MB limit');
+        return;
+      }
+      setSelectedFile(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,22 +71,45 @@ export default function SellerApplyPage() {
     setSubmitting(true);
 
     try {
-      // Simulate real submission to API
-      const res = await fetch('/api/seller/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          sellerType,
-          idDocumentUrl: idFileUploaded ? 'https://creatorgear-secure-vault.s3/kyc/doc-10492.pdf' : 'doc-simulated.pdf',
-        }),
-      });
+      let documentStoragePath = 'docs/manual-review-pending.pdf';
 
-      const data = await res.json();
-      setApplicationId(data.applicationId || `APP-${Date.now()}`);
+      // 1. Upload to real Supabase Storage bucket
+      if (selectedFile) {
+        setUploadingFile(true);
+        const uploadRes = await uploadVerificationDocument(selectedFile, authUser?.id || 'guest');
+        setUploadingFile(false);
+        if (uploadRes.path) {
+          documentStoragePath = uploadRes.path;
+        }
+      }
+
+      // 2. Insert into real Supabase database table
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('seller_verification_applications')
+        .insert({
+          user_id: authUser?.id,
+          seller_type: sellerType,
+          legal_name: formData.legalName,
+          phone_number: formData.phone,
+          business_name: formData.storeName,
+          business_registration_number: formData.businessRegistrationNumber || null,
+          tax_id: formData.taxId || null,
+          id_document_url: documentStoragePath,
+          verification_status: 'pending',
+        })
+        .select()
+        .single();
+
+      if (data) {
+        setApplicationId(data.id);
+      } else {
+        setApplicationId(`APP-${Date.now()}`);
+      }
+
       setSubmitted(true);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error('Error submitting application:', err);
       setApplicationId(`APP-${Date.now()}`);
       setSubmitted(true);
     } finally {
@@ -79,7 +131,7 @@ export default function SellerApplyPage() {
             BECOME A VERIFIED SELLER
           </h1>
           <p className="mt-2 text-xs text-neutral-500 max-w-lg mx-auto">
-            Sell new cinema equipment (B2C) or list your pre-owned creator gear (C2C). Verification guarantees customer trust and unlocks lower commission tiers.
+            Sell new cinema equipment or list your pre-owned creator gear. Verification guarantees customer trust and unlocks lower commission tiers.
           </p>
         </div>
 
@@ -114,7 +166,7 @@ export default function SellerApplyPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-10 shadow-sm space-y-8">
-            {/* Step 1: Seller Type Selection (B2C vs C2C) */}
+            {/* Step 1: Seller Type Selection */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-900 mb-3">
                 1. Select Your Seller Category
@@ -131,7 +183,7 @@ export default function SellerApplyPage() {
                   }`}
                 >
                   <UserCheck className={`h-6 w-6 mb-2 ${sellerType === 'individual' ? 'text-white' : 'text-neutral-600'}`} />
-                  <span className="font-bold text-sm">Individual Creator (C2C)</span>
+                  <span className="font-bold text-sm">Individual Creator</span>
                   <span className={`text-[11px] mt-1 ${sellerType === 'individual' ? 'text-neutral-300' : 'text-neutral-500'}`}>
                     For YouTubers, filmmakers, and photographers selling pre-owned equipment.
                   </span>
@@ -147,7 +199,7 @@ export default function SellerApplyPage() {
                   }`}
                 >
                   <Building2 className={`h-6 w-6 mb-2 ${sellerType === 'business' ? 'text-white' : 'text-neutral-600'}`} />
-                  <span className="font-bold text-sm">Registered Business (B2C)</span>
+                  <span className="font-bold text-sm">Registered Business</span>
                   <span className={`text-[11px] mt-1 ${sellerType === 'business' ? 'text-white' : 'text-neutral-500'}`}>
                     For camera shops, distributors, and rental houses selling new and certified stock.
                   </span>
@@ -272,30 +324,44 @@ export default function SellerApplyPage() {
                 </p>
               </div>
 
-              <div
-                onClick={() => setIdFileUploaded(true)}
-                className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center cursor-pointer transition ${
-                  idFileUploaded
-                    ? 'border-emerald-500 bg-emerald-50/50'
-                    : 'border-neutral-300 bg-neutral-50 hover:bg-neutral-100'
-                }`}
-              >
-                {idFileUploaded ? (
-                  <div className="space-y-1">
-                    <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-600" />
-                    <span className="text-xs font-bold text-emerald-900 block">
-                      KYC_Verification_Document.pdf Attached
-                    </span>
-                    <span className="text-[10px] text-emerald-700">Ready for automated and admin review</span>
-                  </div>
-                ) : (
-                  <div className="space-y-1.5">
-                    <Upload className="mx-auto h-7 w-7 text-neutral-400" />
-                    <span className="text-xs font-bold text-neutral-800 block">
-                      Upload {sellerType === 'business' ? 'Business Registration Certificate' : 'Government Issued ID'}
-                    </span>
-                    <span className="text-[10px] text-neutral-400">PDF, PNG, or JPEG up to 10MB</span>
-                  </div>
+              <div className="relative">
+                <input
+                  type="file"
+                  id="kyc-file"
+                  accept=".pdf,image/png,image/jpeg"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="kyc-file"
+                  className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center cursor-pointer transition ${
+                    selectedFile
+                      ? 'border-emerald-500 bg-emerald-50/50'
+                      : 'border-neutral-300 bg-neutral-50 hover:bg-neutral-100'
+                  }`}
+                >
+                  {selectedFile ? (
+                    <div className="space-y-1">
+                      <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-600" />
+                      <span className="text-xs font-bold text-emerald-900 block">
+                        {selectedFile.name} ({(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)
+                      </span>
+                      <span className="text-[10px] text-emerald-700">
+                        {uploadingFile ? 'Uploading to Supabase Storage...' : 'Ready for upload and verification review'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <Upload className="mx-auto h-7 w-7 text-neutral-400" />
+                      <span className="text-xs font-bold text-neutral-800 block">
+                        Upload {sellerType === 'business' ? 'Business Registration Certificate' : 'Government Issued ID'}
+                      </span>
+                      <span className="text-[10px] text-neutral-400">PDF, PNG, or JPEG up to 10MB</span>
+                    </div>
+                  )}
+                </label>
+                {fileError && (
+                  <p className="mt-1 text-xs text-red-600 font-semibold">{fileError}</p>
                 )}
               </div>
             </div>
