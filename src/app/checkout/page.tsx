@@ -504,7 +504,7 @@ export default function CheckoutPage() {
                         <p className="text-[10px] text-neutral-400">Qty: {quantity} • Sold by {product.seller?.store_name}</p>
                       </div>
                       <span className="font-mono font-bold text-neutral-900">
-                        ${(product.price * quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        LKR {(product.price * quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
                   ))}
@@ -514,7 +514,7 @@ export default function CheckoutPage() {
                   <div className="flex justify-between text-neutral-600">
                     <span>Subtotal</span>
                     <span className="font-mono font-bold text-neutral-900">
-                      ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
                   <div className="flex justify-between text-neutral-600">
@@ -527,8 +527,8 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between pt-3 border-t border-neutral-100 text-sm font-black text-neutral-900">
                     <span>Total Due</span>
-                    <span className="font-mono text-base">
-                      ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD
+                    <span className="font-mono text-base font-black">
+                      LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
                 </div>

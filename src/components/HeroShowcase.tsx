@@ -292,12 +292,12 @@ export default function HeroShowcase() {
                           Listing Price
                         </span>
                         <div className="flex items-baseline gap-2 mt-1">
-                          <span className="text-3xl font-black text-neutral-900 font-mono">
-                            ${item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          <span className="text-2xl sm:text-3xl font-black text-neutral-900 font-mono">
+                            LKR {item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                           {item.comparePrice && (
-                            <span className="text-sm text-neutral-400 line-through font-mono">
-                              ${item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            <span className="text-xs sm:text-sm text-neutral-400 line-through font-mono">
+                              LKR {item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </span>
                           )}
                         </div>

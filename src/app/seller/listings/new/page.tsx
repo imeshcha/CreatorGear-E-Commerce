@@ -163,7 +163,7 @@ export default function NewListingPage() {
           brand_id: brandId || null,
           price: Number(price),
           compare_at_price: compareAtPrice ? Number(compareAtPrice) : null,
-          currency: 'USD',
+          currency: 'LKR',
           condition,
           condition_grade: condition === 'new' ? null : conditionGrade,
           usage_details: condition === 'new' ? 'Brand new factory sealed.' : usageDetails,
@@ -401,35 +401,35 @@ export default function NewListingPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1">
-                    Listing Price (USD) *
+                    Listing Price (LKR) *
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 text-xs text-neutral-400 font-bold">$</span>
+                    <span className="absolute left-3 top-2.5 text-[11px] text-neutral-400 font-bold font-mono">LKR</span>
                     <input
                       type="number"
                       step="0.01"
                       required
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      placeholder="3499.00"
-                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-7 pr-3 py-2.5 text-xs font-mono font-bold text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                      placeholder="350000.00"
+                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono font-bold text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1">
-                    Compare Retail Price (USD)
+                    Compare Retail Price (LKR)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 text-xs text-neutral-400 font-bold">$</span>
+                    <span className="absolute left-3 top-2.5 text-[11px] text-neutral-400 font-bold font-mono">LKR</span>
                     <input
                       type="number"
                       step="0.01"
                       value={compareAtPrice}
                       onChange={(e) => setCompareAtPrice(e.target.value)}
-                      placeholder="3899.00"
-                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-7 pr-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                      placeholder="390000.00"
+                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                     />
                   </div>
                 </div>

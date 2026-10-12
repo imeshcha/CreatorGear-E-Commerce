@@ -131,16 +131,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
         <div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-black text-neutral-900">
-              ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <span className="text-base font-black text-neutral-900 font-mono">
+              LKR {product.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             {product.compare_at_price && product.compare_at_price > product.price && (
-              <span className="text-xs text-neutral-400 line-through">
-                ${product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              <span className="text-xs text-neutral-400 line-through font-mono">
+                LKR {product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             )}
           </div>
-          <span className="text-[10px] text-neutral-400 font-medium">USD • Tax incl.</span>
+          <span className="text-[10px] text-neutral-400 font-medium">LKR • Tax incl.</span>
         </div>
 
         <div className="flex items-center gap-1.5">

@@ -83,7 +83,7 @@ export default function CartPage() {
                         )}
                       </div>
                       <div className="mt-1 text-xs font-mono font-bold text-neutral-900">
-                        ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        LKR {product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </div>
                     </div>
                   </div>
@@ -113,8 +113,8 @@ export default function CartPage() {
 
                     {/* Total for item */}
                     <div className="text-right">
-                      <span className="text-sm font-black text-neutral-900">
-                        ${(product.price * quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      <span className="text-sm font-black text-neutral-900 font-mono">
+                        LKR {(product.price * quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
 
@@ -144,7 +144,7 @@ export default function CartPage() {
                 <div className="flex justify-between py-2 text-neutral-600">
                   <span>Subtotal ({totalItems} items)</span>
                   <span className="font-bold text-neutral-900 font-mono">
-                    ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 text-neutral-600">
@@ -157,8 +157,8 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between pt-3 text-sm font-black text-neutral-900">
                   <span>Total Amount</span>
-                  <span className="font-mono text-base">
-                    ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD
+                  <span className="font-mono text-base font-black">
+                    LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
               </div>

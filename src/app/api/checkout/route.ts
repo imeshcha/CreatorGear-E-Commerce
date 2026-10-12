@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     if (paymentMethod === 'payhere') {
       const merchantId = process.env.NEXT_PUBLIC_PAYHERE_MERCHANT_ID || '1220001';
       const merchantSecret = process.env.PAYHERE_MERCHANT_SECRET || '4MTM4MTc4MjgxNjM4NTM3NjY2Mjk=';
-      const currency = 'USD';
+      const currency = 'LKR';
 
       // Generate official MD5 hash
       const hash = generatePayHereHash(

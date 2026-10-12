@@ -272,7 +272,7 @@ export default function AccountPage() {
 
                       <div className="text-right">
                         <span className="font-mono font-bold text-neutral-900 text-sm">
-                          ${Number(ord.total_amount).toFixed(2)} {ord.currency || 'USD'}
+                          LKR {Number(ord.total_amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
                     </div>
@@ -403,7 +403,7 @@ export default function AccountPage() {
 
                           <div className="text-right">
                             <span className="font-mono font-bold text-neutral-900 text-sm block">
-                              ${Number(item.price).toFixed(2)}
+                              LKR {Number(item.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </span>
                             <span className="text-[10px] text-neutral-400">
                               Qty: {item.stock_quantity}
@@ -442,7 +442,7 @@ export default function AccountPage() {
                               entry.amount >= 0 ? 'text-emerald-600' : 'text-red-500'
                             }`}
                           >
-                            ${Math.abs(entry.amount).toFixed(2)} USD
+                            LKR {Math.abs(entry.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                         </div>
                       ))}

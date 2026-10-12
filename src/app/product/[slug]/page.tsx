@@ -228,12 +228,12 @@ export default function ProductDetailPage() {
               {/* Price & Taxes */}
               <div className="border-t border-b border-neutral-100 py-4">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-black text-neutral-900">
-                    ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  <span className="text-3xl font-black text-neutral-900 font-mono">
+                    LKR {product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                   {product.compare_at_price && product.compare_at_price > product.price && (
-                    <span className="text-base text-neutral-400 line-through">
-                      ${product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    <span className="text-base text-neutral-400 line-through font-mono">
+                      LKR {product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   )}
                   <span className="rounded bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">

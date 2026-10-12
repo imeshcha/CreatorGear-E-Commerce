@@ -236,7 +236,7 @@ export default function ProductCatalog({
           <div className="border-t border-neutral-100 pt-4">
             <div className="flex items-center justify-between text-xs font-bold text-neutral-800 mb-2">
               <span>Maximum Price</span>
-              <span className="text-neutral-900 font-mono">${maxPrice.toLocaleString()}</span>
+              <span className="text-neutral-900 font-mono">LKR {maxPrice.toLocaleString()}</span>
             </div>
             <input
               type="range"
@@ -248,8 +248,8 @@ export default function ProductCatalog({
               className="w-full accent-neutral-900 cursor-pointer"
             />
             <div className="mt-1 flex justify-between text-[10px] text-neutral-400">
-              <span>$100</span>
-              <span>$6,000+</span>
+              <span>LKR 100</span>
+              <span>LKR 6,000+</span>
             </div>
           </div>
         </aside>
