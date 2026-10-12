@@ -185,7 +185,7 @@ export default function HeroShowcase() {
     // Previous Product (Left Card)
     if (diff === -1) {
       return {
-        transform: 'translateX(-52%) scale(0.88) translateZ(-40px)',
+        transform: 'translateX(-30%) scale(0.9) translateZ(-40px)',
         zIndex: 20,
         opacity: 0.65,
         pointerEvents: 'auto' as const,
@@ -196,7 +196,7 @@ export default function HeroShowcase() {
     // Next Product (Right Card)
     if (diff === 1) {
       return {
-        transform: 'translateX(52%) scale(0.88) translateZ(-40px)',
+        transform: 'translateX(30%) scale(0.9) translateZ(-40px)',
         zIndex: 20,
         opacity: 0.65,
         pointerEvents: 'auto' as const,
@@ -206,7 +206,7 @@ export default function HeroShowcase() {
 
     // Hidden / Behind Cards
     return {
-      transform: `translateX(${diff > 0 ? '90%' : '-90%'}) scale(0.72) translateZ(-80px)`,
+      transform: `translateX(${diff > 0 ? '60%' : '-60%'}) scale(0.75) translateZ(-80px)`,
       zIndex: 10,
       opacity: 0,
       pointerEvents: 'none' as const,
@@ -214,11 +214,11 @@ export default function HeroShowcase() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#F4F4F4] pt-6 pb-12 select-none">
+    <section className="relative overflow-hidden bg-[#F4F4F4] pt-4 pb-14 select-none">
 
-      {/* 3D Depth-Stacked Carousel Stage Matching Website Component Theme */}
+      {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div
-        className="relative mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
+        className="relative mx-auto max-w-7xl px-6 sm:px-12 md:px-16 lg:px-24"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={handleTouchStart}
@@ -228,7 +228,7 @@ export default function HeroShowcase() {
       >
 
         {/* 3D Stage Viewport with Increased Height */}
-        <div className="relative min-h-[590px] sm:h-[560px] lg:h-[540px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
+        <div className="relative min-h-[660px] sm:h-[640px] lg:h-[620px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
           {FEATURED_ITEMS.map((item, idx) => {
             const isCenter = idx === currentIndex;
             const style = getCardStyle(idx);
@@ -240,10 +240,10 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[95%] sm:w-[88%] lg:w-[82%] max-w-5xl rounded-3xl bg-white border border-neutral-200/90 text-neutral-900 p-6 sm:p-8 lg:p-9 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[92%] sm:w-[84%] lg:w-[78%] max-w-4xl rounded-3xl bg-white border border-neutral-200/90 text-neutral-900 p-7 sm:p-9 lg:p-10 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
                 {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
-                <div className="mb-4 space-y-2 px-1">
+                <div className="mb-5 space-y-2 px-1">
                   <div className="flex items-center gap-3">
                     <span className="bg-neutral-900 text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md shrink-0 shadow-2xs">
                       {item.tag}
@@ -264,8 +264,8 @@ export default function HeroShowcase() {
                 {/* 2. MAIN CONTENT: Left Image Box + Right Details Area */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
                   
-                  {/* Left Product Image Box */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-80 lg:h-88 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
+                  {/* Left Product Image Box (Taller View) */}
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-96 lg:h-[410px] rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -284,7 +284,7 @@ export default function HeroShowcase() {
                   </div>
 
                   {/* Right Details & Buttons (Seamless text directly on card, no inner background box) */}
-                  <div className="md:col-span-5 flex flex-col justify-between py-1 px-1 sm:px-3">
+                  <div className="md:col-span-5 flex flex-col justify-between py-2 px-1 sm:px-3">
                     <div>
                       {/* Price Section */}
                       <div className="border-b border-neutral-100 pb-4">
