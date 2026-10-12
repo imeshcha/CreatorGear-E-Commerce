@@ -49,12 +49,6 @@ export default function Navbar() {
             <Link href="/?category=video-production" className="hover:text-neutral-900 transition-colors">
               Studio Sets
             </Link>
-            <Link href="/?condition=used" className="hover:text-neutral-900 transition-colors flex items-center gap-1">
-              <span>Pre-Owned</span>
-              <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-1.5 py-0.2 rounded">
-                Verified
-              </span>
-            </Link>
             <Link href="/?deals=true" className="hover:text-neutral-900 text-emerald-600 font-semibold transition-colors">
               Deals
             </Link>
