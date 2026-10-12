@@ -244,14 +244,9 @@ export default function HeroShowcase() {
               >
                 {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
                 <div className="mb-5 space-y-2 px-1">
-                  <div className="flex items-center gap-3">
-                    <span className="bg-neutral-900 text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md shrink-0 shadow-2xs">
-                      {item.tag}
-                    </span>
-                    <h2 className="text-xl sm:text-2xl font-black tracking-tight text-neutral-900 line-clamp-1">
-                      {item.title}
-                    </h2>
-                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-neutral-900 line-clamp-1">
+                    {item.title}
+                  </h2>
 
                   {/* Next line: Condition badge */}
                   <div>
