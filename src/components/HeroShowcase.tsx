@@ -240,32 +240,32 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[95%] sm:w-[88%] lg:w-[82%] max-w-5xl rounded-3xl bg-neutral-950 border border-neutral-800 text-white p-6 sm:p-8 lg:p-9 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[95%] sm:w-[88%] lg:w-[82%] max-w-5xl rounded-3xl bg-white border border-neutral-200/90 text-neutral-900 p-6 sm:p-8 lg:p-9 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
                 {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
                 <div className="mb-4 space-y-2 px-1">
                   <div className="flex items-center gap-3">
-                    <span className="bg-white/10 text-white border border-white/20 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md backdrop-blur-xs shrink-0">
+                    <span className="bg-neutral-900 text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-md shrink-0 shadow-2xs">
                       {item.tag}
                     </span>
-                    <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white line-clamp-1">
+                    <h2 className="text-xl sm:text-2xl font-black tracking-tight text-neutral-900 line-clamp-1">
                       {item.title}
                     </h2>
                   </div>
 
                   {/* Next line: Condition badge */}
                   <div>
-                    <span className="inline-block rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3.5 py-1 text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
+                    <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1 text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
                       {item.condition}
                     </span>
                   </div>
                 </div>
 
-                {/* 2. MAIN CONTENT: Left Image Box + Right Details Box */}
+                {/* 2. MAIN CONTENT: Left Image Box + Right Details Area */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
                   
-                  {/* Left Product Image Box (Taller cinematic view) */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-80 lg:h-88 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 shadow-inner group">
+                  {/* Left Product Image Box */}
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-80 lg:h-88 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -283,8 +283,8 @@ export default function HeroShowcase() {
                     </div>
                   </div>
 
-                  {/* Right Details & Buttons Box */}
-                  <div className="md:col-span-5 rounded-2xl bg-white p-6 text-neutral-900 shadow-sm border border-neutral-200/80 flex flex-col justify-between">
+                  {/* Right Details & Buttons (Seamless text directly on card, no inner background box) */}
+                  <div className="md:col-span-5 flex flex-col justify-between py-1 px-1 sm:px-3">
                     <div>
                       {/* Price Section */}
                       <div className="border-b border-neutral-100 pb-4">
@@ -307,7 +307,7 @@ export default function HeroShowcase() {
                       </div>
 
                       {/* Specs */}
-                      <div className="py-2.5 text-xs text-neutral-600">
+                      <div className="py-3 text-xs text-neutral-600">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                           Specifications:
                         </span>
@@ -317,7 +317,7 @@ export default function HeroShowcase() {
                       </div>
 
                       {/* Seller Tag */}
-                      <div className="flex items-center justify-between text-xs pt-1 border-t border-neutral-100">
+                      <div className="flex items-center justify-between text-xs pt-2 border-t border-neutral-100">
                         <div className="flex items-center gap-1">
                           <span className="text-[10px] text-neutral-400">Seller:</span>
                           <span className="font-semibold text-neutral-800 text-[11px]">{item.seller}</span>
@@ -333,10 +333,10 @@ export default function HeroShowcase() {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="pt-3 border-t border-neutral-100 flex items-center gap-2">
+                    <div className="pt-4 border-t border-neutral-100 flex items-center gap-2">
                       <Link
                         href={`/product/${item.slug}`}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         <span>View Gear</span>
@@ -344,7 +344,7 @@ export default function HeroShowcase() {
 
                       <Link
                         href={`/product/${item.slug}`}
-                        className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 p-2.5 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition"
+                        className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white p-3 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 shadow-2xs transition"
                         title="Direct Purchase"
                       >
                         <ArrowRight className="h-4 w-4" />
