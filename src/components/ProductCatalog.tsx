@@ -13,6 +13,7 @@ interface ProductCatalogProps {
   title?: string;
   description?: string;
   dealsOnly?: boolean;
+  showCategoryFilter?: boolean;
 }
 
 const CATEGORY_ALIASES: Record<string, string[]> = {
@@ -45,6 +46,7 @@ export default function ProductCatalog({
   title,
   description,
   dealsOnly = false,
+  showCategoryFilter = true,
 }: ProductCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedCondition, setSelectedCondition] = useState<string>(initialCondition);
@@ -69,7 +71,9 @@ export default function ProductCatalog({
         map.set(p.brand.slug, p.brand.name);
       }
     });
-    return Array.from(map.entries()).map(([slug, name]) => ({ slug, name }));
+    return Array.from(map.entries())
+      .map(([slug, name]) => ({ slug, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [initialProducts]);
 
   // Faceted client filter
@@ -200,36 +204,38 @@ export default function ProductCatalog({
           </div>
 
           {/* Category Filter */}
-          <div>
-            <label className="mb-2 block text-xs font-bold text-neutral-800">
-              Category
-            </label>
-            <div className="space-y-1.5 text-xs text-neutral-600">
-              {[
-                { label: 'All Categories', value: 'all' },
-                { label: 'Cameras & Lenses', value: 'cameras' },
-                { label: 'Audio Equipment', value: 'audio' },
-                { label: 'Lighting & Studio', value: 'lighting' },
-                { label: 'Video Production', value: 'video-production' },
-                { label: 'Streaming & Gear', value: 'streaming' },
-                { label: 'Accessories', value: 'accessories' },
-              ].map(cat => (
-                <label key={cat.value} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
-                  <input
-                    type="radio"
-                    name="category"
-                    checked={selectedCategory === cat.value}
-                    onChange={() => setSelectedCategory(cat.value)}
-                    className="accent-neutral-900"
-                  />
-                  <span>{cat.label}</span>
-                </label>
-              ))}
+          {showCategoryFilter && (
+            <div>
+              <label className="mb-2 block text-xs font-bold text-neutral-800">
+                Category
+              </label>
+              <div className="space-y-1.5 text-xs text-neutral-600">
+                {[
+                  { label: 'All Categories', value: 'all' },
+                  { label: 'Cameras & Lenses', value: 'cameras' },
+                  { label: 'Audio Equipment', value: 'audio' },
+                  { label: 'Lighting & Studio', value: 'lighting' },
+                  { label: 'Video Production', value: 'video-production' },
+                  { label: 'Streaming & Gear', value: 'streaming' },
+                  { label: 'Accessories', value: 'accessories' },
+                ].map(cat => (
+                  <label key={cat.value} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                    <input
+                      type="radio"
+                      name="category"
+                      checked={selectedCategory === cat.value}
+                      onChange={() => setSelectedCategory(cat.value)}
+                      className="accent-neutral-900"
+                    />
+                    <span>{cat.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Condition Filter */}
-          <div className="border-t border-neutral-100 pt-4">
+          <div className={showCategoryFilter ? "border-t border-neutral-100 pt-4" : ""}>
             <label className="mb-2 block text-xs font-bold text-neutral-800">
               Equipment Condition
             </label>
@@ -254,24 +260,36 @@ export default function ProductCatalog({
             </div>
           </div>
 
-          {/* Brand Filter */}
+          {/* Brand Filter (Radio Options) */}
           {brands.length > 0 && (
             <div className="border-t border-neutral-100 pt-4">
               <label className="mb-2 block text-xs font-bold text-neutral-800">
                 Brand
               </label>
-              <select
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-xs text-neutral-800 focus:outline-none"
-              >
-                <option value="all">All Brands</option>
+              <div className="space-y-1.5 text-xs text-neutral-600">
+                <label className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                  <input
+                    type="radio"
+                    name="brand"
+                    checked={selectedBrand === 'all'}
+                    onChange={() => setSelectedBrand('all')}
+                    className="accent-neutral-900"
+                  />
+                  <span>All Brands</span>
+                </label>
                 {brands.map(b => (
-                  <option key={b.slug} value={b.slug}>
-                    {b.name}
-                  </option>
+                  <label key={b.slug} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                    <input
+                      type="radio"
+                      name="brand"
+                      checked={selectedBrand === b.slug}
+                      onChange={() => setSelectedBrand(b.slug)}
+                      className="accent-neutral-900"
+                    />
+                    <span>{b.name}</span>
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
           )}
 

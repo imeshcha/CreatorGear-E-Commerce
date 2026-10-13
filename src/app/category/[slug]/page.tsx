@@ -178,6 +178,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           initialSearch={search || ''}
           title={`${info.name.toUpperCase()} CATALOG`}
           description={info.tagline}
+          showCategoryFilter={false}
         />
       </Suspense>
 
