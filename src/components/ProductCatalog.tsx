@@ -10,6 +10,31 @@ interface ProductCatalogProps {
   initialCategory?: string;
   initialCondition?: string;
   initialSearch?: string;
+  title?: string;
+  description?: string;
+  dealsOnly?: boolean;
+}
+
+const CATEGORY_ALIASES: Record<string, string[]> = {
+  cameras: ['cameras', 'cameras-and-lenses'],
+  'cameras-and-lenses': ['cameras', 'cameras-and-lenses'],
+  audio: ['audio', 'audio-equipment'],
+  'audio-equipment': ['audio', 'audio-equipment'],
+  lighting: ['lighting', 'lighting-and-studio'],
+  'lighting-and-studio': ['lighting', 'lighting-and-studio'],
+  'video-production': ['video-production', 'studio-sets'],
+  'studio-sets': ['video-production', 'studio-sets'],
+  streaming: ['streaming', 'streaming-and-content'],
+  'streaming-and-content': ['streaming', 'streaming-and-content'],
+  accessories: ['accessories'],
+};
+
+function matchesCategory(productSlug?: string, targetSlug?: string): boolean {
+  if (!targetSlug || targetSlug === 'all') return true;
+  if (!productSlug) return false;
+  if (productSlug === targetSlug) return true;
+  const list = CATEGORY_ALIASES[targetSlug] || [targetSlug];
+  return list.includes(productSlug);
 }
 
 export default function ProductCatalog({
@@ -17,6 +42,9 @@ export default function ProductCatalog({
   initialCategory = 'all',
   initialCondition = 'all',
   initialSearch = '',
+  title,
+  description,
+  dealsOnly = false,
 }: ProductCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedCondition, setSelectedCondition] = useState<string>(initialCondition);
@@ -25,6 +53,13 @@ export default function ProductCatalog({
   const [sortBy, setSortBy] = useState<string>('recommended');
   const [search, setSearch] = useState<string>(initialSearch);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  // Sync state if props change
+  React.useEffect(() => {
+    setSelectedCategory(initialCategory);
+    setSelectedCondition(initialCondition);
+    setSearch(initialSearch);
+  }, [initialCategory, initialCondition, initialSearch]);
 
   // Extract available brands
   const brands = useMemo(() => {
@@ -41,6 +76,10 @@ export default function ProductCatalog({
   const filteredProducts = useMemo(() => {
     let result = [...initialProducts];
 
+    if (dealsOnly) {
+      result = result.filter(p => p.compare_at_price && p.compare_at_price > p.price);
+    }
+
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -54,7 +93,7 @@ export default function ProductCatalog({
     }
 
     if (selectedCategory !== 'all') {
-      result = result.filter(p => p.category?.slug === selectedCategory);
+      result = result.filter(p => matchesCategory(p.category?.slug, selectedCategory));
     }
 
     if (selectedCondition !== 'all') {
@@ -85,11 +124,11 @@ export default function ProductCatalog({
     }
 
     return result;
-  }, [initialProducts, search, selectedCategory, selectedCondition, selectedBrand, maxPrice, sortBy]);
+  }, [initialProducts, search, selectedCategory, selectedCondition, selectedBrand, maxPrice, sortBy, dealsOnly]);
 
   const resetFilters = () => {
-    setSelectedCategory('all');
-    setSelectedCondition('all');
+    setSelectedCategory(initialCategory);
+    setSelectedCondition(initialCondition);
     setSelectedBrand('all');
     setMaxPrice(6000);
     setSortBy('recommended');
@@ -102,10 +141,14 @@ export default function ProductCatalog({
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
         <div>
           <h2 className="text-xl font-black tracking-tight text-neutral-900">
-            EQUIPMENT MARKETPLACE
+            {title || 'EQUIPMENT MARKETPLACE'}
           </h2>
           <p className="text-xs text-neutral-500">
-            Showing {filteredProducts.length} verified listings
+            {description ? (
+              <span>{description} • Showing {filteredProducts.length} listings</span>
+            ) : (
+              <span>Showing {filteredProducts.length} verified listings</span>
+            )}
           </p>
         </div>
 

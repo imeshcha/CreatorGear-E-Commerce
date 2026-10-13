@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { Search, ShoppingBag, User, PlusCircle, LogIn, LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { totalItems } = useCart();
   const { authUser, userProfile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,6 +22,12 @@ export default function Navbar() {
       router.push('/');
     }
   };
+
+  const isCameras = pathname === '/category/cameras' || pathname === '/category/cameras-and-lenses';
+  const isAudio = pathname === '/category/audio' || pathname === '/category/audio-equipment';
+  const isLighting = pathname === '/category/lighting' || pathname === '/category/lighting-and-studio';
+  const isStudio = pathname === '/category/studio-sets' || pathname === '/category/video-production';
+  const isDeals = pathname === '/deals';
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-[#F4F4F4]/90 backdrop-blur-md">
@@ -37,19 +44,54 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium tracking-tight text-neutral-600">
-            <Link href="/?category=cameras" className="hover:text-neutral-900 transition-colors">
+            <Link
+              href="/category/cameras"
+              className={`transition-colors py-1 ${
+                isCameras
+                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
               Cameras
             </Link>
-            <Link href="/?category=audio" className="hover:text-neutral-900 transition-colors">
+            <Link
+              href="/category/audio"
+              className={`transition-colors py-1 ${
+                isAudio
+                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
               Audio
             </Link>
-            <Link href="/?category=lighting" className="hover:text-neutral-900 transition-colors">
+            <Link
+              href="/category/lighting"
+              className={`transition-colors py-1 ${
+                isLighting
+                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
               Lighting
             </Link>
-            <Link href="/?category=video-production" className="hover:text-neutral-900 transition-colors">
+            <Link
+              href="/category/studio-sets"
+              className={`transition-colors py-1 ${
+                isStudio
+                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
+                  : 'hover:text-neutral-900'
+              }`}
+            >
               Studio Sets
             </Link>
-            <Link href="/?deals=true" className="hover:text-neutral-900 text-emerald-600 font-semibold transition-colors">
+            <Link
+              href="/deals"
+              className={`transition-colors py-1 ${
+                isDeals
+                  ? 'text-emerald-700 font-bold border-b-2 border-emerald-600'
+                  : 'text-emerald-600 font-semibold hover:text-emerald-700'
+              }`}
+            >
               Deals
             </Link>
           </nav>

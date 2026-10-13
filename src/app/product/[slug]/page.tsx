@@ -107,7 +107,7 @@ export default function ProductDetailPage() {
         <div className="mb-6 flex items-center gap-2 text-xs text-neutral-500">
           <Link href="/" className="hover:text-neutral-900">Home</Link>
           <span>/</span>
-          <Link href={`/?category=${product.category?.slug}`} className="hover:text-neutral-900">
+          <Link href={`/category/${product.category?.slug}`} className="hover:text-neutral-900">
             {product.category?.name}
           </Link>
           <span>/</span>
