@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import ProductCatalog from '@/components/ProductCatalog';
 import { getProducts } from '@/lib/db/products';
-import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight, Tag, Flame, Percent } from 'lucide-react';
+import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight, Tag, Percent } from 'lucide-react';
 
 interface DealsPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -45,10 +45,6 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 text-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3">
-                <Flame className="h-3.5 w-3.5 text-amber-300" />
-                <span>Limited-Time Offers</span>
-              </div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 uppercase">
                 Creator Gear Deals
               </h1>

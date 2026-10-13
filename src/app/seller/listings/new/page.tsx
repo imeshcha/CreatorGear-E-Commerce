@@ -252,11 +252,6 @@ export default function NewListingPage() {
             <ArrowLeft className="h-4 w-4" />
             <span>Return to Seller Account</span>
           </Link>
-
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 text-white px-3 py-1 text-[11px] font-bold">
-            <Camera className="h-3.5 w-3.5" />
-            <span>New Gear Listing</span>
-          </div>
         </div>
 
         {/* Header */}

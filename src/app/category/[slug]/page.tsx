@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import ProductCatalog from '@/components/ProductCatalog';
 import { getProducts } from '@/lib/db/products';
-import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight, Sparkles } from 'lucide-react';
+import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight } from 'lucide-react';
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -139,10 +139,6 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 text-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3">
-                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-                <span>{info.badge}</span>
-              </div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 uppercase">
                 {info.name}
               </h1>

@@ -123,11 +123,7 @@ export default function SellerApplyPage() {
 
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-white border border-neutral-300 px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-neutral-600 shadow-2xs">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-            <span>Seller Onboarding & Verification Program</span>
-          </div>
-          <h1 className="mt-3 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
+          <h1 className="text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
             BECOME A VERIFIED SELLER
           </h1>
           <p className="mt-2 text-xs text-neutral-500 max-w-lg mx-auto">

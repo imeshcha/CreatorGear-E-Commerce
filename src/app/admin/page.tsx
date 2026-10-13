@@ -151,9 +151,6 @@ export default function AdminDashboardPage() {
         {/* Admin Header */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 text-white px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider mb-1">
-              Admin Compliance Console
-            </div>
             <h1 className="text-2xl font-black tracking-tight text-neutral-900">
               SELLER VERIFICATION MANAGEMENT
             </h1>

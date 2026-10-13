@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, ShieldCheck, ChevronLeft, ChevronRight, Star, Eye } from 'lucide-react';
+import { ArrowRight, ShieldCheck, ChevronLeft, ChevronRight, Star, Eye } from 'lucide-react';
 
 const FEATURED_ITEMS = [
   {
