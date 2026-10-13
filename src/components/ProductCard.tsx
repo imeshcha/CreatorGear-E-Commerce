@@ -43,7 +43,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-4 transition-all duration-300 hover:border-neutral-400 hover:shadow-lg">
+    <div className="group relative flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-4 sm:p-5 transition-all duration-300 hover:border-neutral-400 hover:shadow-lg">
       <div>
         {/* Top bar on image: Condition & Wishlist */}
         <div className="relative mb-3 aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
@@ -128,14 +128,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Bottom: Price and Actions */}
-      <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
-        <div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-black text-neutral-900 font-mono">
+      <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span className="text-base font-black text-neutral-900 font-mono whitespace-nowrap">
               LKR {product.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             {product.compare_at_price && product.compare_at_price > product.price && (
-              <span className="text-xs text-neutral-400 line-through font-mono">
+              <span className="text-xs text-neutral-400 line-through font-mono whitespace-nowrap">
                 LKR {product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             )}
@@ -143,7 +143,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className="text-[10px] text-neutral-400 font-medium">LKR • Tax incl.</span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 shrink-0">
           <Link
             href={`/product/${product.slug}`}
             className="rounded-lg border border-neutral-200 bg-neutral-50 p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition"
@@ -156,7 +156,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             type="button"
             onClick={handleAddToCart}
             disabled={product.stock_quantity === 0}
-            className={`inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-bold transition-all shadow-xs ${
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold transition-all shadow-xs ${
               product.stock_quantity === 0
                 ? 'cursor-not-allowed bg-neutral-200 text-neutral-400'
                 : addedAnimation

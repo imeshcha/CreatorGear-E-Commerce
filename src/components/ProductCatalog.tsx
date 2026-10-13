@@ -136,7 +136,7 @@ export default function ProductCatalog({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl 2xl:max-w-[1400px] px-4 py-8 sm:px-6 lg:px-8">
       {/* Top Filter Bar Controls */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
         <div>
@@ -179,12 +179,12 @@ export default function ProductCatalog({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="flex flex-col md:flex-row items-start gap-7">
         {/* Left Filter Sidebar matching PDF Page 14 */}
         <aside
           className={`${
             mobileFilterOpen ? 'block' : 'hidden'
-          } md:block md:col-span-1 space-y-6 rounded-2xl border border-neutral-200/90 bg-white p-5 shadow-xs h-fit`}
+          } md:block w-full md:w-60 lg:w-64 shrink-0 space-y-6 rounded-2xl border border-neutral-200/90 bg-white p-5 shadow-xs h-fit md:sticky md:top-20`}
         >
           <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
@@ -298,7 +298,7 @@ export default function ProductCatalog({
         </aside>
 
         {/* Right Product Grid */}
-        <div className="md:col-span-3">
+        <div className="flex-1 min-w-0 w-full">
           {filteredProducts.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-white p-12 text-center">
               <p className="text-sm font-semibold text-neutral-800">
@@ -315,7 +315,7 @@ export default function ProductCatalog({
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
