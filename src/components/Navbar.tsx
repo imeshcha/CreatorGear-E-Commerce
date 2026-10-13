@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { Search, ShoppingBag, User, LogIn, LogOut } from 'lucide-react';
+import { Search, ShoppingBag, User, LogIn, LogOut, ChevronDown } from 'lucide-react';
+import { MEGA_MENU_DATA } from '@/data/navigation-categories';
+import MegaMenu from '@/components/MegaMenu';
 
 export default function Navbar() {
   const router = useRouter();
@@ -13,6 +15,8 @@ export default function Navbar() {
   const { totalItems } = useCart();
   const { authUser, userProfile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +27,46 @@ export default function Navbar() {
     }
   };
 
+  const handleMouseEnter = (menuKey: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setActiveMegaMenu(menuKey);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setActiveMegaMenu(null);
+    }, 180);
+  };
+
+  const handleMenuClose = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setActiveMegaMenu(null);
+  };
+
+  useEffect(() => {
+    handleMenuClose();
+  }, [pathname]);
+
   const isCameras = pathname === '/category/cameras' || pathname === '/category/cameras-and-lenses';
   const isAudio = pathname === '/category/audio' || pathname === '/category/audio-equipment';
   const isLighting = pathname === '/category/lighting' || pathname === '/category/lighting-and-studio';
   const isStudio = pathname === '/category/studio-sets' || pathname === '/category/video-production';
   const isDeals = pathname === '/deals';
+
+  const navItems = [
+    { id: 'cameras', label: 'Cameras', href: '/category/cameras', isActive: isCameras },
+    { id: 'audio', label: 'Audio', href: '/category/audio', isActive: isAudio },
+    { id: 'lighting', label: 'Lighting', href: '/category/lighting', isActive: isLighting },
+    { id: 'studio-sets', label: 'Studio Sets', href: '/category/studio-sets', isActive: isStudio },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-[#F4F4F4]/90 backdrop-blur-md">
@@ -44,46 +83,33 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium tracking-tight text-neutral-600">
-            <Link
-              href="/category/cameras"
-              className={`transition-colors py-1 ${
-                isCameras
-                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
-                  : 'hover:text-neutral-900'
-              }`}
-            >
-              Cameras
-            </Link>
-            <Link
-              href="/category/audio"
-              className={`transition-colors py-1 ${
-                isAudio
-                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
-                  : 'hover:text-neutral-900'
-              }`}
-            >
-              Audio
-            </Link>
-            <Link
-              href="/category/lighting"
-              className={`transition-colors py-1 ${
-                isLighting
-                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
-                  : 'hover:text-neutral-900'
-              }`}
-            >
-              Lighting
-            </Link>
-            <Link
-              href="/category/studio-sets"
-              className={`transition-colors py-1 ${
-                isStudio
-                  ? 'text-neutral-900 font-bold border-b-2 border-neutral-900'
-                  : 'hover:text-neutral-900'
-              }`}
-            >
-              Studio Sets
-            </Link>
+            {navItems.map((item) => (
+              <div
+                key={item.id}
+                className="relative py-1"
+                onMouseEnter={() => handleMouseEnter(item.id)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  href={item.href}
+                  className={`inline-flex items-center gap-1 transition-colors ${
+                    item.isActive
+                      ? 'text-neutral-900 font-bold border-b-2 border-neutral-900 pb-0.5'
+                      : activeMegaMenu === item.id
+                      ? 'text-neutral-900 font-semibold'
+                      : 'hover:text-neutral-900'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown
+                    className={`h-3 w-3 transition-transform duration-200 ${
+                      activeMegaMenu === item.id ? 'rotate-180 text-neutral-900' : 'text-neutral-400'
+                    }`}
+                  />
+                </Link>
+              </div>
+            ))}
+
             <Link
               href="/deals"
               className={`transition-colors py-1 ${
@@ -155,6 +181,20 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+
+      {/* 4-Column Dropdown Mega Menu */}
+      {activeMegaMenu && MEGA_MENU_DATA[activeMegaMenu] && (
+        <div
+          onMouseEnter={() => handleMouseEnter(activeMegaMenu)}
+          onMouseLeave={handleMouseLeave}
+        >
+          <MegaMenu
+            data={MEGA_MENU_DATA[activeMegaMenu]}
+            isOpen={Boolean(activeMegaMenu)}
+            onClose={handleMenuClose}
+          />
+        </div>
+      )}
     </header>
   );
 }
