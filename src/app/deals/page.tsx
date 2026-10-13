@@ -33,7 +33,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
 
       {/* Clean Deals Header Banner (No 3D featured showcase, direct to deals context) */}
       <section className="border-b border-neutral-200/80 bg-white py-10 sm:py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-4">
             <Link href="/" className="hover:text-neutral-900 transition-colors">
@@ -75,7 +75,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
       {/* Main Filter System & Product Grid */}
       <Suspense
         fallback={
-          <div className="mx-auto max-w-7xl px-4 py-16 text-center text-xs font-semibold text-neutral-500">
+          <div className="mx-auto max-w-[1760px] px-4 py-16 text-center text-xs font-semibold text-neutral-500">
             Loading discounted creator equipment...
           </div>
         }
@@ -94,7 +94,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
 
       {/* Trust & Guarantees Strip */}
       <section className="border-t border-neutral-200/80 bg-white py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex items-start gap-3">
               <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
@@ -157,7 +157,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
 
       {/* Footer */}
       <footer className="border-t border-neutral-200 bg-[#F4F4F4] py-10 text-xs text-neutral-500">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-black text-neutral-900 tracking-tighter text-base">GEAR.</span>
             <span>© 2026 CreatorGear Marketplace Inc. All rights reserved.</span>

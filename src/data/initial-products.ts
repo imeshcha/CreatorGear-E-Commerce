@@ -181,7 +181,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     images: [
       {
         id: 'img-red-1',
-        storage_path: 'https://images.unsplash.com/photo-1589872765807-4475903b4720?auto=format&fit=crop&w=1000&q=80',
+        storage_path: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1000&q=80',
         alt_text: 'RED Komodo 6K Actual Unit',
         sort_order: 1,
         is_primary: true,

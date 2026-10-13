@@ -17,6 +17,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [addedAnimation, setAddedAnimation] = useState(false);
 
   const primaryImage = product.images.find(img => img.is_primary)?.storage_path || product.images[0]?.storage_path || 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80';
+  const [imgSrc, setImgSrc] = useState(primaryImage);
+
+  React.useEffect(() => {
+    setImgSrc(primaryImage);
+  }, [primaryImage]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -76,8 +81,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* Product Image */}
           <Link href={`/product/${product.slug}`} className="block h-full w-full">
             <img
-              src={primaryImage}
+              src={imgSrc}
               alt={product.name}
+              onError={() => setImgSrc('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80')}
               className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
             />
           </Link>

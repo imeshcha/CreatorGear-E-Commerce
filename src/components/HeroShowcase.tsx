@@ -35,7 +35,7 @@ const FEATURED_ITEMS = [
     rating: 5.0,
     tag: 'Global Shutter',
     spec: '19.9MP Super 35 • 6K 40fps REDCODE RAW • 142 Runtime Hours Only',
-    image: 'https://images.unsplash.com/photo-1589872765807-4475903b4720?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'prod-rode-wireless-pro',
