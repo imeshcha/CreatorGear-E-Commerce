@@ -6,8 +6,8 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { Search, ShoppingBag, User, LogIn, LogOut, ChevronDown } from 'lucide-react';
-import { MEGA_MENU_DATA } from '@/data/navigation-categories';
-import MegaMenu from '@/components/MegaMenu';
+import { CATEGORY_DROPDOWN_DATA } from '@/data/navigation-categories';
+import CategoryDropdown from '@/components/CategoryDropdown';
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function Navbar() {
   const { totalItems } = useCart();
   const { authUser, userProfile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ export default function Navbar() {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    setActiveMegaMenu(menuKey);
+    setActiveDropdown(menuKey);
   };
 
   const handleMouseLeave = () => {
@@ -40,7 +40,7 @@ export default function Navbar() {
       clearTimeout(timeoutRef.current);
     }
     timeoutRef.current = setTimeout(() => {
-      setActiveMegaMenu(null);
+      setActiveDropdown(null);
     }, 180);
   };
 
@@ -48,7 +48,7 @@ export default function Navbar() {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    setActiveMegaMenu(null);
+    setActiveDropdown(null);
   };
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function Navbar() {
                   className={`inline-flex items-center gap-1 transition-colors ${
                     item.isActive
                       ? 'text-neutral-900 font-bold border-b-2 border-neutral-900 pb-0.5'
-                      : activeMegaMenu === item.id
+                      : activeDropdown === item.id
                       ? 'text-neutral-900 font-semibold'
                       : 'hover:text-neutral-900'
                   }`}
@@ -103,10 +103,19 @@ export default function Navbar() {
                   <span>{item.label}</span>
                   <ChevronDown
                     className={`h-3 w-3 transition-transform duration-200 ${
-                      activeMegaMenu === item.id ? 'rotate-180 text-neutral-900' : 'text-neutral-400'
+                      activeDropdown === item.id ? 'rotate-180 text-neutral-900' : 'text-neutral-400'
                     }`}
                   />
                 </Link>
+
+                {/* Clean dropdown list showing only the 4 main sections */}
+                {activeDropdown === item.id && CATEGORY_DROPDOWN_DATA[item.id] && (
+                  <CategoryDropdown
+                    data={CATEGORY_DROPDOWN_DATA[item.id]}
+                    isOpen={true}
+                    onClose={handleMenuClose}
+                  />
+                )}
               </div>
             ))}
 
@@ -181,20 +190,6 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-
-      {/* 4-Column Dropdown Mega Menu */}
-      {activeMegaMenu && MEGA_MENU_DATA[activeMegaMenu] && (
-        <div
-          onMouseEnter={() => handleMouseEnter(activeMegaMenu)}
-          onMouseLeave={handleMouseLeave}
-        >
-          <MegaMenu
-            data={MEGA_MENU_DATA[activeMegaMenu]}
-            isOpen={Boolean(activeMegaMenu)}
-            onClose={handleMenuClose}
-          />
-        </div>
-      )}
     </header>
   );
 }
