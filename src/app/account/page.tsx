@@ -138,7 +138,7 @@ export default function AccountPage() {
     <div className="min-h-screen bg-[#F4F4F4]">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-[1760px] px-4 py-8 sm:px-6 lg:px-8">
         {/* Real User Header */}
         <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">

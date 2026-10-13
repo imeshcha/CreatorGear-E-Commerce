@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { Search, ShoppingBag, User, PlusCircle, LogIn, LogOut } from 'lucide-react';
+import { Search, ShoppingBag, User, LogIn, LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
@@ -111,14 +111,6 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/seller/apply"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 hover:border-neutral-400 transition shadow-xs"
-          >
-            <PlusCircle className="h-3.5 w-3.5 text-neutral-600" />
-            <span>Sell Gear</span>
-          </Link>
-
           {authUser ? (
             <div className="flex items-center gap-2">
               <Link

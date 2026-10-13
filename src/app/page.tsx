@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import HeroShowcase from '@/components/HeroShowcase';
 import ProductCatalog from '@/components/ProductCatalog';
@@ -119,7 +120,10 @@ export default function HomePage({ searchParams }: HomePageProps) {
             <span className="font-black text-neutral-900 tracking-tighter text-base">GEAR.</span>
             <span>© 2026 CreatorGear Marketplace Inc. All rights reserved.</span>
           </div>
-          <div className="flex gap-6 font-medium text-neutral-600">
+          <div className="flex flex-wrap items-center gap-6 font-medium text-neutral-600">
+            <Link href="/seller/apply" className="font-bold text-neutral-900 hover:text-neutral-600 transition-colors">
+              Sell on CreatorGear
+            </Link>
             <a href="#" className="hover:text-neutral-900">Terms of Service</a>
             <a href="#" className="hover:text-neutral-900">Privacy Policy</a>
             <a href="#" className="hover:text-neutral-900">Escrow Security</a>
