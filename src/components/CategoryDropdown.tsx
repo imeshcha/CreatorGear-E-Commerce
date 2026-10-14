@@ -19,7 +19,6 @@ import {
   Box,
   Monitor,
   ChevronRight,
-  ArrowRight,
 } from 'lucide-react';
 import { NavigationCategory } from '@/data/navigation-categories';
 
@@ -79,18 +78,6 @@ export default function CategoryDropdown({ data, isOpen, onClose }: CategoryDrop
             </Link>
           );
         })}
-      </div>
-
-      {/* Bottom: View All for this Category */}
-      <div className="mt-1 pt-1.5 border-t border-neutral-100">
-        <Link
-          href={data.href}
-          onClick={onClose}
-          className="flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[11px] font-bold text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 transition-colors"
-        >
-          <span>{data.viewAllLabel}</span>
-          <ArrowRight className="h-3 w-3" />
-        </Link>
       </div>
     </div>
   );
