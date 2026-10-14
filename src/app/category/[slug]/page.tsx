@@ -136,13 +136,16 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F] selection:bg-[#00203F] selection:text-[#36ECDE]">
       <Navbar />
 
-      {/* Category Hero Banner with category-specific cinematic background (Zero overlays, 100% pure photographic colors) */}
+      {/* Category Hero Banner with category-specific cinematic background */}
       <section className="relative border-b border-black/20 bg-black py-12 sm:py-16 overflow-hidden">
-        {/* Category Photo Background - completely uninhibited, zero overlay */}
+        {/* Category Photo Background */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('${info.backgroundImage}')` }}
         />
+
+        {/* Small subtle dark overlay with low opacity (Neutral black, zero blue tint) */}
+        <div className="absolute inset-0 z-0 bg-black/25" />
 
         <div className="relative z-10 mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}

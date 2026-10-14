@@ -215,11 +215,13 @@ export default function HeroShowcase() {
 
   return (
     <section className="relative overflow-hidden bg-[#111111] pt-8 pb-16 select-none border-b border-black/20">
-      {/* High-Resolution Cinematic Film Studio Background Image - 100% natural, zero overlay */}
+      {/* High-Resolution Cinematic Film Studio Background Image */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
         style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
       />
+      {/* Small subtle dark overlay with low opacity (Neutral black, zero blue tint) */}
+      <div className="absolute inset-0 z-0 bg-black/25" />
 
       {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div

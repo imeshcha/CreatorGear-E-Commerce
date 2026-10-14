@@ -31,13 +31,16 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
     <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F] selection:bg-[#00203F] selection:text-[#36ECDE]">
       <Navbar />
 
-      {/* Deals Header Banner with cinematic warm studio background (Zero overlays, 100% pure photographic colors) */}
+      {/* Deals Header Banner with cinematic warm studio background */}
       <section className="relative border-b border-black/20 bg-black py-12 sm:py-16 overflow-hidden">
-        {/* Background Image - completely uninhibited, zero overlay */}
+        {/* Background Image */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
         />
+
+        {/* Small subtle dark overlay with low opacity (Neutral black, zero blue tint) */}
+        <div className="absolute inset-0 z-0 bg-black/25" />
 
         <div className="relative z-10 mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
