@@ -59,11 +59,11 @@ export default function CheckoutPage() {
 
   if (items.length === 0 && !cryptoOrderData) {
     return (
-      <div className="min-h-screen bg-[#F4F4F4]">
+      <div className="min-h-screen bg-[#E6E9EC]">
         <Navbar />
         <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-          <h1 className="text-2xl font-black text-neutral-900">Your Cart is Empty</h1>
-          <p className="mt-2 text-xs text-neutral-500">Add equipment to your cart before proceeding to checkout.</p>
+          <h1 className="text-2xl font-black text-[#00203F]">Your Cart is Empty</h1>
+          <p className="mt-2 text-xs text-[#2F2F2F]/70">Add equipment to your cart before proceeding to checkout.</p>
         </div>
       </div>
     );
@@ -150,15 +150,15 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F4F4]">
+    <div className="min-h-screen bg-[#E6E9EC]">
       <Navbar />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
+          <h1 className="text-2xl font-black tracking-tight text-[#00203F] sm:text-3xl">
             CHECKOUT & SETTLEMENT
           </h1>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-[#2F2F2F]/70">
             Escrow-backed multi-vendor payment processing with server-side signature validation
           </p>
         </div>
@@ -171,12 +171,12 @@ export default function CheckoutPage() {
 
         {/* If PayHere is ready to redirect */}
         {payHerePayload && (
-          <div className="mb-8 border border-neutral-300 bg-white p-6 shadow-md text-center space-y-4">
-            <h2 className="text-base font-bold text-neutral-900">
+          <div className="mb-8 border border-[#00203F]/15 bg-white p-6 shadow-xs text-center space-y-4">
+            <h2 className="text-base font-bold text-[#00203F]">
               PayHere Secure Gateway Ready
             </h2>
-            <p className="text-xs text-neutral-500">
-              Order <span className="font-mono font-bold">{payHerePayload.order_id}</span> has been signed with merchant secret hash.
+            <p className="text-xs text-[#2F2F2F]/70">
+              Order <span className="font-mono font-bold text-[#00203F]">{payHerePayload.order_id}</span> has been signed with merchant secret hash.
             </p>
 
             <form action={payHerePayload.actionUrl} method="POST">
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-blue-600 px-8 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700 shadow-md transition"
+                className="inline-flex items-center gap-2 bg-[#00203F] px-8 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] shadow-xs transition-colors"
               >
                 <span>Proceed to PayHere Hosted Checkout</span>
                 <ExternalLink className="h-4 w-4" />
@@ -210,17 +210,17 @@ export default function CheckoutPage() {
 
         {/* If Crypto Payment is Active */}
         {cryptoOrderData && (
-          <div className="mb-8 border border-neutral-300 bg-white p-6 shadow-md space-y-6">
-            <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
+          <div className="mb-8 border border-[#00203F]/15 bg-white p-6 shadow-xs space-y-6">
+            <div className="flex items-center justify-between border-b border-[#00203F]/10 pb-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#2F2F2F]/60">
                   Direct On-Chain Payment
                 </span>
-                <h2 className="text-lg font-black text-neutral-900">
+                <h2 className="text-lg font-black text-[#00203F]">
                   Send {cryptoOrderData.cryptoPayment.expectedAmountEth} ETH ({cryptoOrderData.cryptoPayment.network.toUpperCase()})
                 </h2>
               </div>
-              <span className="bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 font-mono">
+              <span className="bg-[#36ECDE]/20 px-3 py-1 text-xs font-bold text-[#00203F] border border-[#36ECDE]/40 font-mono">
                 Order #{cryptoOrderData.orderId}
               </span>
             </div>
@@ -229,8 +229,8 @@ export default function CheckoutPage() {
               {/* Payment Details */}
               <div className="space-y-4 text-xs">
                 <div>
-                  <span className="text-neutral-500 block mb-1">Platform Receiving Wallet Address:</span>
-                  <div className="flex items-center gap-2 border border-neutral-200 bg-neutral-50 p-2.5 font-mono text-[11px] text-neutral-800 break-all">
+                  <span className="text-[#2F2F2F]/70 block mb-1">Platform Receiving Wallet Address:</span>
+                  <div className="flex items-center gap-2 border border-[#00203F]/15 bg-[#E6E9EC] p-2.5 font-mono text-[11px] text-[#00203F] break-all">
                     <span>{cryptoOrderData.cryptoPayment.receivingAddress}</span>
                     <button
                       type="button"
@@ -239,28 +239,28 @@ export default function CheckoutPage() {
                         setCopiedAddress(true);
                         setTimeout(() => setCopiedAddress(false), 2000);
                       }}
-                      className="ml-auto shrink-0 p-1 hover:text-neutral-900"
+                      className="ml-auto shrink-0 p-1 hover:text-[#36ECDE]"
                       title="Copy Address"
                     >
                       <Copy className="h-4 w-4" />
                     </button>
                   </div>
-                  {copiedAddress && <span className="text-emerald-600 font-semibold text-[10px]">Copied to clipboard!</span>}
+                  {copiedAddress && <span className="text-[#00203F] font-bold text-[10px]">Copied to clipboard!</span>}
                 </div>
 
-                <div className="border border-amber-200 bg-amber-50 p-3 text-[11px] text-amber-800">
-                  <p className="font-bold flex items-center gap-1">
-                    <AlertCircle className="h-3.5 w-3.5" /> Real JSON-RPC Blockchain Verification
+                <div className="border border-[#00203F]/20 bg-[#E6E9EC]/50 p-3 text-[11px] text-[#2F2F2F]">
+                  <p className="font-bold flex items-center gap-1 text-[#00203F]">
+                    <AlertCircle className="h-3.5 w-3.5 text-[#00203F]" /> Real JSON-RPC Blockchain Verification
                   </p>
-                  <p className="mt-1">
+                  <p className="mt-1 text-[#2F2F2F]/80">
                     Once you broadcast your transaction from MetaMask or hardware wallet, enter your transaction hash below. Our backend queries live Ethereum/Sepolia RPC nodes to verify confirmations and destination wallet.
                   </p>
                 </div>
               </div>
 
               {/* Transaction Hash Input & Verify */}
-              <div className="border border-neutral-200 bg-neutral-50 p-5 space-y-4">
-                <h3 className="text-xs font-bold text-neutral-900 uppercase tracking-wider">
+              <div className="border border-[#00203F]/15 bg-[#E6E9EC]/40 p-5 space-y-4">
+                <h3 className="text-xs font-bold text-[#00203F] uppercase tracking-wider">
                   Verify Transaction Hash
                 </h3>
 
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
                   value={txHashInput}
                   onChange={(e) => setTxHashInput(e.target.value)}
                   placeholder="0x..."
-                  className="w-full border border-neutral-300 bg-white px-3 py-2 text-xs font-mono text-neutral-900 focus:outline-none focus:border-neutral-900"
+                  className="w-full border border-[#00203F]/20 bg-white px-3 py-2 text-xs font-mono text-[#00203F] focus:outline-none focus:border-[#00203F]"
                 />
 
                 {cryptoError && (
@@ -282,7 +282,7 @@ export default function CheckoutPage() {
                   type="button"
                   onClick={handleVerifyCryptoTx}
                   disabled={verifyingTx || !txHashInput.trim()}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#00203F] py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] disabled:bg-[#00203F]/20 disabled:text-[#2F2F2F]/40 transition-colors"
                 >
                   {verifyingTx ? (
                     <>
@@ -306,98 +306,99 @@ export default function CheckoutPage() {
           <form onSubmit={handleCheckoutSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left: Customer Information & Delivery Address */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
+              <div className="border border-[#00203F]/15 bg-white p-6 shadow-xs space-y-4">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#00203F]">
                   Customer & Delivery Details
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div className="sm:col-span-2">
-                    <label className="block font-semibold text-neutral-700 mb-1">Full Name</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">Full Name</label>
                     <input
                       type="text"
                       name="customerName"
                       required
                       value={formData.customerName}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-neutral-700 mb-1">Email Address</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">Email Address</label>
                     <input
                       type="email"
                       name="customerEmail"
                       required
                       value={formData.customerEmail}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-neutral-700 mb-1">Phone Number</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">Phone Number</label>
                     <input
                       type="tel"
                       name="customerPhone"
                       required
                       value={formData.customerPhone}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="block font-semibold text-neutral-700 mb-1">Street Address</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">Street Address</label>
                     <input
                       type="text"
                       name="addressLine1"
                       required
                       value={formData.addressLine1}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-neutral-700 mb-1">City</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">City</label>
                     <input
                       type="text"
                       name="city"
                       required
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-neutral-700 mb-1">Postal Code</label>
+                    <label className="block font-semibold text-[#00203F] mb-1">Postal Code</label>
                     <input
                       type="text"
                       name="postalCode"
                       required
                       value={formData.postalCode}
                       onChange={handleInputChange}
-                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3 py-2 text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F]"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Tri-Method Payment Selection (PDF Page 17–20) */}
-              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
+              {/* Tri-Method Payment Selection */}
+              <div className="border border-[#00203F]/15 bg-white p-6 shadow-xs space-y-4">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#00203F]">
                   Select Payment Method
                 </h2>
 
                 <div className="space-y-3">
                   {/* PayHere Online Payment */}
                   <label
-                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='payhere'
-                        ? 'border-neutral-900 bg-neutral-50 shadow-xs'
-                        : 'border-neutral-200 hover:border-neutral-300'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${
+                      paymentMethod === 'payhere'
+                        ? 'border-2 border-[#00203F] bg-[#E6E9EC]/40 shadow-xs'
+                        : 'border-[#00203F]/15 hover:border-[#00203F]/40'
                     }`}
                   >
                     <input
@@ -405,19 +406,19 @@ export default function CheckoutPage() {
                       name="paymentMethod"
                       checked={paymentMethod === 'payhere'}
                       onChange={() => setPaymentMethod('payhere')}
-                      className="mt-1 accent-neutral-900"
+                      className="mt-1 accent-[#00203F]"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
-                          <CreditCard className="h-4 w-4 text-blue-600" />
+                        <span className="text-xs font-bold text-[#00203F] flex items-center gap-1.5">
+                          <CreditCard className="h-4 w-4 text-[#00203F]" />
                           PayHere Online Gateway (Credit/Debit Card)
                         </span>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5">
+                        <span className="text-[10px] font-bold text-[#00203F] bg-[#36ECDE]/20 border border-[#36ECDE]/40 px-2 py-0.5">
                           Instant
                         </span>
                       </div>
-                      <p className="mt-1 text-[11px] text-neutral-500">
+                      <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                         Supports Visa, MasterCard, Amex, Genie, eZ Cash. Redirects to secure PayHere hosted gateway with server MD5 verification.
                       </p>
                     </div>
@@ -425,9 +426,10 @@ export default function CheckoutPage() {
 
                   {/* Cryptocurrency */}
                   <label
-                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='crypto'
-                        ? 'border-neutral-900 bg-neutral-50 shadow-xs'
-                        : 'border-neutral-200 hover:border-neutral-300'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${
+                      paymentMethod === 'crypto'
+                        ? 'border-2 border-[#00203F] bg-[#E6E9EC]/40 shadow-xs'
+                        : 'border-[#00203F]/15 hover:border-[#00203F]/40'
                     }`}
                   >
                     <input
@@ -435,19 +437,19 @@ export default function CheckoutPage() {
                       name="paymentMethod"
                       checked={paymentMethod === 'crypto'}
                       onChange={() => setPaymentMethod('crypto')}
-                      className="mt-1 accent-neutral-900"
+                      className="mt-1 accent-[#00203F]"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
-                          <Coins className="h-4 w-4 text-purple-600" />
+                        <span className="text-xs font-bold text-[#00203F] flex items-center gap-1.5">
+                          <Coins className="h-4 w-4 text-[#00203F]" />
                           Direct Cryptocurrency (ETH / Web3)
                         </span>
-                        <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5">
+                        <span className="text-[10px] font-bold text-[#00203F] bg-[#36ECDE]/20 border border-[#36ECDE]/40 px-2 py-0.5">
                           Sepolia / EVM
                         </span>
                       </div>
-                      <p className="mt-1 text-[11px] text-neutral-500">
+                      <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                         Direct wallet transfer to platform receiving address. Verified on-chain via JSON-RPC block confirmation.
                       </p>
                     </div>
@@ -455,9 +457,10 @@ export default function CheckoutPage() {
 
                   {/* Cash on Delivery */}
                   <label
-                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='cod'
-                        ? 'border-neutral-900 bg-neutral-50 shadow-xs'
-                        : 'border-neutral-200 hover:border-neutral-300'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${
+                      paymentMethod === 'cod'
+                        ? 'border-2 border-[#00203F] bg-[#E6E9EC]/40 shadow-xs'
+                        : 'border-[#00203F]/15 hover:border-[#00203F]/40'
                     }`}
                   >
                     <input
@@ -465,19 +468,19 @@ export default function CheckoutPage() {
                       name="paymentMethod"
                       checked={paymentMethod === 'cod'}
                       onChange={() => setPaymentMethod('cod')}
-                      className="mt-1 accent-neutral-900"
+                      className="mt-1 accent-[#00203F]"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
-                          <Banknote className="h-4 w-4 text-emerald-600" />
+                        <span className="text-xs font-bold text-[#00203F] flex items-center gap-1.5">
+                          <Banknote className="h-4 w-4 text-[#00203F]" />
                           Cash on Delivery (COD)
                         </span>
-                        <span className="text-[10px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5">
+                        <span className="text-[10px] font-bold text-[#00203F] bg-[#E6E9EC] border border-[#00203F]/15 px-2 py-0.5">
                           Courier
                         </span>
                       </div>
-                      <p className="mt-1 text-[11px] text-neutral-500">
+                      <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                         Pay cash upon parcel delivery. Platform reconciles funds via verified courier tracking references.
                       </p>
                     </div>
@@ -488,43 +491,43 @@ export default function CheckoutPage() {
 
             {/* Right: Order Summary and Pay Button */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+              <div className="border border-[#00203F]/15 bg-white p-6 shadow-xs space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
                   Review Items ({totalItems})
                 </h3>
 
-                <div className="divide-y divide-neutral-100 max-h-64 overflow-y-auto pr-1">
+                <div className="divide-y divide-[#00203F]/10 max-h-64 overflow-y-auto pr-1">
                   {items.map(({ product, quantity }) => (
                     <div key={product.id} className="py-2.5 flex items-center justify-between text-xs">
                       <div className="max-w-[200px]">
-                        <p className="font-bold text-neutral-900 line-clamp-1">{product.name}</p>
-                        <p className="text-[10px] text-neutral-400">Qty: {quantity} • Sold by {product.seller?.store_name}</p>
+                        <p className="font-bold text-[#00203F] line-clamp-1">{product.name}</p>
+                        <p className="text-[10px] text-[#2F2F2F]/60">Qty: {quantity} • Sold by {product.seller?.store_name}</p>
                       </div>
-                      <span className="font-mono font-bold text-neutral-900">
+                      <span className="font-mono font-bold text-[#00203F]">
                         LKR {(product.price * quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t border-neutral-100 pt-3 space-y-2 text-xs">
-                  <div className="flex justify-between text-neutral-600">
+                <div className="border-t border-[#00203F]/10 pt-3 space-y-2 text-xs">
+                  <div className="flex justify-between text-[#2F2F2F]/80">
                     <span>Subtotal</span>
-                    <span className="font-mono font-bold text-neutral-900">
+                    <span className="font-mono font-bold text-[#00203F]">
                       LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
-                  <div className="flex justify-between text-neutral-600">
+                  <div className="flex justify-between text-[#2F2F2F]/80">
                     <span>Shipping</span>
-                    <span className="font-bold text-emerald-600">FREE Courier</span>
+                    <span className="font-bold text-[#00203F]">FREE Courier</span>
                   </div>
-                  <div className="flex justify-between text-neutral-600">
+                  <div className="flex justify-between text-[#2F2F2F]/80">
                     <span>Platform Commission (8%)</span>
-                    <span className="text-neutral-400">Deducted from seller payout</span>
+                    <span className="text-[#2F2F2F]/50">Deducted from seller payout</span>
                   </div>
-                  <div className="flex justify-between pt-3 border-t border-neutral-100 text-sm font-black text-neutral-900">
+                  <div className="flex justify-between pt-3 border-t border-[#00203F]/10 text-sm font-black text-[#00203F]">
                     <span>Total Due</span>
-                    <span className="font-mono text-base font-black">
+                    <span className="font-mono text-base font-black text-[#00203F]">
                       LKR {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
@@ -533,7 +536,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#00203F] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs hover:bg-[#36ECDE] hover:text-[#00203F] disabled:bg-[#00203F]/20 disabled:text-[#2F2F2F]/40 transition-colors"
                 >
                   {submitting ? (
                     <>

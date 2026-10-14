@@ -144,14 +144,14 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F4F4]">
+    <div className="min-h-screen bg-[#E6E9EC]">
       <Navbar />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Admin Header */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#00203F]/15 pb-4">
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-neutral-900">
+            <h1 className="text-2xl font-black tracking-tight text-[#00203F]">
               SELLER VERIFICATION MANAGEMENT
             </h1>
           </div>
@@ -162,21 +162,21 @@ export default function AdminDashboardPage() {
               type="button"
               onClick={fetchApplications}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition shadow-2xs"
+              className="inline-flex items-center gap-1.5 border border-[#00203F]/20 bg-white px-3 py-2 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition-colors shadow-2xs"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ?'animate-spin' : ''}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Queue</span>
             </button>
 
-            <div className="border border-neutral-200 bg-white px-3.5 py-2 text-xs">
-              <span className="text-neutral-400 block text-[10px]">Pending Queue</span>
-              <span className="font-bold text-amber-600">
+            <div className="border border-[#00203F]/15 bg-white px-3.5 py-2 text-xs">
+              <span className="text-[#2F2F2F]/60 block text-[10px]">Pending Queue</span>
+              <span className="font-bold text-[#00203F]">
                 {applications.filter(a => a.status === 'pending').length} Applications
               </span>
             </div>
-            <div className="border border-neutral-200 bg-white px-3.5 py-2 text-xs">
-              <span className="text-neutral-400 block text-[10px]">Verified Badges</span>
-              <span className="font-bold text-emerald-600">
+            <div className="border border-[#00203F]/15 bg-white px-3.5 py-2 text-xs">
+              <span className="text-[#2F2F2F]/60 block text-[10px]">Verified Badges</span>
+              <span className="font-bold text-[#00203F]">
                 {applications.filter(a => a.status === 'approved').length} Active
               </span>
             </div>
@@ -184,44 +184,46 @@ export default function AdminDashboardPage() {
         </div>
 
         {actionSuccess && (
-          <div className="mb-6 border border-emerald-200 bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">
+          <div className="mb-6 border border-[#00203F]/20 bg-white p-3 text-xs font-semibold text-[#00203F]">
             ✓ {actionSuccess}
           </div>
         )}
 
         {loading ? (
           <div className="py-24 text-center">
-            <Loader2 className="mx-auto h-8 w-8 animate-spin text-neutral-400" />
-            <p className="mt-3 text-xs font-semibold text-neutral-500">
+            <Loader2 className="mx-auto h-8 w-8 animate-spin text-[#00203F]" />
+            <p className="mt-3 text-xs font-semibold text-[#2F2F2F]/70">
               Connecting to Supabase verification database...
             </p>
           </div>
         ) : applications.length === 0 ? (
-          <div className="border border-neutral-200 bg-white p-16 text-center space-y-4 shadow-xs">
-            <ShieldCheck className="mx-auto h-12 w-12 text-neutral-300" />
-            <h2 className="text-lg font-bold text-neutral-900">
+          <div className="border border-[#00203F]/15 bg-white p-16 text-center space-y-4 shadow-xs">
+            <ShieldCheck className="mx-auto h-12 w-12 text-[#00203F]/30" />
+            <h2 className="text-lg font-bold text-[#00203F]">
               Verification Queue is Empty
             </h2>
-            <p className="text-xs text-neutral-500 max-w-md mx-auto">
+            <p className="text-xs text-[#2F2F2F]/70 max-w-md mx-auto">
               No seller verification applications are currently awaiting review. When users complete the onboarding process at{' '}
-              <span className="font-mono text-neutral-800 font-semibold">/seller/apply</span>, their KYC documents will appear here in real time.
+              <span className="font-mono text-[#00203F] font-semibold">/seller/apply</span>, their KYC documents will appear here in real time.
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Applications Table (Left) */}
-            <div className="lg:col-span-7 border border-neutral-200 bg-white p-5 shadow-xs">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-900 mb-4">
+            <div className="lg:col-span-7 border border-[#00203F]/15 bg-white p-5 shadow-xs">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#00203F] mb-4">
                 Submitted Applications Queue ({applications.length})
               </h2>
 
-              <div className="divide-y divide-neutral-100 overflow-x-auto text-xs">
+              <div className="divide-y divide-[#00203F]/10 overflow-x-auto text-xs">
                 {applications.map((app) => (
                   <div
                     key={app.id}
                     onClick={() => setSelectedApp(app)}
-                    className={`p-3.5 cursor-pointer transition flex items-center justify-between gap-3 ${ selectedApp?.id === app.id ?'bg-neutral-900 text-white'
-                        : 'hover:bg-neutral-50 text-neutral-800'
+                    className={`p-3.5 cursor-pointer transition flex items-center justify-between gap-3 ${
+                      selectedApp?.id === app.id
+                        ? 'bg-[#00203F] text-white'
+                        : 'hover:bg-[#E6E9EC]/50 text-[#00203F]'
                     }`}
                   >
                     <div>
@@ -230,27 +232,28 @@ export default function AdminDashboardPage() {
                           {app.id}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.2 uppercase ${ app.status ==='approved'
-                              ? 'bg-emerald-100 text-emerald-800'
+                          className={`text-[10px] font-bold px-2 py-0.5 uppercase ${
+                            app.status === 'approved'
+                              ? 'bg-[#36ECDE]/20 text-[#00203F] border border-[#36ECDE]/40'
                               : app.status === 'pending'
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-red-100 text-red-800'
+                              ? 'bg-[#E6E9EC] text-[#00203F] border border-[#00203F]/15'
+                              : 'bg-red-50 text-red-700 border border-red-200'
                           }`}
                         >
                           {app.status.replace(/_/g, ' ')}
                         </span>
                       </div>
 
-                      <p className={`font-bold mt-1 ${selectedApp?.id === app.id ?'text-white' : 'text-neutral-900'}`}>
+                      <p className={`font-bold mt-1 ${selectedApp?.id === app.id ? 'text-white' : 'text-[#00203F]'}`}>
                         {app.storeName}
                       </p>
-                      <p className={`text-[11px] ${selectedApp?.id === app.id ?'text-neutral-400' : 'text-neutral-500'}`}>
+                      <p className={`text-[11px] ${selectedApp?.id === app.id ? 'text-[#36ECDE]' : 'text-[#2F2F2F]/60'}`}>
                         {app.legalName} • {app.sellerType === 'business' ? 'Registered Business' : 'Individual Creator'}
                       </p>
                     </div>
 
                     <div className="text-right text-[11px]">
-                      <span className={selectedApp?.id === app.id ? 'text-neutral-400' : 'text-neutral-400'}>
+                      <span className={selectedApp?.id === app.id ? 'text-white/70' : 'text-[#2F2F2F]/50'}>
                         {app.submittedDate}
                       </span>
                     </div>
@@ -261,23 +264,24 @@ export default function AdminDashboardPage() {
 
             {/* Application Detail & Actions Card (Right) */}
             {selectedApp && (
-              <div className="lg:col-span-5 border border-neutral-200 bg-white p-6 shadow-xs space-y-6">
-                <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
+              <div className="lg:col-span-5 border border-[#00203F]/15 bg-white p-6 shadow-xs space-y-6">
+                <div className="flex items-center justify-between border-b border-[#00203F]/10 pb-4">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#2F2F2F]/60">
                       Audit Review Panel
                     </span>
-                    <h3 className="text-base font-black text-neutral-900 font-mono">
+                    <h3 className="text-base font-black text-[#00203F] font-mono">
                       #{selectedApp.id.substring(0, 13)}
                     </h3>
                   </div>
 
                   <span
-                    className={`text-xs font-bold px-2.5 py-1 uppercase ${ selectedApp.status ==='approved'
-                        ? 'bg-emerald-100 text-emerald-800'
+                    className={`text-xs font-bold px-2.5 py-1 uppercase ${
+                      selectedApp.status === 'approved'
+                        ? 'bg-[#36ECDE]/20 text-[#00203F] border border-[#36ECDE]/40'
                         : selectedApp.status === 'pending'
-                        ? 'bg-amber-100 text-amber-800'
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-[#E6E9EC] text-[#00203F] border border-[#00203F]/15'
+                        : 'bg-red-50 text-red-700 border border-red-200'
                     }`}
                   >
                     {selectedApp.status.replace(/_/g, ' ')}
@@ -287,62 +291,62 @@ export default function AdminDashboardPage() {
                 {/* Data Fields */}
                 <div className="space-y-3 text-xs">
                   <div>
-                    <span className="text-neutral-400 block text-[11px]">Store Display Name:</span>
-                    <span className="font-bold text-neutral-900">{selectedApp.storeName}</span>
+                    <span className="text-[#2F2F2F]/60 block text-[11px]">Store Display Name:</span>
+                    <span className="font-bold text-[#00203F]">{selectedApp.storeName}</span>
                   </div>
 
                   <div>
-                    <span className="text-neutral-400 block text-[11px]">Legal Identity / Representative:</span>
-                    <span className="font-semibold text-neutral-800">{selectedApp.legalName}</span>
+                    <span className="text-[#2F2F2F]/60 block text-[11px]">Legal Identity / Representative:</span>
+                    <span className="font-semibold text-[#00203F]">{selectedApp.legalName}</span>
                   </div>
 
                   {selectedApp.phone && (
                     <div>
-                      <span className="text-neutral-400 block text-[11px]">Contact Phone:</span>
-                      <span className="font-medium text-neutral-800">{selectedApp.phone}</span>
+                      <span className="text-[#2F2F2F]/60 block text-[11px]">Contact Phone:</span>
+                      <span className="font-medium text-[#2F2F2F]">{selectedApp.phone}</span>
                     </div>
                   )}
 
                   <div>
-                    <span className="text-neutral-400 block text-[11px]">Seller Classification:</span>
-                    <span className="font-medium text-neutral-800 capitalize">
+                    <span className="text-[#2F2F2F]/60 block text-[11px]">Seller Classification:</span>
+                    <span className="font-medium text-[#2F2F2F] capitalize">
                       {selectedApp.sellerType === 'business' ? 'Registered Business' : 'Individual Creator'}
                     </span>
                   </div>
 
                   {selectedApp.brn && (
                     <div>
-                      <span className="text-neutral-400 block text-[11px]">Business Registration Number (BRN):</span>
-                      <span className="font-mono font-semibold text-neutral-900">{selectedApp.brn}</span>
+                      <span className="text-[#2F2F2F]/60 block text-[11px]">Business Registration Number (BRN):</span>
+                      <span className="font-mono font-semibold text-[#00203F]">{selectedApp.brn}</span>
                     </div>
                   )}
 
                   {selectedApp.taxId && (
                     <div>
-                      <span className="text-neutral-400 block text-[11px]">Tax Identification Number:</span>
-                      <span className="font-mono font-semibold text-neutral-900">{selectedApp.taxId}</span>
+                      <span className="text-[#2F2F2F]/60 block text-[11px]">Tax Identification Number:</span>
+                      <span className="font-mono font-semibold text-[#00203F]">{selectedApp.taxId}</span>
                     </div>
                   )}
 
                   <div>
-                    <span className="text-neutral-400 block text-[11px]">Identity Document Verification:</span>
-                    <div className="mt-1 flex items-center justify-between border border-neutral-200 bg-neutral-50 p-2.5 text-neutral-700">
+                    <span className="text-[#2F2F2F]/60 block text-[11px]">Identity Document Verification:</span>
+                    <div className="mt-1 flex items-center justify-between border border-[#00203F]/15 bg-[#E6E9EC] p-2.5 text-[#00203F]">
                       <span className="flex items-center gap-1.5 font-mono text-[11px] truncate max-w-[200px]">
-                        <FileText className="h-4 w-4 text-neutral-500 shrink-0" />
+                        <FileText className="h-4 w-4 text-[#00203F] shrink-0" />
                         <span className="truncate">{selectedApp.idDocument}</span>
                       </span>
-                      <span className="text-[10px] font-bold text-neutral-500 bg-white px-2 py-0.5 border border-neutral-200">
+                      <span className="text-[10px] font-bold text-[#00203F] bg-white px-2 py-0.5 border border-[#00203F]/15">
                         Secure Storage
                       </span>
                     </div>
                   </div>
 
                   {selectedApp.reviewNotes && (
-                    <div className="bg-neutral-50 p-3 text-neutral-600">
-                      <span className="text-neutral-400 block text-[10px] font-bold uppercase">Audit Review Notes:</span>
+                    <div className="bg-[#E6E9EC]/50 p-3 text-[#2F2F2F]/80">
+                      <span className="text-[#2F2F2F]/60 block text-[10px] font-bold uppercase">Audit Review Notes:</span>
                       <p className="mt-0.5">{selectedApp.reviewNotes}</p>
                       {selectedApp.reviewedDate && (
-                        <p className="mt-1 text-[10px] text-neutral-400">
+                        <p className="mt-1 text-[10px] text-[#2F2F2F]/60">
                           Reviewed on {selectedApp.reviewedDate}
                         </p>
                       )}
@@ -351,8 +355,8 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="space-y-3 border-t border-neutral-100 pt-4">
-                  <label className="block text-xs font-semibold text-neutral-700">
+                <div className="space-y-3 border-t border-[#00203F]/10 pt-4">
+                  <label className="block text-xs font-semibold text-[#00203F]">
                     Compliance Review Notes / Decision Rationale:
                   </label>
                   <textarea
@@ -360,7 +364,7 @@ export default function AdminDashboardPage() {
                     value={reviewNoteInput}
                     onChange={(e) => setReviewNoteInput(e.target.value)}
                     placeholder="Record verification decision rationale or required documentation..."
-                    className="w-full border border-neutral-300 bg-neutral-50 p-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 p-2.5 text-xs text-[#00203F] focus:outline-none focus:bg-white focus:border-[#00203F]"
                   />
 
                   <div className="grid grid-cols-2 gap-2">
@@ -368,7 +372,7 @@ export default function AdminDashboardPage() {
                       type="button"
                       disabled={processing}
                       onClick={() => handleAction('approved')}
-                      className="inline-flex items-center justify-center gap-1.5 bg-emerald-600 py-2.5 text-xs font-bold text-white hover:bg-emerald-700 shadow-sm transition disabled:opacity-50"
+                      className="inline-flex items-center justify-center gap-1.5 bg-[#00203F] py-2.5 text-xs font-bold text-white hover:bg-[#36ECDE] hover:text-[#00203F] shadow-xs transition-colors disabled:opacity-50"
                     >
                       <CheckCircle className="h-4 w-4" />
                       <span>Approve & Grant Badge</span>
@@ -378,7 +382,7 @@ export default function AdminDashboardPage() {
                       type="button"
                       disabled={processing}
                       onClick={() => handleAction('rejected')}
-                      className="inline-flex items-center justify-center gap-1.5 border border-red-200 bg-red-50 py-2.5 text-xs font-bold text-red-700 hover:bg-red-100 transition disabled:opacity-50"
+                      className="inline-flex items-center justify-center gap-1.5 border border-red-200 bg-red-50 py-2.5 text-xs font-bold text-red-700 hover:bg-red-100 transition-colors disabled:opacity-50"
                     >
                       <XCircle className="h-4 w-4" />
                       <span>Reject Application</span>
@@ -389,7 +393,7 @@ export default function AdminDashboardPage() {
                     type="button"
                     disabled={processing}
                     onClick={() => handleAction('more_information_required')}
-                    className="w-full inline-flex items-center justify-center gap-1 border border-neutral-200 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-50 transition disabled:opacity-50"
+                    className="w-full inline-flex items-center justify-center gap-1 border border-[#00203F]/20 py-2 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition-colors disabled:opacity-50"
                   >
                     <AlertCircle className="h-3.5 w-3.5" />
                     <span>Request Additional Information</span>

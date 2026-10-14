@@ -287,12 +287,12 @@ export default function ProductCatalog({
   return (
     <div className="mx-auto max-w-[1760px] px-4 py-8 sm:px-6 lg:px-8">
       {/* Top Filter Bar Controls */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#00203F]/15 pb-4">
         <div>
-          <h2 className="text-xl font-black tracking-tight text-neutral-900">
+          <h2 className="text-xl font-black tracking-tight text-[#00203F]">
             {title || 'EQUIPMENT MARKETPLACE'}
           </h2>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-[#2F2F2F]/70">
             {description ? (
               <span>{description} • Showing {filteredProducts.length} listings</span>
             ) : (
@@ -305,18 +305,18 @@ export default function ProductCatalog({
           <button
             type="button"
             onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-            className="md:hidden inline-flex items-center gap-1.5 border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800"
+            className="md:hidden inline-flex items-center gap-1.5 border border-[#00203F]/20 bg-white px-3 py-1.5 text-xs font-semibold text-[#00203F]"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>
           </button>
 
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-neutral-500 font-medium">Sort by:</span>
+            <span className="text-[#2F2F2F]/70 font-medium">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="border border-neutral-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-800 focus:outline-none focus:border-neutral-900"
+              className="border border-[#00203F]/20 bg-white px-2.5 py-1.5 text-xs font-semibold text-[#00203F] focus:outline-none focus:border-[#00203F]"
             >
               <option value="recommended">Recommended</option>
               <option value="price_asc">Price: Low to High</option>
@@ -332,15 +332,15 @@ export default function ProductCatalog({
         {/* Left Filter Sidebar matching PDF Page 14 */}
         <aside
           className={`${ mobileFilterOpen ?'block' : 'hidden'
-          } md:block w-full md:w-60 lg:w-64 shrink-0 space-y-6 border border-neutral-200/90 bg-white p-5 shadow-xs h-fit md:sticky md:top-20`}
+          } md:block w-full md:w-60 lg:w-64 shrink-0 space-y-6 border border-[#00203F]/15 bg-white p-5 shadow-xs h-fit md:sticky md:top-20`}
         >
-          <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+          <div className="flex items-center justify-between border-b border-[#00203F]/10 pb-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
               Filter Gear
             </h3>
             <button
               onClick={resetFilters}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-neutral-500 hover:text-neutral-900"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2F2F2F]/60 hover:text-[#00203F]"
             >
               <RotateCcw className="h-3 w-3" />
               <span>Reset</span>
@@ -350,10 +350,10 @@ export default function ProductCatalog({
           {/* Category Filter */}
           {showCategoryFilter && (
             <div>
-              <label className="mb-2 block text-xs font-bold text-neutral-800">
+              <label className="mb-2 block text-xs font-bold text-[#00203F]">
                 Category
               </label>
-              <div className="space-y-1.5 text-xs text-neutral-600">
+              <div className="space-y-1.5 text-xs text-[#2F2F2F]">
                 {[
                   { label: 'All Categories', value: 'all' },
                   { label: 'Cameras & Lenses', value: 'cameras' },
@@ -363,13 +363,13 @@ export default function ProductCatalog({
                   { label: 'Streaming & Gear', value: 'streaming' },
                   { label: 'Accessories', value: 'accessories' },
                 ].map(cat => (
-                  <label key={cat.value} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                  <label key={cat.value} className="flex items-center gap-2 cursor-pointer hover:text-[#00203F]">
                     <input
                       type="radio"
                       name="category"
                       checked={selectedCategory === cat.value}
                       onChange={() => setSelectedCategory(cat.value)}
-                      className="accent-neutral-900"
+                      className="accent-[#00203F]"
                     />
                     <span>{cat.label}</span>
                   </label>
@@ -379,24 +379,24 @@ export default function ProductCatalog({
           )}
 
           {/* Condition Filter */}
-          <div className={showCategoryFilter ? "border-t border-neutral-100 pt-4" : ""}>
-            <label className="mb-2 block text-xs font-bold text-neutral-800">
+          <div className={showCategoryFilter ? "border-t border-[#00203F]/10 pt-4" : ""}>
+            <label className="mb-2 block text-xs font-bold text-[#00203F]">
               Equipment Condition
             </label>
-            <div className="space-y-1.5 text-xs text-neutral-600">
+            <div className="space-y-1.5 text-xs text-[#2F2F2F]">
               {[
                 { label: 'Any Condition', value: 'all' },
                 { label: 'Brand New', value: 'new' },
                 { label: 'Used / Pre-Owned', value: 'used' },
                 { label: 'Certified Refurbished', value: 'refurbished' },
               ].map(cond => (
-                <label key={cond.value} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                <label key={cond.value} className="flex items-center gap-2 cursor-pointer hover:text-[#00203F]">
                   <input
                     type="radio"
                     name="condition"
                     checked={selectedCondition === cond.value}
                     onChange={() => setSelectedCondition(cond.value)}
-                    className="accent-neutral-900"
+                    className="accent-[#00203F]"
                   />
                   <span>{cond.label}</span>
                 </label>
@@ -405,29 +405,29 @@ export default function ProductCatalog({
           </div>
 
           {/* Brand Filter (Radio Options) */}
-          <div className="border-t border-neutral-100 pt-4">
-            <label className="mb-2 block text-xs font-bold text-neutral-800">
+          <div className="border-t border-[#00203F]/10 pt-4">
+            <label className="mb-2 block text-xs font-bold text-[#00203F]">
               Brand
             </label>
-            <div className="space-y-1.5 text-xs text-neutral-600 max-h-64 overflow-y-auto pr-1">
-              <label className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+            <div className="space-y-1.5 text-xs text-[#2F2F2F] max-h-64 overflow-y-auto pr-1">
+              <label className="flex items-center gap-2 cursor-pointer hover:text-[#00203F]">
                 <input
                   type="radio"
                   name="brand"
                   checked={selectedBrand === 'all'}
                   onChange={() => setSelectedBrand('all')}
-                  className="accent-neutral-900"
+                  className="accent-[#00203F]"
                 />
                 <span>All Brands</span>
               </label>
               {brands.map(b => (
-                <label key={b.slug} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                <label key={b.slug} className="flex items-center gap-2 cursor-pointer hover:text-[#00203F]">
                   <input
                     type="radio"
                     name="brand"
                     checked={selectedBrand === b.slug}
                     onChange={() => setSelectedBrand(b.slug)}
-                    className="accent-neutral-900"
+                    className="accent-[#00203F]"
                   />
                   <span>{b.name}</span>
                 </label>
@@ -436,10 +436,10 @@ export default function ProductCatalog({
           </div>
 
           {/* Price Range Slider */}
-          <div className="border-t border-neutral-100 pt-4">
-            <div className="flex items-center justify-between text-xs font-bold text-neutral-800 mb-2">
+          <div className="border-t border-[#00203F]/10 pt-4">
+            <div className="flex items-center justify-between text-xs font-bold text-[#00203F] mb-2">
               <span>Maximum Price</span>
-              <span className="text-neutral-900 font-mono">LKR {maxPrice.toLocaleString()}</span>
+              <span className="text-[#00203F] font-mono">LKR {maxPrice.toLocaleString()}</span>
             </div>
             <input
               type="range"
@@ -448,9 +448,9 @@ export default function ProductCatalog({
               step={50}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full accent-neutral-900 cursor-pointer"
+              className="w-full accent-[#00203F] cursor-pointer"
             />
-            <div className="mt-1 flex justify-between text-[10px] text-neutral-400">
+            <div className="mt-1 flex justify-between text-[10px] text-[#2F2F2F]/60">
               <span>LKR 100</span>
               <span>LKR 6,000+</span>
             </div>
@@ -460,16 +460,16 @@ export default function ProductCatalog({
         {/* Right Product Grid */}
         <div className="flex-1 min-w-0 w-full">
           {filteredProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center border border-dashed border-neutral-300 bg-white p-12 text-center">
-              <p className="text-sm font-semibold text-neutral-800">
+            <div className="flex flex-col items-center justify-center border border-dashed border-[#00203F]/20 bg-white p-12 text-center">
+              <p className="text-sm font-semibold text-[#00203F]">
                 No equipment matches your current filters.
               </p>
-              <p className="mt-1 text-xs text-neutral-400">
+              <p className="mt-1 text-xs text-[#2F2F2F]/60">
                 Try widening your price range or clearing selected categories.
               </p>
               <button
                 onClick={resetFilters}
-                className="mt-4 bg-neutral-900 px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition"
+                className="mt-4 bg-[#00203F] px-4 py-2 text-xs font-bold text-white hover:bg-[#36ECDE] hover:text-[#00203F] transition"
               >
                 Reset All Filters
               </button>

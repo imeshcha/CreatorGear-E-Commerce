@@ -34,7 +34,7 @@ async function CatalogSection({ searchParams }: HomePageProps) {
 
 export default function HomePage({ searchParams }: HomePageProps) {
   return (
-    <div className="min-h-screen bg-[#F4F4F4] text-neutral-900 selection:bg-neutral-900 selection:text-white">
+    <div className="min-h-screen bg-[#E6E9EC] text-[#00203F] selection:bg-[#00203F] selection:text-[#36ECDE]">
       {/* Navigation */}
       <Navbar />
 
@@ -43,7 +43,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
       {/* Faceted Marketplace Catalog & Filters with Suspense */}
       <Suspense fallback={
-        <div className="mx-auto max-w-[1760px] px-4 py-16 text-center text-xs font-semibold text-neutral-500">
+        <div className="mx-auto max-w-[1760px] px-4 py-16 text-center text-xs font-semibold text-[#2F2F2F]/60">
           Loading verified marketplace equipment...
         </div>
       }>
@@ -51,60 +51,60 @@ export default function HomePage({ searchParams }: HomePageProps) {
       </Suspense>
 
       {/* Trust & Guarantees Strip */}
-      <section className="border-t border-neutral-200/80 bg-white py-12">
+      <section className="border-t border-[#00203F]/15 bg-white py-12">
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex items-start gap-3">
-              <div className="bg-neutral-100 p-2.5 text-neutral-900">
-                <ShieldCheck className="h-5 w-5" />
+              <div className="bg-[#E6E9EC] p-2.5 text-[#00203F]">
+                <ShieldCheck className="h-5 w-5 text-[#00203F]" />
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
                   Verified Seller Identity
                 </h4>
-                <p className="mt-1 text-[11px] text-neutral-500">
+                <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                   Strict compliance review for verified stores and individual creators.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="bg-neutral-100 p-2.5 text-neutral-900">
-                <Lock className="h-5 w-5" />
+              <div className="bg-[#E6E9EC] p-2.5 text-[#00203F]">
+                <Lock className="h-5 w-5 text-[#00203F]" />
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
                   Multi-Channel Escrow
                 </h4>
-                <p className="mt-1 text-[11px] text-neutral-500">
+                <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                   PayHere cards, direct on-chain crypto, and COD courier tracking.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="bg-neutral-100 p-2.5 text-neutral-900">
-                <Truck className="h-5 w-5" />
+              <div className="bg-[#E6E9EC] p-2.5 text-[#00203F]">
+                <Truck className="h-5 w-5 text-[#00203F]" />
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
                   Tracked Fulfillment
                 </h4>
-                <p className="mt-1 text-[11px] text-neutral-500">
+                <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                   Independent dispatch tracking and real-time courier checkpoints.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="bg-neutral-100 p-2.5 text-neutral-900">
-                <RefreshCw className="h-5 w-5" />
+              <div className="bg-[#E6E9EC] p-2.5 text-[#00203F]">
+                <RefreshCw className="h-5 w-5 text-[#00203F]" />
               </div>
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#00203F]">
                   Condition Transparency
                 </h4>
-                <p className="mt-1 text-[11px] text-neutral-500">
+                <p className="mt-1 text-[11px] text-[#2F2F2F]/70">
                   Accurate grades, shutter counts, actual item photos, and defect disclosures.
                 </p>
               </div>
@@ -114,20 +114,20 @@ export default function HomePage({ searchParams }: HomePageProps) {
       </section>
 
       {/* Minimal Footer */}
-      <footer className="border-t border-neutral-200 bg-[#F4F4F4] py-10 text-xs text-neutral-500">
+      <footer className="border-t border-[#00203F]/15 bg-[#E6E9EC] py-10 text-xs text-[#2F2F2F]/70">
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-black text-neutral-900 tracking-tighter text-base">GEAR.</span>
+            <span className="font-black text-[#00203F] tracking-tighter text-base">GEAR.</span>
             <span>© 2026 CreatorGear Marketplace Inc. All rights reserved.</span>
           </div>
-          <div className="flex flex-wrap items-center gap-6 font-medium text-neutral-600">
-            <Link href="/seller/apply" className="font-bold text-neutral-900 hover:text-neutral-600 transition-colors">
+          <div className="flex flex-wrap items-center gap-6 font-medium text-[#2F2F2F]">
+            <Link href="/seller/apply" className="font-bold text-[#00203F] hover:text-[#36ECDE] transition-colors">
               Sell on CreatorGear
             </Link>
-            <a href="#" className="hover:text-neutral-900">Terms of Service</a>
-            <a href="#" className="hover:text-neutral-900">Privacy Policy</a>
-            <a href="#" className="hover:text-neutral-900">Escrow Security</a>
-            <a href="#" className="hover:text-neutral-900">Seller Agreement</a>
+            <a href="#" className="hover:text-[#00203F]">Terms of Service</a>
+            <a href="#" className="hover:text-[#00203F]">Privacy Policy</a>
+            <a href="#" className="hover:text-[#00203F]">Escrow Security</a>
+            <a href="#" className="hover:text-[#00203F]">Seller Agreement</a>
           </div>
         </div>
       </footer>

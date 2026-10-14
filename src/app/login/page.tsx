@@ -32,19 +32,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F4F4]">
+    <div className="min-h-screen bg-[#E6E9EC]">
       <Navbar />
 
       <main className="mx-auto max-w-md px-4 py-16 sm:px-6">
-        <div className="border border-neutral-200/90 bg-white p-8 sm:p-10 shadow-sm space-y-6">
+        <div className="border border-[#00203F]/15 bg-white p-8 sm:p-10 shadow-sm space-y-6">
           <div className="text-center">
-            <span className="text-xl font-black tracking-tighter text-neutral-900 block">
+            <span className="text-xl font-black tracking-tighter text-[#00203F] block">
               GEAR.
             </span>
-            <h1 className="mt-2 text-2xl font-black tracking-tight text-neutral-900">
+            <h1 className="mt-2 text-2xl font-black tracking-tight text-[#00203F]">
               Welcome Back
             </h1>
-            <p className="mt-1 text-xs text-neutral-500">
+            <p className="mt-1 text-xs text-[#2F2F2F]/70">
               Sign in to manage orders, addresses, and creator listings
             </p>
           </div>
@@ -58,7 +58,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-neutral-800 mb-1">
+              <label className="block text-xs font-bold text-[#00203F] mb-1">
                 Email Address
               </label>
               <div className="relative">
@@ -68,14 +68,14 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="creator@cinema.io"
-                  className="w-full border border-neutral-300 bg-neutral-50 pl-9 pr-4 py-2.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900 transition"
+                  className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 pl-9 pr-4 py-2.5 text-xs text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F] transition"
                 />
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-neutral-400" />
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-[#2F2F2F]/40" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-neutral-800 mb-1">
+              <label className="block text-xs font-bold text-[#00203F] mb-1">
                 Password
               </label>
               <div className="relative">
@@ -85,16 +85,16 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full border border-neutral-300 bg-neutral-50 pl-9 pr-4 py-2.5 text-xs text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900 transition"
+                  className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 pl-9 pr-4 py-2.5 text-xs text-[#00203F] focus:bg-white focus:outline-none focus:border-[#00203F] transition"
                 />
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-neutral-400" />
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-[#2F2F2F]/40" />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#00203F] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-[#36ECDE] hover:text-[#00203F] disabled:bg-[#00203F]/30 transition"
             >
               {loading ? (
                 <>
@@ -113,10 +113,10 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-neutral-200" />
+              <div className="w-full border-t border-[#00203F]/15" />
             </div>
             <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-wider">
-              <span className="bg-white px-3 text-neutral-400">or continue with</span>
+              <span className="bg-white px-3 text-[#2F2F2F]/50">or continue with</span>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ export default function LoginPage() {
               const res = await signInWithGoogle();
               if (res.error) setErrorMsg(res.error);
             }}
-            className="w-full inline-flex items-center justify-center gap-2.5 border border-neutral-300 bg-white py-3 text-xs font-bold text-neutral-800 shadow-2xs hover:bg-neutral-50 transition"
+            className="w-full inline-flex items-center justify-center gap-2.5 border border-[#00203F]/20 bg-white py-3 text-xs font-bold text-[#00203F] shadow-2xs hover:bg-[#E6E9EC] transition"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -151,9 +151,9 @@ export default function LoginPage() {
             <span>Continue with Google</span>
           </button>
 
-          <div className="border-t border-neutral-100 pt-4 text-center text-xs text-neutral-500">
+          <div className="border-t border-[#00203F]/10 pt-4 text-center text-xs text-[#2F2F2F]/70">
             <span>Don&apos;t have an account yet? </span>
-            <Link href="/register" className="font-bold text-neutral-900 hover:underline">
+            <Link href="/register" className="font-bold text-[#00203F] hover:text-[#36ECDE] hover:underline">
               Create Account
             </Link>
           </div>

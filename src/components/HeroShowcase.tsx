@@ -214,7 +214,7 @@ export default function HeroShowcase() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#F4F4F4] pt-4 pb-14 select-none">
+    <section className="relative overflow-hidden bg-[#E6E9EC] pt-4 pb-14 select-none">
 
       {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div
@@ -240,17 +240,17 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[92%] sm:w-[84%] lg:w-[78%] max-w-4xl bg-white border border-neutral-200/90 text-neutral-900 p-7 sm:p-9 lg:p-10 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[92%] sm:w-[84%] lg:w-[78%] max-w-4xl bg-white border border-[#00203F]/15 text-[#00203F] p-7 sm:p-9 lg:p-10 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
                 {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
                 <div className="mb-5 space-y-2 px-1">
-                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-neutral-900 line-clamp-1">
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#00203F] line-clamp-1">
                     {item.title}
                   </h2>
 
                   {/* Next line: Condition badge */}
                   <div>
-                    <span className="inline-block bg-emerald-50 border border-emerald-200 px-3.5 py-1 text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
+                    <span className="inline-block bg-[#36ECDE]/20 border border-[#36ECDE] px-3.5 py-1 text-[11px] font-bold text-[#00203F] uppercase tracking-wider">
                       {item.condition}
                     </span>
                   </div>
@@ -260,7 +260,7 @@ export default function HeroShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
                   
                   {/* Left Product Image Box (Taller View) */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-96 lg:h-[410px] overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-96 lg:h-[410px] overflow-hidden bg-[#E6E9EC] border border-[#00203F]/10 shadow-xs group">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -268,12 +268,12 @@ export default function HeroShowcase() {
                     />
 
                     {/* Clean Overlay Badges */}
-                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-neutral-950/80 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-md border border-neutral-800">
-                      <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-[#00203F]/90 px-3.5 py-1 text-[11px] font-bold text-[#36ECDE] backdrop-blur-md border border-[#00203F]">
+                      <ShieldCheck className="h-4 w-4 text-[#36ECDE]" />
                       <span>{item.brand} Official</span>
                     </div>
 
-                    <div className="absolute bottom-3.5 right-3.5 bg-neutral-950/80 px-3 py-1 text-[11px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
+                    <div className="absolute bottom-3.5 right-3.5 bg-[#2F2F2F]/90 px-3 py-1 text-[11px] font-mono text-[#E6E9EC] backdrop-blur-md border border-[#2F2F2F]">
                       {item.category}
                     </div>
                   </div>
@@ -282,56 +282,56 @@ export default function HeroShowcase() {
                   <div className="md:col-span-5 flex flex-col justify-between py-2 px-1 sm:px-3">
                     <div>
                       {/* Price Section */}
-                      <div className="border-b border-neutral-100 pb-4">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+                      <div className="border-b border-[#00203F]/10 pb-4">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#2F2F2F]/60 block">
                           Listing Price
                         </span>
                         <div className="flex items-baseline gap-2 mt-1">
-                          <span className="text-2xl sm:text-3xl font-black text-neutral-900 font-mono">
+                          <span className="text-2xl sm:text-3xl font-black text-[#00203F] font-mono">
                             LKR {item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
                           {item.comparePrice && (
-                            <span className="text-xs sm:text-sm text-neutral-400 line-through font-mono">
+                            <span className="text-xs sm:text-sm text-[#2F2F2F]/50 line-through font-mono">
                               LKR {item.comparePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </span>
                           )}
                         </div>
-                        <span className="text-[11px] text-emerald-600 font-bold block mt-1">
+                        <span className="text-[11px] text-[#00203F] font-bold block mt-1">
                           ✓ Escrow Verified • Tax Included
                         </span>
                       </div>
 
                       {/* Specs */}
-                      <div className="py-3 text-xs text-neutral-600">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
+                      <div className="py-3 text-xs text-[#2F2F2F]">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#2F2F2F]/60 block mb-1">
                           Specifications:
                         </span>
-                        <p className="line-clamp-2 text-[11px] leading-relaxed text-neutral-700 font-medium">
+                        <p className="line-clamp-2 text-[11px] leading-relaxed text-[#2F2F2F] font-medium">
                           {item.spec}
                         </p>
                       </div>
 
                       {/* Seller Tag */}
-                      <div className="flex items-center justify-between text-xs pt-2 border-t border-neutral-100">
+                      <div className="flex items-center justify-between text-xs pt-2 border-t border-[#00203F]/10">
                         <div className="flex items-center gap-1">
-                          <span className="text-[10px] text-neutral-400">Seller:</span>
-                          <span className="font-semibold text-neutral-800 text-[11px]">{item.seller}</span>
+                          <span className="text-[10px] text-[#2F2F2F]/60">Seller:</span>
+                          <span className="font-semibold text-[#00203F] text-[11px]">{item.seller}</span>
                           {item.verified && (
-                            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 inline" />
+                            <ShieldCheck className="h-3.5 w-3.5 text-[#00203F] inline" />
                           )}
                         </div>
-                        <div className="flex items-center gap-0.5 text-[11px] font-bold text-amber-500">
-                          <Star className="h-3 w-3 fill-amber-400" />
+                        <div className="flex items-center gap-0.5 text-[11px] font-bold text-[#00203F]">
+                          <Star className="h-3 w-3 fill-[#36ECDE] text-[#00203F]" />
                           <span>{item.rating}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="pt-4 border-t border-neutral-100 flex items-center gap-2">
+                    <div className="pt-4 border-t border-[#00203F]/10 flex items-center gap-2">
                       <Link
                         href={`/product/${item.slug}`}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 bg-neutral-900 py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#00203F] py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] shadow-sm transition"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         <span>View Gear</span>
@@ -339,7 +339,7 @@ export default function HeroShowcase() {
 
                       <Link
                         href={`/product/${item.slug}`}
-                        className="inline-flex items-center justify-center border border-neutral-300 bg-white p-3 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 shadow-2xs transition"
+                        className="inline-flex items-center justify-center border border-[#00203F]/30 bg-white p-3 text-[#00203F] hover:bg-[#E6E9EC] hover:text-[#00203F] shadow-2xs transition"
                         title="Direct Purchase"
                       >
                         <ArrowRight className="h-4 w-4" />
@@ -362,8 +362,10 @@ export default function HeroShowcase() {
               key={idx}
               type="button"
               onClick={() => setCurrentIndex(idx)}
-              className={`h-1.5 transition-all duration-500 ${ currentIndex === idx ?'w-8 bg-neutral-900'
-                  : 'w-2 bg-neutral-300 hover:bg-neutral-400'
+              className={`h-1.5 transition-all duration-500 ${
+                currentIndex === idx
+                  ? 'w-8 bg-[#00203F]'
+                  : 'w-2 bg-[#2F2F2F]/30 hover:bg-[#2F2F2F]/60'
               }`}
               aria-label={`Go to featured card ${idx + 1}`}
             />

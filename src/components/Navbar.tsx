@@ -69,20 +69,20 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-[#F4F4F4]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[#00203F]/15 bg-[#E6E9EC]/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1760px] items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Left: Minimal Logo & Primary Navigation Links */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-1.5 group">
-            <span className="text-xl font-black tracking-tighter text-neutral-900 group-hover:text-neutral-600 transition-colors">
+            <span className="text-xl font-black tracking-tighter text-[#00203F] group-hover:text-[#2F2F2F] transition-colors">
               GEAR.
             </span>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400 border border-neutral-300 px-1 py-0.5">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#00203F] bg-[#36ECDE] border border-[#00203F]/20 px-1.5 py-0.5">
               CREATOR
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium tracking-tight text-neutral-600">
+          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium tracking-tight text-[#2F2F2F]">
             {navItems.map((item) => (
               <div
                 key={item.id}
@@ -92,15 +92,18 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className={`inline-flex items-center gap-1 transition-colors ${ item.isActive ?'text-neutral-900 font-bold border-b-2 border-neutral-900 pb-0.5'
+                  className={`inline-flex items-center gap-1 transition-colors ${
+                    item.isActive
+                      ? 'text-[#00203F] font-bold border-b-2 border-[#36ECDE] pb-0.5'
                       : activeDropdown === item.id
-                      ? 'text-neutral-900 font-semibold'
-                      : 'hover:text-neutral-900'
+                      ? 'text-[#00203F] font-semibold'
+                      : 'hover:text-[#00203F]'
                   }`}
                 >
                   <span>{item.label}</span>
                   <ChevronDown
-                    className={`h-3 w-3 transition-transform duration-200 ${ activeDropdown === item.id ?'rotate-180 text-neutral-900' : 'text-neutral-400'
+                    className={`h-3 w-3 transition-transform duration-200 ${
+                      activeDropdown === item.id ? 'rotate-180 text-[#00203F]' : 'text-[#2F2F2F]/50'
                     }`}
                   />
                 </Link>
@@ -118,8 +121,10 @@ export default function Navbar() {
 
             <Link
               href="/deals"
-              className={`transition-colors py-1 ${ isDeals ?'text-emerald-700 font-bold border-b-2 border-emerald-600'
-                  : 'text-emerald-600 font-semibold hover:text-emerald-700'
+              className={`transition-colors py-1 ${
+                isDeals
+                  ? 'text-[#00203F] font-bold border-b-2 border-[#36ECDE]'
+                  : 'text-[#00203F] font-semibold hover:text-[#2F2F2F]'
               }`}
             >
               Deals
@@ -134,9 +139,9 @@ export default function Navbar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search lenses, mics, rigs..."
-            className="w-full border border-neutral-300 bg-white/80 py-1.5 pl-9 pr-4 text-xs text-neutral-800 placeholder-neutral-400 focus:border-neutral-900 focus:bg-white focus:outline-none transition-all shadow-sm"
+            className="w-full border border-[#00203F]/20 bg-white py-1.5 pl-9 pr-4 text-xs text-[#00203F] placeholder-[#2F2F2F]/50 focus:border-[#00203F] focus:bg-white focus:outline-none transition-all shadow-sm"
           />
-          <Search className="absolute left-3 top-2 h-3.5 w-3.5 text-neutral-400" />
+          <Search className="absolute left-3 top-2 h-3.5 w-3.5 text-[#00203F]/60" />
         </form>
 
         {/* Right: Actions */}
@@ -145,19 +150,19 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 href="/account"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-800 hover:text-neutral-900 px-2 py-1 transition"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00203F] hover:text-[#2F2F2F] px-2 py-1 transition"
               >
-                <div className="flex h-6 w-6 items-center justify-center bg-neutral-900 text-[10px] font-bold text-white">
+                <div className="flex h-6 w-6 items-center justify-center bg-[#00203F] text-[10px] font-bold text-[#36ECDE]">
                   {(userProfile?.full_name || authUser.email || 'U')[0].toUpperCase()}
                 </div>
-                <span className="hidden sm:inline max-w-[100px] truncate">
+                <span className="hidden sm:inline max-w-[100px] truncate text-[#00203F]">
                   {userProfile?.full_name || authUser.email?.split('@')[0]}
                 </span>
               </Link>
               <button
                 type="button"
                 onClick={() => signOut()}
-                className="text-neutral-400 hover:text-neutral-900 p-1 transition"
+                className="text-[#2F2F2F]/60 hover:text-[#00203F] p-1 transition"
                 title="Sign Out"
               >
                 <LogOut className="h-3.5 w-3.5" />
@@ -166,20 +171,20 @@ export default function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="inline-flex items-center gap-1.5 border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 transition shadow-xs"
+              className="inline-flex items-center gap-1.5 border border-[#00203F]/30 bg-white px-3 py-1.5 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition shadow-xs"
             >
-              <LogIn className="h-3.5 w-3.5 text-neutral-600" />
+              <LogIn className="h-3.5 w-3.5 text-[#00203F]" />
               <span>Sign In</span>
             </Link>
           )}
 
           <Link
             href="/cart"
-            className="relative inline-flex items-center gap-1.5 bg-neutral-900 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-neutral-800 transition shadow-sm"
+            className="relative inline-flex items-center gap-1.5 bg-[#00203F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#2F2F2F] transition shadow-sm"
           >
-            <ShoppingBag className="h-3.5 w-3.5" />
+            <ShoppingBag className="h-3.5 w-3.5 text-[#36ECDE]" />
             <span>Cart</span>
-            <span className="ml-0.5 bg-white/20 px-1.5 py-0.2 text-[10px] font-bold">
+            <span className="ml-0.5 bg-[#36ECDE] text-[#00203F] px-1.5 py-0.2 text-[10px] font-black">
               {totalItems}
             </span>
           </Link>
