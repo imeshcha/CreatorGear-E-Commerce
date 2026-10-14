@@ -343,9 +343,18 @@ export default function ProductDetailPage() {
                 </div>
 
                 <div className="text-right">
-                  <span className="rounded bg-neutral-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-600">
-                    {product.seller?.seller_type === 'business' ? 'Verified Business' : 'Creator Seller'}
+                  <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                    product.seller?.seller_type === 'business'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                      : 'bg-neutral-100 text-neutral-600'
+                  }`}>
+                    {product.seller?.seller_type === 'business' ? '🏬 Registered Shop' : 'Creator Seller'}
                   </span>
+                  {product.seller?.business_registration_number && (
+                    <span className="block mt-1 text-[10px] text-neutral-400 font-mono">
+                      BR: {product.seller.business_registration_number}
+                    </span>
+                  )}
                 </div>
               </div>
 

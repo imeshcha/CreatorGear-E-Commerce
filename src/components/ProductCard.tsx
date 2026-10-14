@@ -103,9 +103,17 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
 
         {/* Seller Info with Verified Badge */}
-        <div className="mt-2 flex items-center gap-1.5 text-xs text-neutral-600">
+        <div className="mt-2 flex items-center flex-wrap gap-1.5 text-xs text-neutral-600">
           <span className="text-[11px] text-neutral-400">Seller:</span>
           <span className="font-medium text-neutral-800">{product.seller?.store_name || 'Marketplace Seller'}</span>
+          {product.seller?.seller_type === 'business' && (
+            <span
+              className="inline-flex items-center gap-1 rounded bg-blue-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-700 border border-blue-200/60"
+              title="Registered Business / Equipment Store"
+            >
+              Shop
+            </span>
+          )}
           {product.seller?.is_verified && (
             <span
               className="inline-flex items-center gap-0.5 text-emerald-600"
