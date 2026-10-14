@@ -50,7 +50,7 @@ export default function CategoryDropdown({ data, isOpen, onClose }: CategoryDrop
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-full left-0 mt-2 w-72 sm:w-80 rounded-2xl border border-neutral-200/90 bg-white p-2 shadow-xl z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+    <div className="absolute top-full left-0 mt-2 w-72 sm:w-80 border border-neutral-200/90 bg-white p-2 shadow-xl z-50 animate-in fade-in slide-in-from-top-1 duration-150">
       <div className="space-y-1">
         {data.items.map((item, idx) => {
           const IconComponent = ICON_MAP[item.icon] || Camera;
@@ -59,10 +59,10 @@ export default function CategoryDropdown({ data, isOpen, onClose }: CategoryDrop
               key={idx}
               href={item.href}
               onClick={onClose}
-              className="group flex items-center justify-between rounded-xl p-2.5 hover:bg-neutral-100 transition-colors"
+              className="group flex items-center justify-between p-2.5 hover:bg-neutral-100 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-100 text-neutral-800 group-hover:bg-white group-hover:shadow-xs transition-all shrink-0">
+                <div className="flex h-9 w-9 items-center justify-center bg-neutral-100 text-neutral-800 group-hover:bg-white group-hover:shadow-xs transition-all shrink-0">
                   <IconComponent className="h-4 w-4" />
                 </div>
                 <div>

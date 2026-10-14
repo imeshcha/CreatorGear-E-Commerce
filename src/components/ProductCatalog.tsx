@@ -305,7 +305,7 @@ export default function ProductCatalog({
           <button
             type="button"
             onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-            className="md:hidden inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800"
+            className="md:hidden inline-flex items-center gap-1.5 border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-800"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>
@@ -316,7 +316,7 @@ export default function ProductCatalog({
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-lg border border-neutral-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-800 focus:outline-none focus:border-neutral-900"
+              className="border border-neutral-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-800 focus:outline-none focus:border-neutral-900"
             >
               <option value="recommended">Recommended</option>
               <option value="price_asc">Price: Low to High</option>
@@ -331,9 +331,8 @@ export default function ProductCatalog({
       <div className="flex flex-col md:flex-row items-start gap-7">
         {/* Left Filter Sidebar matching PDF Page 14 */}
         <aside
-          className={`${
-            mobileFilterOpen ? 'block' : 'hidden'
-          } md:block w-full md:w-60 lg:w-64 shrink-0 space-y-6 rounded-2xl border border-neutral-200/90 bg-white p-5 shadow-xs h-fit md:sticky md:top-20`}
+          className={`${ mobileFilterOpen ?'block' : 'hidden'
+          } md:block w-full md:w-60 lg:w-64 shrink-0 space-y-6 border border-neutral-200/90 bg-white p-5 shadow-xs h-fit md:sticky md:top-20`}
         >
           <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
@@ -461,7 +460,7 @@ export default function ProductCatalog({
         {/* Right Product Grid */}
         <div className="flex-1 min-w-0 w-full">
           {filteredProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-white p-12 text-center">
+            <div className="flex flex-col items-center justify-center border border-dashed border-neutral-300 bg-white p-12 text-center">
               <p className="text-sm font-semibold text-neutral-800">
                 No equipment matches your current filters.
               </p>
@@ -470,7 +469,7 @@ export default function ProductCatalog({
               </p>
               <button
                 onClick={resetFilters}
-                className="mt-4 rounded-full bg-neutral-900 px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition"
+                className="mt-4 bg-neutral-900 px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition"
               >
                 Reset All Filters
               </button>

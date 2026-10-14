@@ -55,7 +55,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
@@ -69,7 +69,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <Lock className="h-5 w-5" />
               </div>
               <div>
@@ -83,7 +83,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <Truck className="h-5 w-5" />
               </div>
               <div>
@@ -97,7 +97,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <RefreshCw className="h-5 w-5" />
               </div>
               <div>

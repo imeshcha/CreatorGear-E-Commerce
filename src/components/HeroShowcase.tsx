@@ -240,7 +240,7 @@ export default function HeroShowcase() {
                   if (!isCenter) setCurrentIndex(idx);
                 }}
                 style={style}
-                className="absolute w-[92%] sm:w-[84%] lg:w-[78%] max-w-4xl rounded-3xl bg-white border border-neutral-200/90 text-neutral-900 p-7 sm:p-9 lg:p-10 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                className="absolute w-[92%] sm:w-[84%] lg:w-[78%] max-w-4xl bg-white border border-neutral-200/90 text-neutral-900 p-7 sm:p-9 lg:p-10 shadow-xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
               >
                 {/* 1. TOP TITLE: Product Name on line 1, Condition Badge on next line */}
                 <div className="mb-5 space-y-2 px-1">
@@ -250,7 +250,7 @@ export default function HeroShowcase() {
 
                   {/* Next line: Condition badge */}
                   <div>
-                    <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1 text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
+                    <span className="inline-block bg-emerald-50 border border-emerald-200 px-3.5 py-1 text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
                       {item.condition}
                     </span>
                   </div>
@@ -260,7 +260,7 @@ export default function HeroShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
                   
                   {/* Left Product Image Box (Taller View) */}
-                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-96 lg:h-[410px] rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
+                  <div className="md:col-span-7 relative aspect-video md:aspect-auto md:h-96 lg:h-[410px] overflow-hidden bg-neutral-100 border border-neutral-200/80 shadow-xs group">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -268,12 +268,12 @@ export default function HeroShowcase() {
                     />
 
                     {/* Clean Overlay Badges */}
-                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-full bg-neutral-950/80 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-md border border-neutral-800">
+                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-neutral-950/80 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-md border border-neutral-800">
                       <ShieldCheck className="h-4 w-4 text-emerald-400" />
                       <span>{item.brand} Official</span>
                     </div>
 
-                    <div className="absolute bottom-3.5 right-3.5 rounded-md bg-neutral-950/80 px-3 py-1 text-[11px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
+                    <div className="absolute bottom-3.5 right-3.5 bg-neutral-950/80 px-3 py-1 text-[11px] font-mono text-neutral-300 backdrop-blur-md border border-neutral-800">
                       {item.category}
                     </div>
                   </div>
@@ -331,7 +331,7 @@ export default function HeroShowcase() {
                     <div className="pt-4 border-t border-neutral-100 flex items-center gap-2">
                       <Link
                         href={`/product/${item.slug}`}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 bg-neutral-900 py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 shadow-sm transition"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         <span>View Gear</span>
@@ -339,7 +339,7 @@ export default function HeroShowcase() {
 
                       <Link
                         href={`/product/${item.slug}`}
-                        className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white p-3 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 shadow-2xs transition"
+                        className="inline-flex items-center justify-center border border-neutral-300 bg-white p-3 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 shadow-2xs transition"
                         title="Direct Purchase"
                       >
                         <ArrowRight className="h-4 w-4" />
@@ -362,9 +362,7 @@ export default function HeroShowcase() {
               key={idx}
               type="button"
               onClick={() => setCurrentIndex(idx)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                currentIndex === idx
-                  ? 'w-8 bg-neutral-900'
+              className={`h-1.5 transition-all duration-500 ${ currentIndex === idx ?'w-8 bg-neutral-900'
                   : 'w-2 bg-neutral-300 hover:bg-neutral-400'
               }`}
               aria-label={`Go to featured card ${idx + 1}`}

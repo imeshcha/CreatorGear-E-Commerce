@@ -14,7 +14,7 @@ export default function CartPage() {
       <div className="min-h-screen bg-[#F4F4F4]">
         <Navbar />
         <div className="mx-auto max-w-7xl px-4 py-24 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-xs">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center bg-white shadow-xs">
             <span className="text-2xl">🎒</span>
           </div>
           <h1 className="mt-4 text-2xl font-black text-neutral-900">Your Cart is Empty</h1>
@@ -23,7 +23,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
+            className="mt-6 inline-flex items-center gap-2 bg-neutral-900 px-6 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Discover Creator Gear</span>
@@ -56,13 +56,13 @@ export default function CartPage() {
               return (
                 <div
                   key={product.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-neutral-200 bg-white p-5 shadow-xs"
                 >
                   <div className="flex items-center gap-4">
                     <img
                       src={img}
                       alt={product.name}
-                      className="h-20 w-20 shrink-0 rounded-xl object-cover bg-neutral-100"
+                      className="h-20 w-20 shrink-0 object-cover bg-neutral-100"
                     />
                     <div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
@@ -90,7 +90,7 @@ export default function CartPage() {
 
                   <div className="flex w-full sm:w-auto items-center justify-between sm:justify-end gap-6 border-t sm:border-t-0 pt-3 sm:pt-0">
                     {/* Quantity controls */}
-                    <div className="flex items-center border border-neutral-300 rounded-lg bg-neutral-50">
+                    <div className="flex items-center border border-neutral-300 bg-neutral-50">
                       <button
                         type="button"
                         onClick={() => updateQuantity(product.id, quantity - 1)}
@@ -135,7 +135,7 @@ export default function CartPage() {
 
           {/* Cart Summary */}
           <div className="lg:col-span-4">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
+            <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
               <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
                 Order Summary
               </h2>
@@ -165,13 +165,13 @@ export default function CartPage() {
 
               <Link
                 href="/checkout"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition"
+                className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
-              <div className="rounded-xl bg-neutral-50 p-3 text-[11px] text-neutral-500 space-y-1">
+              <div className="bg-neutral-50 p-3 text-[11px] text-neutral-500 space-y-1">
                 <div className="flex items-center gap-1 font-semibold text-neutral-700">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                   <span>Multi-Vendor Split Fulfillment</span>

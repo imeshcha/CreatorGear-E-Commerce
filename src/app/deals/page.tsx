@@ -55,11 +55,11 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
 
             {/* Quick Badges */}
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-neutral-600">
-              <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-1.5 border border-emerald-200 text-emerald-800">
+              <span className="inline-flex items-center gap-1 bg-emerald-50 px-3 py-1.5 border border-emerald-200 text-emerald-800">
                 <Percent className="h-3.5 w-3.5 text-emerald-600" />
                 <span>Verified Price Cuts</span>
               </span>
-              <span className="inline-flex items-center gap-1 rounded-lg bg-neutral-100 px-3 py-1.5 border border-neutral-200">
+              <span className="inline-flex items-center gap-1 bg-neutral-100 px-3 py-1.5 border border-neutral-200">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                 <span>Full Inspection Escrow</span>
               </span>
@@ -93,7 +93,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <ShieldCheck className="h-5 w-5 text-emerald-600" />
               </div>
               <div>
@@ -107,7 +107,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <Lock className="h-5 w-5 text-neutral-900" />
               </div>
               <div>
@@ -121,7 +121,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <Truck className="h-5 w-5 text-neutral-900" />
               </div>
               <div>
@@ -135,7 +135,7 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-neutral-100 p-2.5 text-neutral-900">
+              <div className="bg-neutral-100 p-2.5 text-neutral-900">
                 <RefreshCw className="h-5 w-5 text-neutral-900" />
               </div>
               <div>

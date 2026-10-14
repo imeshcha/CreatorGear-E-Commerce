@@ -164,14 +164,14 @@ export default function CheckoutPage() {
         </div>
 
         {errorMsg && (
-          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-xs font-semibold text-red-700">
+          <div className="mb-6 border border-red-200 bg-red-50 p-4 text-xs font-semibold text-red-700">
             {errorMsg}
           </div>
         )}
 
         {/* If PayHere is ready to redirect */}
         {payHerePayload && (
-          <div className="mb-8 rounded-2xl border border-neutral-300 bg-white p-6 shadow-md text-center space-y-4">
+          <div className="mb-8 border border-neutral-300 bg-white p-6 shadow-md text-center space-y-4">
             <h2 className="text-base font-bold text-neutral-900">
               PayHere Secure Gateway Ready
             </h2>
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700 shadow-md transition"
+                className="inline-flex items-center gap-2 bg-blue-600 px-8 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700 shadow-md transition"
               >
                 <span>Proceed to PayHere Hosted Checkout</span>
                 <ExternalLink className="h-4 w-4" />
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
 
         {/* If Crypto Payment is Active */}
         {cryptoOrderData && (
-          <div className="mb-8 rounded-2xl border border-neutral-300 bg-white p-6 shadow-md space-y-6">
+          <div className="mb-8 border border-neutral-300 bg-white p-6 shadow-md space-y-6">
             <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                   Send {cryptoOrderData.cryptoPayment.expectedAmountEth} ETH ({cryptoOrderData.cryptoPayment.network.toUpperCase()})
                 </h2>
               </div>
-              <span className="rounded bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 font-mono">
+              <span className="bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 font-mono">
                 Order #{cryptoOrderData.orderId}
               </span>
             </div>
@@ -230,7 +230,7 @@ export default function CheckoutPage() {
               <div className="space-y-4 text-xs">
                 <div>
                   <span className="text-neutral-500 block mb-1">Platform Receiving Wallet Address:</span>
-                  <div className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 p-2.5 font-mono text-[11px] text-neutral-800 break-all">
+                  <div className="flex items-center gap-2 border border-neutral-200 bg-neutral-50 p-2.5 font-mono text-[11px] text-neutral-800 break-all">
                     <span>{cryptoOrderData.cryptoPayment.receivingAddress}</span>
                     <button
                       type="button"
@@ -248,7 +248,7 @@ export default function CheckoutPage() {
                   {copiedAddress && <span className="text-emerald-600 font-semibold text-[10px]">Copied to clipboard!</span>}
                 </div>
 
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] text-amber-800">
+                <div className="border border-amber-200 bg-amber-50 p-3 text-[11px] text-amber-800">
                   <p className="font-bold flex items-center gap-1">
                     <AlertCircle className="h-3.5 w-3.5" /> Real JSON-RPC Blockchain Verification
                   </p>
@@ -259,7 +259,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Transaction Hash Input & Verify */}
-              <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-5 space-y-4">
+              <div className="border border-neutral-200 bg-neutral-50 p-5 space-y-4">
                 <h3 className="text-xs font-bold text-neutral-900 uppercase tracking-wider">
                   Verify Transaction Hash
                 </h3>
@@ -269,11 +269,11 @@ export default function CheckoutPage() {
                   value={txHashInput}
                   onChange={(e) => setTxHashInput(e.target.value)}
                   placeholder="0x..."
-                  className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-mono text-neutral-900 focus:outline-none focus:border-neutral-900"
+                  className="w-full border border-neutral-300 bg-white px-3 py-2 text-xs font-mono text-neutral-900 focus:outline-none focus:border-neutral-900"
                 />
 
                 {cryptoError && (
-                  <p className="text-xs font-medium text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
+                  <p className="text-xs font-medium text-red-600 bg-red-50 p-2.5 border border-red-200">
                     {cryptoError}
                   </p>
                 )}
@@ -282,7 +282,7 @@ export default function CheckoutPage() {
                   type="button"
                   onClick={handleVerifyCryptoTx}
                   disabled={verifyingTx || !txHashInput.trim()}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 disabled:bg-neutral-300 transition"
                 >
                   {verifyingTx ? (
                     <>
@@ -306,7 +306,7 @@ export default function CheckoutPage() {
           <form onSubmit={handleCheckoutSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left: Customer Information & Delivery Address */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
+              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
                   Customer & Delivery Details
                 </h2>
@@ -320,7 +320,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.customerName}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
 
@@ -332,7 +332,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.customerEmail}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
 
@@ -344,7 +344,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.customerPhone}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
 
@@ -356,7 +356,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.addressLine1}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
 
@@ -368,7 +368,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
 
@@ -380,14 +380,14 @@ export default function CheckoutPage() {
                       required
                       value={formData.postalCode}
                       onChange={handleInputChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Tri-Method Payment Selection (PDF Page 17–20) */}
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
+              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
                   Select Payment Method
                 </h2>
@@ -395,8 +395,7 @@ export default function CheckoutPage() {
                 <div className="space-y-3">
                   {/* PayHere Online Payment */}
                   <label
-                    className={`flex items-start gap-4 rounded-xl border p-4 cursor-pointer transition ${
-                      paymentMethod === 'payhere'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='payhere'
                         ? 'border-neutral-900 bg-neutral-50 shadow-xs'
                         : 'border-neutral-200 hover:border-neutral-300'
                     }`}
@@ -414,7 +413,7 @@ export default function CheckoutPage() {
                           <CreditCard className="h-4 w-4 text-blue-600" />
                           PayHere Online Gateway (Credit/Debit Card)
                         </span>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5">
                           Instant
                         </span>
                       </div>
@@ -426,8 +425,7 @@ export default function CheckoutPage() {
 
                   {/* Cryptocurrency */}
                   <label
-                    className={`flex items-start gap-4 rounded-xl border p-4 cursor-pointer transition ${
-                      paymentMethod === 'crypto'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='crypto'
                         ? 'border-neutral-900 bg-neutral-50 shadow-xs'
                         : 'border-neutral-200 hover:border-neutral-300'
                     }`}
@@ -445,7 +443,7 @@ export default function CheckoutPage() {
                           <Coins className="h-4 w-4 text-purple-600" />
                           Direct Cryptocurrency (ETH / Web3)
                         </span>
-                        <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5">
                           Sepolia / EVM
                         </span>
                       </div>
@@ -457,8 +455,7 @@ export default function CheckoutPage() {
 
                   {/* Cash on Delivery */}
                   <label
-                    className={`flex items-start gap-4 rounded-xl border p-4 cursor-pointer transition ${
-                      paymentMethod === 'cod'
+                    className={`flex items-start gap-4 border p-4 cursor-pointer transition ${ paymentMethod ==='cod'
                         ? 'border-neutral-900 bg-neutral-50 shadow-xs'
                         : 'border-neutral-200 hover:border-neutral-300'
                     }`}
@@ -476,7 +473,7 @@ export default function CheckoutPage() {
                           <Banknote className="h-4 w-4 text-emerald-600" />
                           Cash on Delivery (COD)
                         </span>
-                        <span className="text-[10px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5">
                           Courier
                         </span>
                       </div>
@@ -491,7 +488,7 @@ export default function CheckoutPage() {
 
             {/* Right: Order Summary and Pay Button */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
+              <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
                   Review Items ({totalItems})
                 </h3>
@@ -536,7 +533,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
                 >
                   {submitting ? (
                     <>

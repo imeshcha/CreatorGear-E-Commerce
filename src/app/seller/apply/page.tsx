@@ -132,13 +132,13 @@ export default function SellerApplyPage() {
         </div>
 
         {submitted ? (
-          <div className="rounded-3xl border border-neutral-200 bg-white p-8 sm:p-12 shadow-sm text-center space-y-6">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <div className="border border-neutral-200 bg-white p-8 sm:p-12 shadow-sm text-center space-y-6">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center bg-emerald-50 text-emerald-600">
               <CheckCircle2 className="h-10 w-10" />
             </div>
 
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 border border-emerald-200">
                 Verification Status: Pending Review
               </span>
               <h2 className="mt-3 text-2xl font-black text-neutral-900">
@@ -149,7 +149,7 @@ export default function SellerApplyPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6 text-left text-xs text-neutral-600 space-y-3">
+            <div className="border border-neutral-200 bg-neutral-50 p-6 text-left text-xs text-neutral-600 space-y-3">
               <h3 className="font-bold text-neutral-900 uppercase tracking-wider text-[11px]">
                 What Happens Next?
               </h3>
@@ -161,7 +161,7 @@ export default function SellerApplyPage() {
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-10 shadow-sm space-y-8">
+          <form onSubmit={handleSubmit} className="border border-neutral-200 bg-white p-6 sm:p-10 shadow-sm space-y-8">
             {/* Step 1: Seller Type Selection */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-900 mb-3">
@@ -172,15 +172,14 @@ export default function SellerApplyPage() {
                 <button
                   type="button"
                   onClick={() => setSellerType('individual')}
-                  className={`flex flex-col items-start p-5 rounded-2xl border text-left transition ${
-                    sellerType === 'individual'
+                  className={`flex flex-col items-start p-5 border text-left transition ${ sellerType ==='individual'
                       ? 'border-neutral-900 bg-neutral-900 text-white shadow-md'
                       : 'border-neutral-200 bg-neutral-50 text-neutral-800 hover:border-neutral-300'
                   }`}
                 >
-                  <UserCheck className={`h-6 w-6 mb-2 ${sellerType === 'individual' ? 'text-white' : 'text-neutral-600'}`} />
+                  <UserCheck className={`h-6 w-6 mb-2 ${sellerType ==='individual' ? 'text-white' : 'text-neutral-600'}`} />
                   <span className="font-bold text-sm">Individual Creator</span>
-                  <span className={`text-[11px] mt-1 ${sellerType === 'individual' ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                  <span className={`text-[11px] mt-1 ${sellerType ==='individual' ? 'text-neutral-300' : 'text-neutral-500'}`}>
                     For YouTubers, filmmakers, and photographers selling pre-owned equipment.
                   </span>
                 </button>
@@ -188,15 +187,14 @@ export default function SellerApplyPage() {
                 <button
                   type="button"
                   onClick={() => setSellerType('business')}
-                  className={`flex flex-col items-start p-5 rounded-2xl border text-left transition ${
-                    sellerType === 'business'
+                  className={`flex flex-col items-start p-5 border text-left transition ${ sellerType ==='business'
                       ? 'border-neutral-900 bg-neutral-900 text-white shadow-md'
                       : 'border-neutral-200 bg-neutral-50 text-neutral-800 hover:border-neutral-300'
                   }`}
                 >
-                  <Building2 className={`h-6 w-6 mb-2 ${sellerType === 'business' ? 'text-white' : 'text-neutral-600'}`} />
+                  <Building2 className={`h-6 w-6 mb-2 ${sellerType ==='business' ? 'text-white' : 'text-neutral-600'}`} />
                   <span className="font-bold text-sm">Registered Business</span>
-                  <span className={`text-[11px] mt-1 ${sellerType === 'business' ? 'text-white' : 'text-neutral-500'}`}>
+                  <span className={`text-[11px] mt-1 ${sellerType ==='business' ? 'text-white' : 'text-neutral-500'}`}>
                     For camera shops, distributors, and rental houses selling new and certified stock.
                   </span>
                 </button>
@@ -221,7 +219,7 @@ export default function SellerApplyPage() {
                     placeholder="e.g. Alex Robertson"
                     value={formData.legalName}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                   />
                 </div>
 
@@ -234,7 +232,7 @@ export default function SellerApplyPage() {
                     placeholder="e.g. Alex Cinema Gear"
                     value={formData.storeName}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                   />
                 </div>
 
@@ -247,7 +245,7 @@ export default function SellerApplyPage() {
                     placeholder="seller@domain.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                   />
                 </div>
 
@@ -260,7 +258,7 @@ export default function SellerApplyPage() {
                     placeholder="+94 77 123 4567"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                   />
                 </div>
 
@@ -275,7 +273,7 @@ export default function SellerApplyPage() {
                         placeholder="e.g. PV-88192"
                         value={formData.businessRegistrationNumber}
                         onChange={handleChange}
-                        className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                        className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                       />
                     </div>
                     <div>
@@ -286,7 +284,7 @@ export default function SellerApplyPage() {
                         placeholder="Optional"
                         value={formData.taxId}
                         onChange={handleChange}
-                        className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                        className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                       />
                     </div>
                   </>
@@ -302,7 +300,7 @@ export default function SellerApplyPage() {
                       placeholder="e.g. 199512345678"
                       value={formData.idDocumentNumber}
                       onChange={handleChange}
-                      className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                      className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                     />
                   </div>
                 )}
@@ -330,9 +328,7 @@ export default function SellerApplyPage() {
                 />
                 <label
                   htmlFor="kyc-file"
-                  className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center cursor-pointer transition ${
-                    selectedFile
-                      ? 'border-emerald-500 bg-emerald-50/50'
+                  className={`flex flex-col items-center justify-center border-2 border-dashed p-6 text-center cursor-pointer transition ${ selectedFile ?'border-emerald-500 bg-emerald-50/50'
                       : 'border-neutral-300 bg-neutral-50 hover:bg-neutral-100'
                   }`}
                 >
@@ -375,7 +371,7 @@ export default function SellerApplyPage() {
                     name="payoutBank"
                     value={formData.payoutBank}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:outline-none"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:outline-none"
                   >
                     <option value="Commercial Bank of Ceylon">Commercial Bank of Ceylon</option>
                     <option value="Hatton National Bank">Hatton National Bank</option>
@@ -393,7 +389,7 @@ export default function SellerApplyPage() {
                     placeholder="Account number or 0x..."
                     value={formData.payoutAccount}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
+                    className="w-full border border-neutral-300 bg-neutral-50 px-3 py-2 text-neutral-900 focus:bg-white focus:outline-none focus:border-neutral-900"
                   />
                 </div>
               </div>
@@ -403,7 +399,7 @@ export default function SellerApplyPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
+              className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-300 transition"
             >
               {submitting ? (
                 <>

@@ -35,32 +35,32 @@ export default function ProductCard({ product }: ProductCardProps) {
   const getConditionBadge = () => {
     switch (product.condition) {
       case 'new':
-        return <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">New</span>;
+        return <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">New</span>;
       case 'used':
         return (
-          <span className="bg-amber-50 text-amber-700 border border-amber-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+          <span className="bg-amber-50 text-amber-700 border border-amber-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
             Used {product.condition_grade ? `• ${product.condition_grade.replace('_', ' ')}` : ''}
           </span>
         );
       case 'refurbished':
-        return <span className="bg-blue-50 text-blue-700 border border-blue-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Refurbished</span>;
+        return <span className="bg-blue-50 text-blue-700 border border-blue-200/60 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">Refurbished</span>;
     }
   };
 
   return (
-    <div className="group relative flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-4 sm:p-5 transition-all duration-300 hover:border-neutral-400 hover:shadow-lg">
+    <div className="group relative flex flex-col justify-between border border-neutral-200/80 bg-white p-4 sm:p-5 transition-all duration-300 hover:border-neutral-400 hover:shadow-lg">
       <div>
         {/* Top bar on image: Condition & Wishlist */}
-        <div className="relative mb-3 aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
+        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-neutral-100">
           <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">
             {getConditionBadge()}
             {product.stock_quantity === 0 && (
-              <span className="bg-red-50 text-red-600 border border-red-200 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+              <span className="bg-red-50 text-red-600 border border-red-200 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
                 Out of Stock
               </span>
             )}
             {product.stock_quantity > 0 && product.stock_quantity <= product.low_stock_threshold && (
-              <span className="bg-orange-50 text-orange-600 border border-orange-200 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+              <span className="bg-orange-50 text-orange-600 border border-orange-200 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
                 Only {product.stock_quantity} Left
               </span>
             )}
@@ -72,10 +72,10 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.preventDefault();
               setIsWishlisted(!isWishlisted);
             }}
-            className="absolute top-2.5 right-2.5 z-10 rounded-full bg-white/80 p-2 text-neutral-600 backdrop-blur-xs transition hover:bg-white hover:text-red-500 shadow-xs"
+            className="absolute top-2.5 right-2.5 z-10 bg-white/80 p-2 text-neutral-600 backdrop-blur-xs transition hover:bg-white hover:text-red-500 shadow-xs"
             aria-label="Save to Wishlist"
           >
-            <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
+            <Heart className={`h-4 w-4 ${isWishlisted ?'fill-red-500 text-red-500' : ''}`} />
           </button>
 
           {/* Product Image */}
@@ -108,7 +108,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className="font-medium text-neutral-800">{product.seller?.store_name || 'Marketplace Seller'}</span>
           {product.seller?.seller_type === 'business' && (
             <span
-              className="inline-flex items-center gap-1 rounded bg-blue-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-700 border border-blue-200/60"
+              className="inline-flex items-center gap-1 bg-blue-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-700 border border-blue-200/60"
               title="Registered Business / Equipment Store"
             >
               Shop
@@ -160,7 +160,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-center gap-1.5 shrink-0">
           <Link
             href={`/product/${product.slug}`}
-            className="rounded-lg border border-neutral-200 bg-neutral-50 p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition"
+            className="border border-neutral-200 bg-neutral-50 p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition"
             title="View Details"
           >
             <Eye className="h-4 w-4" />
@@ -170,9 +170,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             type="button"
             onClick={handleAddToCart}
             disabled={product.stock_quantity === 0}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold transition-all shadow-xs ${
-              product.stock_quantity === 0
-                ? 'cursor-not-allowed bg-neutral-200 text-neutral-400'
+            className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold transition-all shadow-xs ${ product.stock_quantity === 0 ?'cursor-not-allowed bg-neutral-200 text-neutral-400'
                 : addedAnimation
                 ? 'bg-emerald-600 text-white'
                 : 'bg-neutral-900 text-white hover:bg-neutral-800'

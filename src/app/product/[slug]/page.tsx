@@ -48,7 +48,7 @@ export default function ProductDetailPage() {
       <div className="min-h-screen bg-[#F4F4F4]">
         <Navbar />
         <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-900" />
+          <div className="inline-block h-8 w-8 animate-spin border-4 border-neutral-300 border-t-neutral-900" />
           <p className="mt-4 text-xs font-semibold text-neutral-500">Loading equipment specifications...</p>
         </div>
       </div>
@@ -64,7 +64,7 @@ export default function ProductDetailPage() {
           <p className="mt-2 text-xs text-neutral-500">The requested gear listing may have been sold or archived.</p>
           <Link
             href="/"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
+            className="mt-6 inline-flex items-center gap-2 bg-neutral-900 px-5 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Return to Marketplace</span>
@@ -117,14 +117,14 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left: Product Images & Gallery */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
+            <div className="relative aspect-4/3 w-full overflow-hidden border border-neutral-200 bg-white p-4 shadow-sm">
               <img
                 src={images[selectedImageIndex]?.storage_path || images[0].storage_path}
                 alt={product.name}
                 className="h-full w-full object-contain object-center transition-all duration-300"
               />
               {product.condition === 'used' && (
-                <div className="absolute top-4 left-4 rounded-full bg-amber-500/90 text-white px-3 py-1 text-[11px] font-bold tracking-wider uppercase backdrop-blur-xs">
+                <div className="absolute top-4 left-4 bg-amber-500/90 text-white px-3 py-1 text-[11px] font-bold tracking-wider uppercase backdrop-blur-xs">
                   Actual Photos of Used Item
                 </div>
               )}
@@ -138,9 +138,7 @@ export default function ProductDetailPage() {
                     key={img.id || idx}
                     type="button"
                     onClick={() => setSelectedImageIndex(idx)}
-                    className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-white transition ${
-                      selectedImageIndex === idx
-                        ? 'border-neutral-900 shadow-md'
+                    className={`relative h-20 w-20 shrink-0 overflow-hidden border-2 bg-white transition ${ selectedImageIndex === idx ?'border-neutral-900 shadow-md'
                         : 'border-neutral-200 opacity-70 hover:opacity-100'
                     }`}
                   >
@@ -156,7 +154,7 @@ export default function ProductDetailPage() {
 
             {/* Pre-Owned / Condition Disclosures Card (PDF Page 9) */}
             {(product.condition === 'used' || product.condition === 'refurbished') && (
-              <div className="rounded-2xl border border-amber-200/80 bg-amber-50/50 p-6 shadow-xs space-y-4">
+              <div className="border border-amber-200/80 bg-amber-50/50 p-6 shadow-xs space-y-4">
                 <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
                   <Info className="h-4 w-4 text-amber-600" />
                   <span>Verified Condition & Usage Disclosures</span>
@@ -197,7 +195,7 @@ export default function ProductDetailPage() {
             )}
 
             {/* Technical Specifications Table (PDF Page 10) */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs">
+            <div className="border border-neutral-200 bg-white p-6 shadow-xs">
               <h3 className="text-sm font-bold uppercase tracking-wider text-neutral-900 mb-4">
                 Technical Specifications
               </h3>
@@ -214,7 +212,7 @@ export default function ProductDetailPage() {
 
           {/* Right: Purchase Controls & Seller Identity */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-6">
+            <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-6">
               {/* Brand & Title */}
               <div>
                 <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">
@@ -236,7 +234,7 @@ export default function ProductDetailPage() {
                       LKR {product.compare_at_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   )}
-                  <span className="rounded bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">
+                  <span className="bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">
                     Tax Included
                   </span>
                 </div>
@@ -264,7 +262,7 @@ export default function ProductDetailPage() {
                     <select
                       value={quantity}
                       onChange={(e) => setQuantity(Number(e.target.value))}
-                      className="rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-900 focus:outline-none"
+                      className="border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-900 focus:outline-none"
                     >
                       {Array.from({ length: Math.min(product.stock_quantity, 5) }).map((_, i) => (
                         <option key={i + 1} value={i + 1}>
@@ -282,7 +280,7 @@ export default function ProductDetailPage() {
                   type="button"
                   onClick={handleAddToCart}
                   disabled={product.stock_quantity === 0}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-200 disabled:text-neutral-400 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-neutral-900 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 disabled:bg-neutral-200 disabled:text-neutral-400 transition"
                 >
                   <ShoppingBag className="h-4 w-4" />
                   <span>Add to Cart</span>
@@ -292,7 +290,7 @@ export default function ProductDetailPage() {
                   type="button"
                   onClick={handleBuyNow}
                   disabled={product.stock_quantity === 0}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-900 bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-neutral-900 hover:bg-neutral-50 disabled:border-neutral-200 disabled:text-neutral-400 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 border border-neutral-900 bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-neutral-900 hover:bg-neutral-50 disabled:border-neutral-200 disabled:text-neutral-400 transition"
                 >
                   <span>Instant Checkout</span>
                 </button>
@@ -324,7 +322,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Seller Profile Card (PDF Page 2 & 3) */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
+            <div className="border border-neutral-200 bg-white p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
@@ -335,7 +333,7 @@ export default function ProductDetailPage() {
                       {product.seller?.store_name}
                     </h3>
                     {product.seller?.is_verified && (
-                      <span className="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold px-2 py-0.5">
                         <ShieldCheck className="h-3 w-3 text-emerald-600" /> Verified Seller
                       </span>
                     )}
@@ -343,8 +341,7 @@ export default function ProductDetailPage() {
                 </div>
 
                 <div className="text-right">
-                  <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                    product.seller?.seller_type === 'business'
+                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${ product.seller?.seller_type ==='business'
                       ? 'bg-blue-50 text-blue-700 border border-blue-200'
                       : 'bg-neutral-100 text-neutral-600'
                   }`}>

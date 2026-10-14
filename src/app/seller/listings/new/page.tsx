@@ -265,14 +265,14 @@ export default function NewListingPage() {
         </div>
 
         {errorMsg && (
-          <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-xs font-semibold text-red-700 flex items-center gap-2">
+          <div className="mb-6 border border-red-200 bg-red-50 p-4 text-xs font-semibold text-red-700 flex items-center gap-2">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
 
         {successMsg && (
-          <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-700 flex items-center gap-2">
+          <div className="mb-6 border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-700 flex items-center gap-2">
             <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
             <span>{successMsg}</span>
           </div>
@@ -280,7 +280,7 @@ export default function NewListingPage() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Section 1: Media Storage Upload */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-4">
+          <div className="border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-4">
             <div>
               <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
                 1. Equipment Photos (Supabase Media Storage)
@@ -291,7 +291,7 @@ export default function NewListingPage() {
             </div>
 
             {/* Upload Zone */}
-            <label className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50/60 p-8 text-center cursor-pointer hover:border-neutral-900 hover:bg-neutral-50 transition">
+            <label className="flex flex-col items-center justify-center border-2 border-dashed border-neutral-300 bg-neutral-50/60 p-8 text-center cursor-pointer hover:border-neutral-900 hover:bg-neutral-50 transition">
               <Upload className="h-8 w-8 text-neutral-400 mb-2" />
               <span className="text-xs font-bold text-neutral-800">
                 Click to browse gear images or drag & drop
@@ -312,21 +312,21 @@ export default function NewListingPage() {
             {imagePreviews.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                 {imagePreviews.map((preview, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-neutral-200 bg-neutral-100 aspect-square">
+                  <div key={idx} className="relative group overflow-hidden border border-neutral-200 bg-neutral-100 aspect-square">
                     <img
                       src={preview}
                       alt={`Upload preview ${idx + 1}`}
                       className="h-full w-full object-cover"
                     />
                     {idx === 0 && (
-                      <span className="absolute top-1.5 left-1.5 rounded-full bg-neutral-900 text-white text-[9px] font-bold px-2 py-0.5">
+                      <span className="absolute top-1.5 left-1.5 bg-neutral-900 text-white text-[9px] font-bold px-2 py-0.5">
                         Primary Cover
                       </span>
                     )}
                     <button
                       type="button"
                       onClick={() => removeImage(idx)}
-                      className="absolute top-1.5 right-1.5 rounded-full bg-white/90 p-1 text-red-600 shadow hover:bg-red-600 hover:text-white transition"
+                      className="absolute top-1.5 right-1.5 bg-white/90 p-1 text-red-600 shadow hover:bg-red-600 hover:text-white transition"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -337,7 +337,7 @@ export default function NewListingPage() {
           </div>
 
           {/* Section 2: Core Details */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
               2. Gear Identification & Pricing
             </h2>
@@ -353,7 +353,7 @@ export default function NewListingPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Sony FX3 Cinema Line Full-Frame Camera Body"
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                  className="w-full border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                 />
               </div>
 
@@ -365,7 +365,7 @@ export default function NewListingPage() {
                   <select
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -382,7 +382,7 @@ export default function NewListingPage() {
                   <select
                     value={brandId}
                     onChange={(e) => setBrandId(e.target.value)}
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   >
                     {brands.map((b) => (
                       <option key={b.id} value={b.id}>
@@ -407,7 +407,7 @@ export default function NewListingPage() {
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                       placeholder="350000.00"
-                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono font-bold text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                      className="w-full border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono font-bold text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                     />
                   </div>
                 </div>
@@ -424,7 +424,7 @@ export default function NewListingPage() {
                       value={compareAtPrice}
                       onChange={(e) => setCompareAtPrice(e.target.value)}
                       placeholder="390000.00"
-                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                      className="w-full border border-neutral-200 bg-neutral-50 pl-11 pr-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                     />
                   </div>
                 </div>
@@ -438,7 +438,7 @@ export default function NewListingPage() {
                     min="1"
                     value={stockQuantity}
                     onChange={(e) => setStockQuantity(e.target.value)}
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   />
                 </div>
               </div>
@@ -446,7 +446,7 @@ export default function NewListingPage() {
           </div>
 
           {/* Section 3: Condition & Disclosures */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
               3. Condition Grade & Disclosures
             </h2>
@@ -457,9 +457,7 @@ export default function NewListingPage() {
                   key={c}
                   type="button"
                   onClick={() => setCondition(c)}
-                  className={`py-3 rounded-2xl border text-xs font-bold uppercase tracking-wider transition ${
-                    condition === c
-                      ? 'border-neutral-900 bg-neutral-900 text-white'
+                  className={`py-3 border text-xs font-bold uppercase tracking-wider transition ${ condition === c ?'border-neutral-900 bg-neutral-900 text-white'
                       : 'border-neutral-200 bg-neutral-50 text-neutral-700 hover:border-neutral-300'
                   }`}
                 >
@@ -477,7 +475,7 @@ export default function NewListingPage() {
                   <select
                     value={conditionGrade}
                     onChange={(e: any) => setConditionGrade(e.target.value)}
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   >
                     <option value="like_new">Like New (Mint, zero cosmetic marks)</option>
                     <option value="excellent">Excellent (Light signs of studio use, immaculate optics)</option>
@@ -495,7 +493,7 @@ export default function NewListingPage() {
                     value={usageDetails}
                     onChange={(e) => setUsageDetails(e.target.value)}
                     placeholder="e.g. Shutter count: 4,120 actuations. Sensor and sensor glass pristine."
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   />
                 </div>
 
@@ -508,7 +506,7 @@ export default function NewListingPage() {
                     value={knownDefects}
                     onChange={(e) => setKnownDefects(e.target.value)}
                     placeholder="e.g. Slight paint rub on tripod mount plate area; no scratches on glass."
-                    className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   />
                 </div>
               </div>
@@ -524,7 +522,7 @@ export default function NewListingPage() {
                   value={includedAccessories}
                   onChange={(e) => setIncludedAccessories(e.target.value)}
                   placeholder="e.g. Original box, XLR top handle, 2x batteries, wall charger, front cap"
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                  className="w-full border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                 />
               </div>
 
@@ -537,14 +535,14 @@ export default function NewListingPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Provide comprehensive details about the gear, past usage, and filming capabilities..."
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                  className="w-full border border-neutral-200 bg-neutral-50 p-3 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                 />
               </div>
             </div>
           </div>
 
           {/* Section 4: Specifications & Attributes */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-4">
+          <div className="border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
@@ -558,7 +556,7 @@ export default function NewListingPage() {
               <button
                 type="button"
                 onClick={addAttribute}
-                className="inline-flex items-center gap-1 rounded-full border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
+                className="inline-flex items-center gap-1 border border-neutral-300 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
               >
                 <Plus className="h-3.5 w-3.5" />
                 <span>Add Spec</span>
@@ -573,14 +571,14 @@ export default function NewListingPage() {
                     value={attr.name}
                     onChange={(e) => updateAttribute(idx, 'name', e.target.value)}
                     placeholder="Spec Name (e.g. Mount)"
-                    className="w-1/2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-1/2 border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   />
                   <input
                     type="text"
                     value={attr.value}
                     onChange={(e) => updateAttribute(idx, 'value', e.target.value)}
                     placeholder="Value (e.g. Sony E)"
-                    className="w-1/2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
+                    className="w-1/2 border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 focus:outline-none focus:bg-white focus:border-neutral-900"
                   />
                   <button
                     type="button"
@@ -598,7 +596,7 @@ export default function NewListingPage() {
           <div className="flex items-center justify-end gap-3 pt-4">
             <Link
               href="/account"
-              className="rounded-xl border border-neutral-300 bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-neutral-700 hover:bg-neutral-50 transition"
+              className="border border-neutral-300 bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-neutral-700 hover:bg-neutral-50 transition"
             >
               Cancel
             </Link>
@@ -606,7 +604,7 @@ export default function NewListingPage() {
             <button
               type="submit"
               disabled={uploading}
-              className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 px-8 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-neutral-900 px-8 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition disabled:opacity-50"
             >
               {uploading ? (
                 <>

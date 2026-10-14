@@ -96,7 +96,7 @@ export default function AccountPage() {
       <div className="min-h-screen bg-[#F4F4F4]">
         <Navbar />
         <div className="mx-auto max-w-md px-4 py-24 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-xs border border-neutral-200">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center bg-white shadow-xs border border-neutral-200">
             <UserIcon className="h-7 w-7 text-neutral-600" />
           </div>
           <h1 className="mt-4 text-2xl font-black text-neutral-900">
@@ -109,7 +109,7 @@ export default function AccountPage() {
           <div className="mt-6 flex flex-col gap-2.5">
             <Link
               href="/login"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition"
+              className="inline-flex items-center justify-center gap-2 bg-neutral-900 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-neutral-800 transition"
             >
               <LogIn className="h-4 w-4" />
               <span>Sign In to CreatorGear</span>
@@ -117,7 +117,7 @@ export default function AccountPage() {
 
             <Link
               href="/register"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white py-3 text-xs font-bold uppercase tracking-wider text-neutral-800 hover:bg-neutral-50 transition"
+              className="inline-flex items-center justify-center border border-neutral-300 bg-white py-3 text-xs font-bold uppercase tracking-wider text-neutral-800 hover:bg-neutral-50 transition"
             >
               <span>Create New Account</span>
             </Link>
@@ -140,9 +140,9 @@ export default function AccountPage() {
 
       <main className="mx-auto max-w-[1760px] px-4 py-8 sm:px-6 lg:px-8">
         {/* Real User Header */}
-        <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="border border-neutral-200 bg-white p-6 sm:p-8 shadow-xs mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-neutral-900 text-white text-lg font-bold">
+            <div className="flex h-14 w-14 items-center justify-center bg-neutral-900 text-white text-lg font-bold">
               {userInitials}
             </div>
             <div>
@@ -151,16 +151,16 @@ export default function AccountPage() {
                   {userProfile?.full_name || 'Creator'}
                 </h1>
                 {sellerProfile?.is_verified ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+                  <span className="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
                     <ShieldCheck className="h-3 w-3 text-emerald-600" />
                     Verified Seller
                   </span>
                 ) : sellerProfile ? (
-                  <span className="inline-flex items-center rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-bold text-amber-800">
+                  <span className="inline-flex items-center bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-bold text-amber-800">
                     Seller (Pending Verification)
                   </span>
                 ) : (
-                  <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold text-neutral-600">
+                  <span className="inline-flex items-center bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold text-neutral-600">
                     Customer Account
                   </span>
                 )}
@@ -175,7 +175,7 @@ export default function AccountPage() {
             {!sellerProfile && (
               <Link
                 href="/seller/apply"
-                className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 transition shadow-2xs"
+                className="inline-flex items-center gap-1.5 border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 transition shadow-2xs"
               >
                 <PlusCircle className="h-3.5 w-3.5 text-neutral-600" />
                 <span>Apply as Seller</span>
@@ -185,7 +185,7 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={() => signOut()}
-              className="rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition"
+              className="border border-neutral-200 bg-neutral-50 px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition"
             >
               Sign Out
             </button>
@@ -197,8 +197,7 @@ export default function AccountPage() {
           <button
             type="button"
             onClick={() => setActiveTab('buyer')}
-            className={`flex items-center gap-2 pb-3 px-4 text-xs font-bold uppercase tracking-wider transition ${
-              activeTab === 'buyer'
+            className={`flex items-center gap-2 pb-3 px-4 text-xs font-bold uppercase tracking-wider transition ${ activeTab ==='buyer'
                 ? 'border-b-2 border-neutral-900 text-neutral-900'
                 : 'text-neutral-400 hover:text-neutral-700'
             }`}
@@ -210,8 +209,7 @@ export default function AccountPage() {
           <button
             type="button"
             onClick={() => setActiveTab('seller')}
-            className={`flex items-center gap-2 pb-3 px-4 text-xs font-bold uppercase tracking-wider transition ${
-              activeTab === 'seller'
+            className={`flex items-center gap-2 pb-3 px-4 text-xs font-bold uppercase tracking-wider transition ${ activeTab ==='seller'
                 ? 'border-b-2 border-neutral-900 text-neutral-900'
                 : 'text-neutral-400 hover:text-neutral-700'
             }`}
@@ -224,7 +222,7 @@ export default function AccountPage() {
         {/* Tab 1: Buyer Activity */}
         {activeTab === 'buyer' && (
           <div className="space-y-4">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs">
+            <div className="border border-neutral-200 bg-white p-6 shadow-xs">
               <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900 mb-4">
                 Your Placed Orders
               </h2>
@@ -245,7 +243,7 @@ export default function AccountPage() {
                   </p>
                   <Link
                     href="/"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-5 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition"
+                    className="inline-flex items-center gap-1.5 bg-neutral-900 px-5 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition"
                   >
                     <span>Browse Equipment</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -258,7 +256,7 @@ export default function AccountPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-mono font-bold text-neutral-900">{ord.id}</span>
-                          <span className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.2 text-[10px] font-bold uppercase">
+                          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.2 text-[10px] font-bold uppercase">
                             {ord.order_status}
                           </span>
                         </div>
@@ -287,7 +285,7 @@ export default function AccountPage() {
         {activeTab === 'seller' && (
           <div className="space-y-6">
             {!sellerProfile ? (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-12 text-center space-y-4 shadow-xs">
+              <div className="border border-neutral-200 bg-white p-12 text-center space-y-4 shadow-xs">
                 <ShieldCheck className="mx-auto h-12 w-12 text-neutral-300" />
                 <h3 className="text-base font-bold text-neutral-900">
                   Seller Profile Not Activated
@@ -297,7 +295,7 @@ export default function AccountPage() {
                 </p>
                 <Link
                   href="/seller/apply"
-                  className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
+                  className="inline-flex items-center gap-2 bg-neutral-900 px-6 py-2.5 text-xs font-bold text-white hover:bg-neutral-800 transition"
                 >
                   <PlusCircle className="h-4 w-4" />
                   <span>Start Seller Verification</span>
@@ -306,7 +304,7 @@ export default function AccountPage() {
             ) : (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs">
+                  <div className="border border-neutral-200 bg-white p-5 shadow-xs">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
                       Store Name
                     </span>
@@ -318,7 +316,7 @@ export default function AccountPage() {
                     </span>
                   </div>
 
-                  <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs">
+                  <div className="border border-neutral-200 bg-white p-5 shadow-xs">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
                       Commission Rate
                     </span>
@@ -330,7 +328,7 @@ export default function AccountPage() {
                     </span>
                   </div>
 
-                  <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-xs">
+                  <div className="border border-neutral-200 bg-white p-5 shadow-xs">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">
                       Completed Orders
                     </span>
@@ -344,7 +342,7 @@ export default function AccountPage() {
                 </div>
 
                 {/* Seller Equipment Listings */}
-                <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs">
+                <div className="border border-neutral-200 bg-white p-6 shadow-xs">
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
@@ -357,7 +355,7 @@ export default function AccountPage() {
 
                     <Link
                       href="/seller/listings/new"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition shadow-xs"
+                      className="inline-flex items-center gap-1.5 bg-neutral-900 px-4 py-2 text-xs font-bold text-white hover:bg-neutral-800 transition shadow-xs"
                     >
                       <PlusCircle className="h-3.5 w-3.5" />
                       <span>Create Gear Listing</span>
@@ -365,7 +363,7 @@ export default function AccountPage() {
                   </div>
 
                   {realListings.length === 0 ? (
-                    <div className="py-8 text-center text-xs text-neutral-400 border border-dashed border-neutral-200 rounded-xl">
+                    <div className="py-8 text-center text-xs text-neutral-400 border border-dashed border-neutral-200">
                       No gear listings published yet. Click &quot;Create Gear Listing&quot; to upload equipment photos to Supabase Storage and publish specs.
                     </div>
                   ) : (
@@ -373,7 +371,7 @@ export default function AccountPage() {
                       {realListings.map((item) => (
                         <div key={item.id} className="py-3.5 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <div className="h-12 w-12 rounded-xl bg-neutral-100 border border-neutral-200 overflow-hidden shrink-0 flex items-center justify-center">
+                            <div className="h-12 w-12 bg-neutral-100 border border-neutral-200 overflow-hidden shrink-0 flex items-center justify-center">
                               {item.images && item.images[0]?.storage_path ? (
                                 <img
                                   src={item.images[0].storage_path}
@@ -416,7 +414,7 @@ export default function AccountPage() {
                 </div>
 
                 {/* Real Seller Financial Ledger */}
-                <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs">
+                <div className="border border-neutral-200 bg-white p-6 shadow-xs">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-neutral-900 mb-4">
                     Seller Financial Ledger (seller_ledger)
                   </h3>
@@ -438,8 +436,7 @@ export default function AccountPage() {
                             </span>
                           </div>
                           <span
-                            className={`font-mono font-bold ${
-                              entry.amount >= 0 ? 'text-emerald-600' : 'text-red-500'
+                            className={`font-mono font-bold ${ entry.amount >= 0 ?'text-emerald-600' : 'text-red-500'
                             }`}
                           >
                             LKR {Math.abs(entry.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
