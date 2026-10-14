@@ -61,7 +61,6 @@ export default function Navbar() {
   const isAudio = pathname === '/category/audio' || pathname === '/category/audio-equipment';
   const isLighting = pathname === '/category/lighting' || pathname === '/category/lighting-and-studio';
   const isStudio = pathname === '/category/studio-sets' || pathname === '/category/video-production';
-  const isDeals = pathname === '/deals';
 
   const navItems = [
     { id: 'cameras', label: 'Cameras', href: '/category/cameras', isActive: isCameras },
@@ -120,17 +119,6 @@ export default function Navbar() {
                 )}
               </div>
             ))}
-
-            <Link
-              href="/deals"
-              className={`transition-colors py-1 ${
-                isDeals
-                  ? 'text-[#00203F] font-bold border-b-2 border-[#36ECDE]'
-                  : 'text-[#00203F] font-semibold hover:text-[#2F2F2F]'
-              }`}
-            >
-              Deals
-            </Link>
           </nav>
         </div>
 
