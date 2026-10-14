@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { getProductBySlug } from '@/lib/db/products';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import {
@@ -22,6 +23,7 @@ import {
   MessageSquare,
   Send,
   Loader2,
+  Heart,
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -30,8 +32,10 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
   const { addToCart } = useCart();
   const { authUser } = useAuth();
+  const { isWishlisted: checkWishlist, toggleWishlist } = useWishlist();
 
   const [product, setProduct] = useState<Product | null>(null);
+  const isWishlisted = product ? checkWishlist(product.id) : false;
   const [loading, setLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -363,6 +367,19 @@ export default function ProductDetailPage() {
                   className="w-full inline-flex items-center justify-center gap-2 border-2 border-[#00203F] bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#00203F] hover:bg-[#00203F] hover:text-white disabled:border-[#00203F]/20 disabled:text-[#2F2F2F]/40 transition-colors"
                 >
                   <span>Instant Checkout</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => toggleWishlist(product)}
+                  className={`w-full inline-flex items-center justify-center gap-2 border py-2.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-2xs ${
+                    isWishlisted
+                      ? 'border-[#36ECDE] bg-[#36ECDE]/20 text-[#00203F]'
+                      : 'border-[#00203F]/20 bg-white text-[#00203F] hover:bg-[#E6E9EC]'
+                  }`}
+                >
+                  <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-[#00203F] text-[#00203F]' : ''}`} />
+                  <span>{isWishlisted ? 'Saved to Favorites' : 'Add to Favorites'}</span>
                 </button>
 
                 {addedToast && (

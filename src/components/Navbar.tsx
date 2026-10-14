@@ -4,8 +4,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { useAuth } from '@/context/AuthContext';
-import { Search, ShoppingBag, User, LogIn, LogOut, ChevronDown } from 'lucide-react';
+import { Search, ShoppingBag, User, LogIn, LogOut, ChevronDown, Heart } from 'lucide-react';
 import { CATEGORY_DROPDOWN_DATA } from '@/data/navigation-categories';
 import CategoryDropdown from '@/components/CategoryDropdown';
 
@@ -13,6 +14,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { totalItems } = useCart();
+  const { totalWishlist } = useWishlist();
   const { authUser, userProfile, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -177,6 +179,20 @@ export default function Navbar() {
               <span>Sign In</span>
             </Link>
           )}
+
+          <Link
+            href="/wishlist"
+            className="relative inline-flex items-center gap-1.5 border border-[#00203F]/20 bg-white px-3 py-1.5 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition shadow-2xs"
+            title="Saved Favorites"
+          >
+            <Heart className={`h-3.5 w-3.5 ${totalWishlist > 0 ? 'fill-[#00203F] text-[#00203F]' : 'text-[#00203F]'}`} />
+            <span className="hidden sm:inline">Favorites</span>
+            {totalWishlist > 0 && (
+              <span className="ml-0.5 bg-[#00203F] text-[#36ECDE] px-1.5 py-0.2 text-[10px] font-black">
+                {totalWishlist}
+              </span>
+            )}
+          </Link>
 
           <Link
             href="/cart"

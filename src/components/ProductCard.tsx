@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { Heart, Star, ShieldCheck, ShoppingBag, Eye, Check } from 'lucide-react';
 
 interface ProductCardProps {
@@ -13,7 +14,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { isWishlisted: checkWishlist, toggleWishlist } = useWishlist();
+  const isWishlisted = checkWishlist(product.id);
   const [addedAnimation, setAddedAnimation] = useState(false);
 
   const primaryImage = product.images.find(img => img.is_primary)?.storage_path || product.images[0]?.storage_path || 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80';
@@ -70,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             type="button"
             onClick={(e) => {
               e.preventDefault();
-              setIsWishlisted(!isWishlisted);
+              toggleWishlist(product);
             }}
             className="absolute top-2.5 right-2.5 z-10 bg-white/90 p-2 text-[#00203F] backdrop-blur-xs transition hover:bg-[#36ECDE] hover:text-[#00203F] shadow-xs"
             aria-label="Save to Wishlist"
