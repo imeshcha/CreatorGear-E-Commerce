@@ -214,11 +214,20 @@ export default function HeroShowcase() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#E6E9EC] pt-4 pb-14 select-none">
+    <section className="relative overflow-hidden bg-[#00203F] pt-8 pb-16 select-none border-b border-[#00203F]/20">
+      {/* High-Resolution Cinematic Film Studio Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
+        style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
+      />
+      {/* Cinematic Studio Lighting Overlays */}
+      <div className="absolute inset-0 z-0 bg-[#00203F]/65 backdrop-blur-[0.5px]" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#00203F]/85 via-transparent to-[#00203F]/90" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#00203F]/80 via-transparent to-[#00203F]/80" />
 
       {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div
-        className="relative mx-auto max-w-7xl px-6 sm:px-12 md:px-16 lg:px-24"
+        className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12 md:px-16 lg:px-24"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={handleTouchStart}
@@ -226,6 +235,25 @@ export default function HeroShowcase() {
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
       >
+        {/* Left Arrow Navigation Button */}
+        <button
+          type="button"
+          onClick={prevCard}
+          className="hidden sm:flex absolute -left-2 md:left-2 top-1/2 -translate-y-1/2 z-40 bg-[#00203F]/85 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
+          aria-label="Previous Featured Gear"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+
+        {/* Right Arrow Navigation Button */}
+        <button
+          type="button"
+          onClick={nextCard}
+          className="hidden sm:flex absolute -right-2 md:right-2 top-1/2 -translate-y-1/2 z-40 bg-[#00203F]/85 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
+          aria-label="Next Featured Gear"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
 
         {/* 3D Stage Viewport with Increased Height */}
         <div className="relative min-h-[660px] sm:h-[640px] lg:h-[620px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
@@ -356,7 +384,7 @@ export default function HeroShowcase() {
 
 
         {/* Bottom Step Indicator Dots */}
-        <div className="mt-4 flex items-center justify-center gap-2">
+        <div className="mt-6 flex items-center justify-center gap-2">
           {FEATURED_ITEMS.map((_, idx) => (
             <button
               key={idx}
@@ -364,8 +392,8 @@ export default function HeroShowcase() {
               onClick={() => setCurrentIndex(idx)}
               className={`h-1.5 transition-all duration-500 ${
                 currentIndex === idx
-                  ? 'w-8 bg-[#00203F]'
-                  : 'w-2 bg-[#2F2F2F]/30 hover:bg-[#2F2F2F]/60'
+                  ? 'w-8 bg-[#36ECDE] shadow-xs'
+                  : 'w-2 bg-white/40 hover:bg-white/80'
               }`}
               aria-label={`Go to featured card ${idx + 1}`}
             />
