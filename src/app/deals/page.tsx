@@ -31,49 +31,44 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
     <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F] selection:bg-[#00203F] selection:text-[#36ECDE]">
       <Navbar />
 
-      {/* Deals Header Banner with cinematic warm studio background */}
-      <section className="relative border-b border-[#00203F]/20 bg-[#00203F] py-12 sm:py-16 overflow-hidden">
-        {/* Background Image */}
+      {/* Deals Header Banner with cinematic warm studio background (Zero overlays, 100% pure photographic colors) */}
+      <section className="relative border-b border-black/20 bg-black py-12 sm:py-16 overflow-hidden">
+        {/* Background Image - completely uninhibited, zero overlay */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
         />
-        
-        {/* Dark Vignette & Neutral Tint Overlays (No blue-wash, crisp natural studio tone) */}
-        <div className="absolute inset-0 z-0 bg-black/65" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/90 via-black/60 to-black/85" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 
         <div className="relative z-10 mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-xs text-white/70 mb-5">
+          <nav className="flex items-center gap-1.5 text-xs text-white/90 mb-5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
             <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
-            <ChevronRight className="h-3 w-3 text-white/40" />
+            <ChevronRight className="h-3 w-3 text-white/60" />
             <span className="text-[#36ECDE] font-bold tracking-wide">Special Deals</span>
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 mb-2.5 bg-[#36ECDE] text-[#00203F] text-[10px] font-black uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 mb-2.5 bg-[#36ECDE] text-[#00203F] text-[10px] font-black uppercase tracking-wider shadow-md">
                 Limited Time Offers
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase drop-shadow-md">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
                 Creator Gear Deals
               </h1>
-              <p className="mt-3 text-sm sm:text-base text-white/85 max-w-2xl leading-relaxed drop-shadow">
+              <p className="mt-3 text-sm sm:text-base text-white font-medium max-w-2xl leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
                 Browse verified price drops and exclusive package discounts on cameras, microphones, LED lights, and studio production rigs.
               </p>
             </div>
 
             {/* Quick Badges */}
             <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-white">
-              <span className="inline-flex items-center gap-1.5 bg-[#36ECDE]/20 backdrop-blur-md px-3.5 py-2 border border-[#36ECDE]/50 text-[#36ECDE] font-bold shadow-sm">
+              <span className="inline-flex items-center gap-1.5 bg-[#36ECDE]/20 backdrop-blur-md px-3.5 py-2 border border-[#36ECDE]/50 text-[#36ECDE] font-bold shadow-lg">
                 <Percent className="h-4 w-4 text-[#36ECDE]" />
                 <span>Verified Price Cuts</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3.5 py-2 border border-white/20 text-white shadow-sm">
+              <span className="inline-flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-3.5 py-2 border border-white/30 text-white shadow-lg">
                 <ShieldCheck className="h-4 w-4 text-[#36ECDE]" />
                 <span>Full Inspection Escrow</span>
               </span>
