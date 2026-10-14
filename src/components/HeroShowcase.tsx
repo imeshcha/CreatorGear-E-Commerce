@@ -277,7 +277,7 @@ export default function HeroShowcase() {
 
                   {/* Next line: Condition badge */}
                   <div>
-                    <span className="inline-block bg-[#36ECDE]/20 border border-[#36ECDE] px-3.5 py-1 text-[11px] font-bold text-[#00203F] uppercase tracking-wider">
+                    <span className="inline-block bg-[#36ECDE] border border-[#00203F]/20 px-3.5 py-1 text-[11px] font-black text-[#00203F] uppercase tracking-wider shadow-xs">
                       {item.condition}
                     </span>
                   </div>

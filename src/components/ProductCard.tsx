@@ -37,15 +37,23 @@ export default function ProductCard({ product }: ProductCardProps) {
   const getConditionBadge = () => {
     switch (product.condition) {
       case 'new':
-        return <span className="bg-[#36ECDE]/20 text-[#00203F] border border-[#36ECDE] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">New</span>;
+        return (
+          <span className="bg-[#36ECDE] text-[#00203F] border border-[#00203F]/20 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 shadow-xs">
+            NEW
+          </span>
+        );
       case 'used':
         return (
-          <span className="bg-[#E6E9EC] text-[#00203F] border border-[#00203F]/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">
+          <span className="bg-white text-[#00203F] border border-[#00203F]/30 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 shadow-xs">
             Used {product.condition_grade ? `• ${product.condition_grade.replace('_', ' ')}` : ''}
           </span>
         );
       case 'refurbished':
-        return <span className="bg-[#00203F]/10 text-[#00203F] border border-[#00203F]/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5">Refurbished</span>;
+        return (
+          <span className="bg-[#00203F] text-white border border-[#00203F] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 shadow-xs">
+            Refurbished
+          </span>
+        );
     }
   };
 

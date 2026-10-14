@@ -195,6 +195,11 @@ export default function ProductDetailPage() {
                 alt={product.name}
                 className="h-full w-full object-contain object-center transition-all duration-300"
               />
+              {product.condition === 'new' && (
+                <div className="absolute top-4 left-4 bg-[#36ECDE] text-[#00203F] border border-[#00203F]/20 px-3 py-1 text-[11px] font-black tracking-wider uppercase shadow-xs">
+                  Brand New Factory Sealed
+                </div>
+              )}
               {product.condition === 'used' && (
                 <div className="absolute top-4 left-4 bg-[#00203F] text-[#36ECDE] border border-[#36ECDE]/40 px-3 py-1 text-[11px] font-bold tracking-wider uppercase">
                   Actual Photos of Used Item
