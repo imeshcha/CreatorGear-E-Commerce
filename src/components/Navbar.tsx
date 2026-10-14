@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useAuth } from '@/context/AuthContext';
-import { Search, ShoppingBag, User, LogIn, LogOut, ChevronDown, Heart } from 'lucide-react';
+import { Search, ShoppingBag, User, LogIn, ChevronDown, Heart } from 'lucide-react';
 import { CATEGORY_DROPDOWN_DATA } from '@/data/navigation-categories';
 import CategoryDropdown from '@/components/CategoryDropdown';
 
@@ -15,7 +15,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { totalItems } = useCart();
   const { totalWishlist } = useWishlist();
-  const { authUser, userProfile, signOut } = useAuth();
+  const { authUser, userProfile } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -137,27 +137,18 @@ export default function Navbar() {
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
           {authUser ? (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/account"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00203F] hover:text-[#2F2F2F] px-2 py-1 transition"
-              >
-                <div className="flex h-6 w-6 items-center justify-center bg-[#00203F] text-[10px] font-bold text-[#36ECDE]">
-                  {(userProfile?.full_name || authUser.email || 'U')[0].toUpperCase()}
-                </div>
-                <span className="hidden sm:inline max-w-[100px] truncate text-[#00203F]">
-                  {userProfile?.full_name || authUser.email?.split('@')[0]}
-                </span>
-              </Link>
-              <button
-                type="button"
-                onClick={() => signOut()}
-                className="text-[#2F2F2F]/60 hover:text-[#00203F] p-1 transition"
-                title="Sign Out"
-              >
-                <LogOut className="h-3.5 w-3.5" />
-              </button>
-            </div>
+            <Link
+              href="/account"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00203F] hover:text-[#2F2F2F] px-2 py-1 transition"
+              title="My Account"
+            >
+              <div className="flex h-6 w-6 items-center justify-center bg-[#00203F] text-[10px] font-bold text-[#36ECDE]">
+                {(userProfile?.full_name || authUser.email || 'U')[0].toUpperCase()}
+              </div>
+              <span className="hidden sm:inline max-w-[100px] truncate text-[#00203F]">
+                {userProfile?.full_name || authUser.email?.split('@')[0]}
+              </span>
+            </Link>
           ) : (
             <Link
               href="/login"
@@ -168,29 +159,34 @@ export default function Navbar() {
             </Link>
           )}
 
+          {/* Favorites (Icon Only) */}
           <Link
             href="/wishlist"
-            className="relative inline-flex items-center gap-1.5 border border-[#00203F]/20 bg-white px-3 py-1.5 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition shadow-2xs"
+            className="relative inline-flex items-center justify-center gap-1.5 border border-[#00203F]/20 bg-white px-2.5 py-1.5 text-xs font-semibold text-[#00203F] hover:bg-[#E6E9EC] transition shadow-2xs"
             title="Saved Favorites"
+            aria-label="Favorites"
           >
-            <Heart className={`h-3.5 w-3.5 ${totalWishlist > 0 ? 'fill-[#00203F] text-[#00203F]' : 'text-[#00203F]'}`} />
-            <span className="hidden sm:inline">Favorites</span>
+            <Heart className={`h-4 w-4 ${totalWishlist > 0 ? 'fill-[#00203F] text-[#00203F]' : 'text-[#00203F]'}`} />
             {totalWishlist > 0 && (
-              <span className="ml-0.5 bg-[#00203F] text-[#36ECDE] px-1.5 py-0.2 text-[10px] font-black">
+              <span className="bg-[#00203F] text-[#36ECDE] px-1.5 py-0.2 text-[10px] font-black">
                 {totalWishlist}
               </span>
             )}
           </Link>
 
+          {/* Cart (Icon Only) */}
           <Link
             href="/cart"
-            className="relative inline-flex items-center gap-1.5 bg-[#00203F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#2F2F2F] transition shadow-sm"
+            className="relative inline-flex items-center justify-center gap-1.5 bg-[#00203F] px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-[#2F2F2F] transition shadow-sm"
+            title="Shopping Cart"
+            aria-label="Cart"
           >
-            <ShoppingBag className="h-3.5 w-3.5 text-[#36ECDE]" />
-            <span>Cart</span>
-            <span className="ml-0.5 bg-[#36ECDE] text-[#00203F] px-1.5 py-0.2 text-[10px] font-black">
-              {totalItems}
-            </span>
+            <ShoppingBag className="h-4 w-4 text-[#36ECDE]" />
+            {totalItems > 0 && (
+              <span className="bg-[#36ECDE] text-[#00203F] px-1.5 py-0.2 text-[10px] font-black">
+                {totalItems}
+              </span>
+            )}
           </Link>
         </div>
       </div>
