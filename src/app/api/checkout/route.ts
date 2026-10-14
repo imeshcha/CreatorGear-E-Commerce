@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { INITIAL_PRODUCTS } from '@/data/initial-products';
 import { generatePayHereHash, getPayHereEndpoint } from '@/lib/payments/payhere';
 import { getAdminSupabase } from '@/lib/supabase/admin';
 
@@ -104,7 +103,7 @@ export async function POST(request: Request) {
         .or(`id.eq.${item.productId},slug.eq.${item.productId}`)
         .single();
 
-      const liveProduct = dbProd || INITIAL_PRODUCTS.find(p => p.id === item.productId || p.slug === item.productId);
+      const liveProduct = dbProd;
 
       if (!liveProduct) {
         return NextResponse.json(

@@ -1,5 +1,4 @@
 import { Product } from '@/types';
-import { INITIAL_PRODUCTS, INITIAL_CATEGORIES, INITIAL_BRANDS, INITIAL_SELLERS } from '@/data/initial-products';
 import { createClient } from '@/lib/supabase/client';
 
 export interface ProductFilterOptions {
@@ -96,48 +95,11 @@ export async function getProducts(options: ProductFilterOptions = {}): Promise<P
       }
       return sortProducts(filtered, options.sortBy);
     }
+    return [];
   } catch (err) {
     console.error('Error querying products from Supabase:', err);
+    return [];
   }
-
-  // Fallback to rich initial catalogue
-  let results = [...INITIAL_PRODUCTS];
-
-  if (options.categorySlug && options.categorySlug !== 'all') {
-    results = results.filter(p => matchesCategorySlug(p.category?.slug, options.categorySlug));
-  }
-
-  if (options.dealsOnly) {
-    results = results.filter(p => p.compare_at_price && p.compare_at_price > p.price);
-  }
-
-  if (options.brandSlug && options.brandSlug !== 'all') {
-    results = results.filter(p => p.brand?.slug === options.brandSlug);
-  }
-
-  if (options.condition && options.condition !== 'all') {
-    results = results.filter(p => p.condition === options.condition);
-  }
-
-  if (options.maxPrice !== undefined) {
-    results = results.filter(p => p.price <= options.maxPrice!);
-  }
-
-  if (options.minPrice !== undefined) {
-    results = results.filter(p => p.price >= options.minPrice!);
-  }
-
-  if (options.search) {
-    const s = options.search.toLowerCase();
-    results = results.filter(p => 
-      p.name.toLowerCase().includes(s) || 
-      p.description.toLowerCase().includes(s) || 
-      p.sku.toLowerCase().includes(s) ||
-      p.attributes.some(a => a.value.toLowerCase().includes(s))
-    );
-  }
-
-  return sortProducts(results, options.sortBy);
 }
 
 function sortProducts(products: Product[], sortBy?: string): Product[] {
@@ -187,10 +149,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         })),
       } as Product;
     }
+    return null;
   } catch (err) {
     console.error('Error querying product by slug from Supabase:', err);
+    return null;
   }
-
-  const found = INITIAL_PRODUCTS.find(p => p.slug === slug);
-  return found || null;
 }

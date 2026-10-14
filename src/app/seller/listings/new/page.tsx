@@ -6,7 +6,6 @@ import Navbar from '@/components/Navbar';
 import { useAuth } from '@/context/AuthContext';
 import { createClient } from '@/lib/supabase/client';
 import { uploadProductImage } from '@/lib/supabase/storage';
-import { INITIAL_CATEGORIES, INITIAL_BRANDS } from '@/data/initial-products';
 import {
   Upload,
   Camera,
@@ -27,13 +26,13 @@ export default function NewListingPage() {
   const router = useRouter();
   const { authUser, sellerProfile, loading: authLoading } = useAuth();
 
-  const [categories, setCategories] = useState(INITIAL_CATEGORIES);
-  const [brands, setBrands] = useState(INITIAL_BRANDS);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
 
   // Form State
   const [name, setName] = useState('');
-  const [categoryId, setCategoryId] = useState(INITIAL_CATEGORIES[0]?.id || '');
-  const [brandId, setBrandId] = useState(INITIAL_BRANDS[0]?.id || '');
+  const [categoryId, setCategoryId] = useState('');
+  const [brandId, setBrandId] = useState('');
   const [price, setPrice] = useState('');
   const [compareAtPrice, setCompareAtPrice] = useState('');
   const [condition, setCondition] = useState<'new' | 'used' | 'refurbished'>('used');
@@ -62,17 +61,23 @@ export default function NewListingPage() {
 
   const supabase = createClient();
 
-  // Load categories and brands from Supabase if available
+  // Load categories and brands directly from Supabase
   useEffect(() => {
     async function fetchTaxonomy() {
       try {
         const { data: dbCats } = await supabase.from('categories').select('*').order('sort_order');
-        if (dbCats && dbCats.length > 0) setCategories(dbCats);
+        if (dbCats && dbCats.length > 0) {
+          setCategories(dbCats);
+          setCategoryId(dbCats[0].id);
+        }
 
         const { data: dbBrands } = await supabase.from('brands').select('*').order('name');
-        if (dbBrands && dbBrands.length > 0) setBrands(dbBrands);
+        if (dbBrands && dbBrands.length > 0) {
+          setBrands(dbBrands);
+          setBrandId(dbBrands[0].id);
+        }
       } catch (err) {
-        // Fallback to initial
+        console.error('Error loading taxonomy from Supabase:', err);
       }
     }
     fetchTaxonomy();
