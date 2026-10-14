@@ -214,16 +214,15 @@ export default function HeroShowcase() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#00203F] pt-8 pb-16 select-none border-b border-[#00203F]/20">
+    <section className="relative overflow-hidden bg-[#111111] pt-8 pb-16 select-none border-b border-[#00203F]/15">
       {/* High-Resolution Cinematic Film Studio Background Image */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
         style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
       />
-      {/* Cinematic Studio Lighting Overlays */}
-      <div className="absolute inset-0 z-0 bg-[#00203F]/65 backdrop-blur-[0.5px]" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#00203F]/85 via-transparent to-[#00203F]/90" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#00203F]/80 via-transparent to-[#00203F]/80" />
+      {/* Subtle Neutral Vignette Overlay (Zero Blue Tint, preserves warm golden studio lighting) */}
+      <div className="absolute inset-0 z-0 bg-black/25" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
 
       {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div
@@ -239,7 +238,7 @@ export default function HeroShowcase() {
         <button
           type="button"
           onClick={prevCard}
-          className="hidden sm:flex absolute -left-2 md:left-2 top-1/2 -translate-y-1/2 z-40 bg-[#00203F]/85 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
+          className="hidden sm:flex absolute -left-2 md:left-2 top-1/2 -translate-y-1/2 z-40 bg-black/60 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
           aria-label="Previous Featured Gear"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -249,7 +248,7 @@ export default function HeroShowcase() {
         <button
           type="button"
           onClick={nextCard}
-          className="hidden sm:flex absolute -right-2 md:right-2 top-1/2 -translate-y-1/2 z-40 bg-[#00203F]/85 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
+          className="hidden sm:flex absolute -right-2 md:right-2 top-1/2 -translate-y-1/2 z-40 bg-black/60 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
           aria-label="Next Featured Gear"
         >
           <ChevronRight className="h-5 w-5" />
