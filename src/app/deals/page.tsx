@@ -31,36 +31,50 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
     <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F] selection:bg-[#00203F] selection:text-[#36ECDE]">
       <Navbar />
 
-      {/* Clean Deals Header Banner (No 3D featured showcase, direct to deals context) */}
-      <section className="border-b border-[#00203F]/15 bg-white py-10 sm:py-12">
-        <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
+      {/* Deals Header Banner with cinematic warm studio background */}
+      <section className="relative border-b border-[#00203F]/20 bg-[#00203F] py-12 sm:py-16 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
+        />
+        
+        {/* Dark Vignette & Neutral Tint Overlays (No blue-wash, crisp natural studio tone) */}
+        <div className="absolute inset-0 z-0 bg-black/65" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/90 via-black/60 to-black/85" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+
+        <div className="relative z-10 mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-xs text-[#2F2F2F]/60 mb-4">
-            <Link href="/" className="hover:text-[#00203F] transition-colors">
+          <nav className="flex items-center gap-1.5 text-xs text-white/70 mb-5">
+            <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
-            <ChevronRight className="h-3 w-3" />
-            <span className="text-[#00203F] font-bold">Special Deals</span>
+            <ChevronRight className="h-3 w-3 text-white/40" />
+            <span className="text-[#36ECDE] font-bold tracking-wide">Special Deals</span>
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[#00203F] uppercase">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 mb-2.5 bg-[#36ECDE] text-[#00203F] text-[10px] font-black uppercase tracking-wider">
+                Limited Time Offers
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase drop-shadow-md">
                 Creator Gear Deals
               </h1>
-              <p className="mt-2 text-sm text-[#2F2F2F]/80 max-w-2xl">
+              <p className="mt-3 text-sm sm:text-base text-white/85 max-w-2xl leading-relaxed drop-shadow">
                 Browse verified price drops and exclusive package discounts on cameras, microphones, LED lights, and studio production rigs.
               </p>
             </div>
 
             {/* Quick Badges */}
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-[#2F2F2F]">
-              <span className="inline-flex items-center gap-1 bg-[#36ECDE]/20 px-3 py-1.5 border border-[#36ECDE]/40 text-[#00203F] font-bold">
-                <Percent className="h-3.5 w-3.5 text-[#00203F]" />
+            <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-white">
+              <span className="inline-flex items-center gap-1.5 bg-[#36ECDE]/20 backdrop-blur-md px-3.5 py-2 border border-[#36ECDE]/50 text-[#36ECDE] font-bold shadow-sm">
+                <Percent className="h-4 w-4 text-[#36ECDE]" />
                 <span>Verified Price Cuts</span>
               </span>
-              <span className="inline-flex items-center gap-1 bg-[#E6E9EC] px-3 py-1.5 border border-[#00203F]/15">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#00203F]" />
+              <span className="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3.5 py-2 border border-white/20 text-white shadow-sm">
+                <ShieldCheck className="h-4 w-4 text-[#36ECDE]" />
                 <span>Full Inspection Escrow</span>
               </span>
             </div>
