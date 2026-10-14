@@ -30,6 +30,83 @@ const CATEGORY_ALIASES: Record<string, string[]> = {
   accessories: ['accessories'],
 };
 
+const DEFAULT_CATEGORY_BRANDS: Record<string, { slug: string; name: string }[]> = {
+  all: [
+    { slug: 'aputure', name: 'Aputure' },
+    { slug: 'blackmagic', name: 'Blackmagic Design' },
+    { slug: 'canon', name: 'Canon' },
+    { slug: 'dji', name: 'DJI' },
+    { slug: 'red', name: 'RED' },
+    { slug: 'rode', name: 'Røde' },
+    { slug: 'sennheiser', name: 'Sennheiser' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  cameras: [
+    { slug: 'sony', name: 'Sony' },
+    { slug: 'red', name: 'RED' },
+    { slug: 'canon', name: 'Canon' },
+    { slug: 'blackmagic', name: 'Blackmagic Design' },
+  ],
+  'cameras-and-lenses': [
+    { slug: 'sony', name: 'Sony' },
+    { slug: 'red', name: 'RED' },
+    { slug: 'canon', name: 'Canon' },
+    { slug: 'blackmagic', name: 'Blackmagic Design' },
+  ],
+  audio: [
+    { slug: 'rode', name: 'Røde' },
+    { slug: 'sennheiser', name: 'Sennheiser' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  'audio-equipment': [
+    { slug: 'rode', name: 'Røde' },
+    { slug: 'sennheiser', name: 'Sennheiser' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  lighting: [
+    { slug: 'aputure', name: 'Aputure' },
+    { slug: 'nanlite', name: 'Nanlite' },
+    { slug: 'amaran', name: 'Amaran' },
+    { slug: 'godox', name: 'Godox' },
+  ],
+  'lighting-and-studio': [
+    { slug: 'aputure', name: 'Aputure' },
+    { slug: 'nanlite', name: 'Nanlite' },
+    { slug: 'amaran', name: 'Amaran' },
+    { slug: 'godox', name: 'Godox' },
+  ],
+  'video-production': [
+    { slug: 'dji', name: 'DJI' },
+    { slug: 'tilta', name: 'Tilta' },
+    { slug: 'smallhd', name: 'SmallHD' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  'studio-sets': [
+    { slug: 'dji', name: 'DJI' },
+    { slug: 'tilta', name: 'Tilta' },
+    { slug: 'smallhd', name: 'SmallHD' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  streaming: [
+    { slug: 'elgato', name: 'Elgato' },
+    { slug: 'blackmagic', name: 'Blackmagic Design' },
+    { slug: 'rode', name: 'Røde' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  'streaming-and-content': [
+    { slug: 'elgato', name: 'Elgato' },
+    { slug: 'blackmagic', name: 'Blackmagic Design' },
+    { slug: 'rode', name: 'Røde' },
+    { slug: 'sony', name: 'Sony' },
+  ],
+  accessories: [
+    { slug: 'sony', name: 'Sony' },
+    { slug: 'canon', name: 'Canon' },
+    { slug: 'dji', name: 'DJI' },
+    { slug: 'sandisk', name: 'SanDisk' },
+  ],
+};
+
 function matchesCategory(productSlug?: string, targetSlug?: string): boolean {
   if (!targetSlug || targetSlug === 'all') return true;
   if (!productSlug) return false;
@@ -63,18 +140,22 @@ export default function ProductCatalog({
     setSearch(initialSearch);
   }, [initialCategory, initialCondition, initialSearch]);
 
-  // Extract available brands
+  // Extract available brands - seeded with category defaults so Brand filter is always available
   const brands = useMemo(() => {
     const map = new Map<string, string>();
+    const defaults = DEFAULT_CATEGORY_BRANDS[selectedCategory] || DEFAULT_CATEGORY_BRANDS.all;
+    defaults.forEach(b => map.set(b.slug, b.name));
+
     initialProducts.forEach(p => {
       if (p.brand) {
         map.set(p.brand.slug, p.brand.name);
       }
     });
+
     return Array.from(map.entries())
       .map(([slug, name]) => ({ slug, name }))
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [initialProducts]);
+  }, [initialProducts, selectedCategory]);
 
   // Faceted client filter
   const filteredProducts = useMemo(() => {
@@ -261,37 +342,35 @@ export default function ProductCatalog({
           </div>
 
           {/* Brand Filter (Radio Options) */}
-          {brands.length > 0 && (
-            <div className="border-t border-neutral-100 pt-4">
-              <label className="mb-2 block text-xs font-bold text-neutral-800">
-                Brand
+          <div className="border-t border-neutral-100 pt-4">
+            <label className="mb-2 block text-xs font-bold text-neutral-800">
+              Brand
+            </label>
+            <div className="space-y-1.5 text-xs text-neutral-600">
+              <label className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+                <input
+                  type="radio"
+                  name="brand"
+                  checked={selectedBrand === 'all'}
+                  onChange={() => setSelectedBrand('all')}
+                  className="accent-neutral-900"
+                />
+                <span>All Brands</span>
               </label>
-              <div className="space-y-1.5 text-xs text-neutral-600">
-                <label className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
+              {brands.map(b => (
+                <label key={b.slug} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
                   <input
                     type="radio"
                     name="brand"
-                    checked={selectedBrand === 'all'}
-                    onChange={() => setSelectedBrand('all')}
+                    checked={selectedBrand === b.slug}
+                    onChange={() => setSelectedBrand(b.slug)}
                     className="accent-neutral-900"
                   />
-                  <span>All Brands</span>
+                  <span>{b.name}</span>
                 </label>
-                {brands.map(b => (
-                  <label key={b.slug} className="flex items-center gap-2 cursor-pointer hover:text-neutral-900">
-                    <input
-                      type="radio"
-                      name="brand"
-                      checked={selectedBrand === b.slug}
-                      onChange={() => setSelectedBrand(b.slug)}
-                      className="accent-neutral-900"
-                    />
-                    <span>{b.name}</span>
-                  </label>
-                ))}
-              </div>
+              ))}
             </div>
-          )}
+          </div>
 
           {/* Price Range Slider */}
           <div className="border-t border-neutral-100 pt-4">
