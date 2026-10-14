@@ -43,7 +43,6 @@ export async function getProducts(options: ProductFilterOptions = {}): Promise<P
       .from('products')
       .select(`
         *,
-        seller:seller_profiles(*),
         category:categories(*),
         brand:brands(*),
         images:product_images(*),
@@ -61,11 +60,27 @@ export async function getProducts(options: ProductFilterOptions = {}): Promise<P
       query = query.gte('price', options.minPrice);
     }
 
-    const { data, error } = await query;
-    if (!error && data && data.length > 0) {
-      let filtered = data as Product[];
+    const [productsRes, sellersRes] = await Promise.all([
+      query,
+      supabase.from('seller_profiles').select('*')
+    ]);
+
+    if (!productsRes.error && productsRes.data && productsRes.data.length > 0) {
+      const sellerMap = new Map((sellersRes.data || []).map(s => [s.id, s]));
+      let filtered = productsRes.data.map(p => ({
+        ...p,
+        seller: sellerMap.get(p.seller_id) || null,
+        attributes: (p.attributes || []).map((a: any) => ({
+          name: a.name || a.attribute_name || '',
+          value: a.value || a.attribute_value || '',
+        })),
+      })) as Product[];
+
       if (options.categorySlug && options.categorySlug !== 'all') {
         filtered = filtered.filter(p => matchesCategorySlug(p.category?.slug, options.categorySlug));
+      }
+      if (options.brandSlug && options.brandSlug !== 'all') {
+        filtered = filtered.filter(p => p.brand?.slug === options.brandSlug);
       }
       if (options.dealsOnly) {
         filtered = filtered.filter(p => p.compare_at_price && p.compare_at_price > p.price);
@@ -75,13 +90,14 @@ export async function getProducts(options: ProductFilterOptions = {}): Promise<P
         filtered = filtered.filter(p => 
           p.name.toLowerCase().includes(s) || 
           p.description.toLowerCase().includes(s) ||
-          p.sku.toLowerCase().includes(s)
+          p.sku.toLowerCase().includes(s) ||
+          (p.attributes && p.attributes.some(a => a.value?.toLowerCase().includes(s)))
         );
       }
       return sortProducts(filtered, options.sortBy);
     }
   } catch (err) {
-    // Continue with initial catalogue
+    console.error('Error querying products from Supabase:', err);
   }
 
   // Fallback to rich initial catalogue
@@ -147,7 +163,6 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       .from('products')
       .select(`
         *,
-        seller:seller_profiles(*),
         category:categories(*),
         brand:brands(*),
         images:product_images(*),
@@ -157,10 +172,23 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       .single();
 
     if (!error && data) {
-      return data as Product;
+      const { data: seller } = await supabase
+        .from('seller_profiles')
+        .select('*')
+        .eq('id', data.seller_id)
+        .single();
+
+      return {
+        ...data,
+        seller: seller || null,
+        attributes: (data.attributes || []).map((a: any) => ({
+          name: a.name || a.attribute_name || '',
+          value: a.value || a.attribute_value || '',
+        })),
+      } as Product;
     }
   } catch (err) {
-    // Fallback
+    console.error('Error querying product by slug from Supabase:', err);
   }
 
   const found = INITIAL_PRODUCTS.find(p => p.slug === slug);

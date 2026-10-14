@@ -49,15 +49,11 @@ export default function AdminDashboardPage() {
   const fetchApplications = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('seller_verification_applications')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const res = await fetch('/api/admin/applications');
+      const data = await res.json();
 
-      if (error) {
-        console.error('Error fetching verification applications:', error);
-      } else if (data) {
-        const mapped: VerificationApp[] = data.map((item: any) => ({
+      if (data.applications) {
+        const mapped: VerificationApp[] = data.applications.map((item: any) => ({
           id: item.id,
           userId: item.user_id,
           legalName: item.legal_name,
@@ -98,30 +94,22 @@ export default function AdminDashboardPage() {
     try {
       const notes = reviewNoteInput || (status === 'approved' ? 'Verified identity & compliance documentation.' : 'Application review decision recorded.');
 
-      // 1. Update verification application status
-      const { error: appErr } = await supabase
-        .from('seller_verification_applications')
-        .update({
-          verification_status: status,
-          review_notes: notes,
-          reviewed_date: new Date().toISOString(),
-        })
-        .eq('id', selectedApp.id);
+      const res = await fetch('/api/admin/applications/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          applicationId: selectedApp.id,
+          status,
+          notes,
+        }),
+      });
 
-      if (appErr) throw appErr;
-
-      // 2. If approved, activate seller profile in seller_profiles table
-      if (status === 'approved' && selectedApp.userId) {
-        await supabase
-          .from('seller_profiles')
-          .update({
-            is_verified: true,
-            verified_at: new Date().toISOString(),
-          })
-          .eq('id', selectedApp.userId);
+      const resData = await res.json();
+      if (!res.ok) {
+        throw new Error(resData.error || 'Failed to update application');
       }
 
-      const updated = {
+      const updated: VerificationApp = {
         ...selectedApp,
         status,
         reviewNotes: notes,
@@ -136,7 +124,7 @@ export default function AdminDashboardPage() {
       setTimeout(() => setActionSuccess(''), 4000);
     } catch (err: any) {
       console.error('Error recording admin verification decision:', err);
-      setActionSuccess(`Decision recorded locally: ${status.toUpperCase()}`);
+      setActionSuccess(`Failed to record decision: ${err.message}`);
       setTimeout(() => setActionSuccess(''), 4000);
     } finally {
       setProcessing(false);

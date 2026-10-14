@@ -83,35 +83,35 @@ export default function SellerApplyPage() {
         }
       }
 
-      // 2. Insert into real Supabase database table
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from('seller_verification_applications')
-        .insert({
-          user_id: authUser?.id,
-          seller_type: sellerType,
-          legal_name: formData.legalName,
-          phone_number: formData.phone,
-          business_name: formData.storeName,
-          business_registration_number: formData.businessRegistrationNumber || null,
-          tax_id: formData.taxId || null,
-          id_document_url: documentStoragePath,
-          verification_status: 'pending',
-        })
-        .select()
-        .single();
+      // 2. Submit application to backend route which saves to Supabase
+      const res = await fetch('/api/seller/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: authUser?.id,
+          sellerType,
+          legalName: formData.legalName,
+          storeName: formData.storeName,
+          email: formData.email,
+          phone: formData.phone,
+          businessRegistrationNumber: formData.businessRegistrationNumber,
+          taxId: formData.taxId,
+          payoutBank: formData.payoutBank,
+          payoutAccount: formData.payoutAccount,
+          idDocumentUrl: documentStoragePath,
+        }),
+      });
 
-      if (data) {
-        setApplicationId(data.id);
-      } else {
-        setApplicationId(`APP-${Date.now()}`);
+      const resData = await res.json();
+      if (!res.ok) {
+        throw new Error(resData.error || 'Failed to submit application');
       }
 
+      setApplicationId(resData.applicationId);
       setSubmitted(true);
     } catch (err: any) {
       console.error('Error submitting application:', err);
-      setApplicationId(`APP-${Date.now()}`);
-      setSubmitted(true);
+      setFileError(err.message || 'Error submitting application');
     } finally {
       setSubmitting(false);
     }

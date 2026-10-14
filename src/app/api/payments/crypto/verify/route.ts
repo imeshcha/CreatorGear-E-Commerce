@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyBlockchainTransaction } from '@/lib/payments/crypto';
+import { getAdminSupabase } from '@/lib/supabase/admin';
 
 export async function POST(request: Request) {
   try {
@@ -28,6 +29,35 @@ export async function POST(request: Request) {
         },
         { status: 422 }
       );
+    }
+
+    // Update real Supabase payment and order status
+    try {
+      const supabase = getAdminSupabase();
+      if (orderId) {
+        await supabase
+          .from('payments')
+          .update({
+            payment_status: 'successful',
+            provider_reference: txHash,
+          })
+          .eq('provider_reference', orderId);
+
+        const { data: paymentRecord } = await supabase
+          .from('payments')
+          .select('order_id')
+          .eq('provider_reference', txHash)
+          .single();
+
+        if (paymentRecord?.order_id) {
+          await supabase
+            .from('orders')
+            .update({ order_status: 'processing' })
+            .eq('id', paymentRecord.order_id);
+        }
+      }
+    } catch (dbErr) {
+      console.error('Error updating crypto order in Supabase:', dbErr);
     }
 
     return NextResponse.json({

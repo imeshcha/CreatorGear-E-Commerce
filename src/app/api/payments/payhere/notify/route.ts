@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyPayHereNotification } from '@/lib/payments/payhere';
+import { getAdminSupabase } from '@/lib/supabase/admin';
 
 export async function POST(request: Request) {
   try {
@@ -35,8 +36,31 @@ export async function POST(request: Request) {
 
     // If status_code is '2' -> Payment was successful
     if (statusCode === '2') {
-      // In production with Supabase connected, update payments & orders table
-      // and write entry to seller_ledger
+      try {
+        const supabase = getAdminSupabase();
+        await supabase
+          .from('payments')
+          .update({
+            payment_status: 'successful',
+            provider_reference: paymentId || orderId,
+          })
+          .eq('provider_reference', orderId);
+
+        const { data: paymentRecord } = await supabase
+          .from('payments')
+          .select('order_id')
+          .eq('provider_reference', paymentId || orderId)
+          .single();
+
+        if (paymentRecord?.order_id) {
+          await supabase
+            .from('orders')
+            .update({ order_status: 'processing' })
+            .eq('id', paymentRecord.order_id);
+        }
+      } catch (dbErr) {
+        console.error('Error updating PayHere order in Supabase:', dbErr);
+      }
     }
 
     return new NextResponse('OK', { status: 200 });

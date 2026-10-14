@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { INITIAL_PRODUCTS } from '@/data/initial-products';
 import { generatePayHereHash, getPayHereEndpoint } from '@/lib/payments/payhere';
+import { getAdminSupabase } from '@/lib/supabase/admin';
 
 // Server-side Zod validation schema
 const CheckoutSchema = z.object({
+  userId: z.string().optional(),
   customerName: z.string().min(2, 'Full name is required'),
   customerEmail: z.string().email('Valid email required'),
   customerPhone: z.string().min(8, 'Phone number is required'),
@@ -50,12 +52,60 @@ export async function POST(request: Request) {
       items,
     } = validation.data;
 
-    // Rule 1: Always validate and calculate prices & stock on server
+    const supabase = getAdminSupabase();
+
+    // 1. Resolve or create customer account in public.users
+    let customerId = validation.data.userId;
+    if (!customerId) {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', customerEmail)
+        .single();
+
+      if (existingUser) {
+        customerId = existingUser.id;
+      } else {
+        // Create customer auth & profile
+        const { data: authData } = await supabase.auth.admin.createUser({
+          email: customerEmail,
+          password: 'GuestPassword@123!',
+          email_confirm: true,
+          user_metadata: { full_name: customerName },
+        });
+
+        if (authData?.user) {
+          customerId = authData.user.id;
+          await supabase.from('users').upsert({
+            id: customerId,
+            email: customerEmail,
+            full_name: customerName,
+            phone_number: customerPhone,
+            role: 'customer',
+            status: 'active',
+          });
+        }
+      }
+    }
+
+    // 2. Validate products and calculate total & commissions on server
     let totalAmount = 0;
     const validatedOrderItems = [];
 
+    // Pre-fetch sellers map
+    const { data: sellersData } = await supabase.from('seller_profiles').select('*');
+    const sellersMap = new Map((sellersData || []).map(s => [s.id, s]));
+
     for (const item of items) {
-      const liveProduct = INITIAL_PRODUCTS.find(p => p.id === item.productId);
+      // Query from Supabase first
+      const { data: dbProd } = await supabase
+        .from('products')
+        .select('*')
+        .or(`id.eq.${item.productId},slug.eq.${item.productId}`)
+        .single();
+
+      const liveProduct = dbProd || INITIAL_PRODUCTS.find(p => p.id === item.productId || p.slug === item.productId);
+
       if (!liveProduct) {
         return NextResponse.json(
           { error: `Product ID ${item.productId} not found in verified catalogue.` },
@@ -70,9 +120,10 @@ export async function POST(request: Request) {
         );
       }
 
-      const unitPrice = liveProduct.price;
+      const sellerProfile = sellersMap.get(liveProduct.seller_id) || liveProduct.seller;
+      const unitPrice = Number(liveProduct.price);
       const itemSubtotal = unitPrice * item.quantity;
-      const commissionRate = liveProduct.seller?.commission_rate || PLATFORM_COMMISSION_PERCENTAGE;
+      const commissionRate = sellerProfile?.commission_rate || PLATFORM_COMMISSION_PERCENTAGE;
       const commissionAmount = Number(((itemSubtotal * commissionRate) / 100).toFixed(2));
       const sellerPayoutAmount = Number((itemSubtotal - commissionAmount).toFixed(2));
 
@@ -82,7 +133,7 @@ export async function POST(request: Request) {
         productId: liveProduct.id,
         productName: liveProduct.name,
         sellerId: liveProduct.seller_id,
-        sellerName: liveProduct.seller?.store_name || 'Marketplace Seller',
+        sellerName: sellerProfile?.store_name || 'Marketplace Seller',
         quantity: item.quantity,
         unitPriceSnapshot: unitPrice,
         conditionSnapshot: liveProduct.condition,
@@ -90,9 +141,92 @@ export async function POST(request: Request) {
         commissionAmount,
         sellerPayoutAmount,
       });
+
+      // Safely decrement stock on server
+      if (dbProd?.id) {
+        await supabase
+          .from('products')
+          .update({ stock_quantity: Math.max(0, dbProd.stock_quantity - item.quantity) })
+          .eq('id', dbProd.id);
+      }
     }
 
     const orderId = `ORD-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    // 3. Persist Order to Supabase if customerId is resolved
+    let dbOrderId = crypto.randomUUID();
+    if (customerId) {
+      const { data: orderData, error: orderErr } = await supabase
+        .from('orders')
+        .insert({
+          id: dbOrderId,
+          customer_id: customerId,
+          total_amount: totalAmount,
+          subtotal_amount: totalAmount,
+          shipping_fee: 0,
+          platform_fee: Number((totalAmount * 0.08).toFixed(2)),
+          currency: 'LKR',
+          payment_method: paymentMethod,
+          payment_status: paymentMethod === 'cod' ? 'pending' : 'pending',
+          order_status: paymentMethod === 'cod' ? 'processing' : 'pending',
+          shipping_address: {
+            name: customerName,
+            phone: customerPhone,
+            address_line1: addressLine1,
+            address_line2: addressLine2 || null,
+            city,
+            state,
+            postal_code: postalCode,
+            country: 'Sri Lanka',
+          },
+          tracking_number: `PX-${Math.floor(100000 + Math.random() * 900000)}`,
+          courier_partner: 'PromptXpress Express Logistics',
+        })
+        .select()
+        .single();
+
+      if (orderData) {
+        dbOrderId = orderData.id;
+
+        // Insert order items
+        for (const oi of validatedOrderItems) {
+          await supabase.from('order_items').insert({
+            order_id: dbOrderId,
+            product_id: oi.productId,
+            seller_id: oi.sellerId,
+            product_name: oi.productName,
+            product_sku: oi.productId,
+            unit_price: oi.unitPriceSnapshot,
+            quantity: oi.quantity,
+            total_price: oi.unitPriceSnapshot * oi.quantity,
+            item_status: 'confirmed',
+          });
+
+          // Insert seller ledger record
+          await supabase.from('seller_ledger').insert({
+            seller_id: oi.sellerId,
+            order_id: dbOrderId,
+            entry_type: 'sale_credit',
+            amount: oi.sellerPayoutAmount,
+            balance_after: oi.sellerPayoutAmount,
+            reference_id: orderId,
+            description: `Order sale credit: ${oi.productName}`,
+          });
+        }
+
+        // Insert payments row
+        await supabase.from('payments').insert({
+          order_id: dbOrderId,
+          payment_method: paymentMethod,
+          amount: totalAmount,
+          currency: 'LKR',
+          status: paymentMethod === 'cod' ? 'pending' : 'pending',
+          provider_transaction_id: orderId,
+        });
+      } else if (orderErr) {
+        console.error('Error inserting order to Supabase:', orderErr.message);
+      }
+    }
 
     // Prepare response depending on chosen payment method
     if (paymentMethod === 'payhere') {
