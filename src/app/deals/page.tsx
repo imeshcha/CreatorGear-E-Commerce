@@ -39,8 +39,8 @@ export default async function DealsPage({ searchParams }: DealsPageProps) {
           style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
         />
 
-        {/* Small subtle dark overlay with low opacity (Neutral black, zero blue tint) */}
-        <div className="absolute inset-0 z-0 bg-black/25" />
+        {/* Subtle dark overlay at 40% opacity (Neutral black, zero blue tint) */}
+        <div className="absolute inset-0 z-0 bg-black/40" />
 
         <div className="relative z-10 mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}

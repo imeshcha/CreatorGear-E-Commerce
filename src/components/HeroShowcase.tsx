@@ -220,8 +220,8 @@ export default function HeroShowcase() {
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
         style={{ backgroundImage: `url('/images/hero-bg.jpg')` }}
       />
-      {/* Small subtle dark overlay with low opacity (Neutral black, zero blue tint) */}
-      <div className="absolute inset-0 z-0 bg-black/25" />
+      {/* Subtle dark overlay at 40% opacity (Neutral black, zero blue tint) */}
+      <div className="absolute inset-0 z-0 bg-black/40" />
 
       {/* 3D Depth-Stacked Carousel Stage with generous side margins */}
       <div
