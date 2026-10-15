@@ -66,7 +66,7 @@ export default function CategorySubpageView({
 }: CategorySubpageViewProps) {
   const [, startTransition] = useTransition();
 
-  // Resolve departments data from category slug or canonical slug
+  // Resolve subcategories data from category slug or canonical slug
   const categoryData =
     CATEGORY_DROPDOWN_DATA[categorySlug] ||
     CATEGORY_DROPDOWN_DATA[canonicalSlug] || {
@@ -77,12 +77,12 @@ export default function CategorySubpageView({
       items: [] as CategoryDropdownItem[],
     };
 
-  const departments = categoryData.items || [];
-  const defaultSubId = departments[0]?.id || '';
+  const subcategories = categoryData.items || [];
+  const defaultSubId = subcategories[0]?.id || '';
 
   // Active subpage state (defaults to 1st subpage, e.g. Photography for Cameras)
   const [activeSubId, setActiveSubId] = useState<string>(() => {
-    if (initialSubId && departments.some((d) => d.id.toLowerCase() === initialSubId.toLowerCase())) {
+    if (initialSubId && subcategories.some((d) => d.id.toLowerCase() === initialSubId.toLowerCase())) {
       return initialSubId.toLowerCase();
     }
     return defaultSubId;
@@ -93,7 +93,7 @@ export default function CategorySubpageView({
     const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
       const sub = params.get('sub')?.toLowerCase();
-      if (sub && departments.some((d) => d.id.toLowerCase() === sub)) {
+      if (sub && subcategories.some((d) => d.id.toLowerCase() === sub)) {
         setActiveSubId(sub);
       } else if (defaultSubId) {
         setActiveSubId(defaultSubId);
@@ -102,7 +102,7 @@ export default function CategorySubpageView({
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [departments, defaultSubId]);
+  }, [subcategories, defaultSubId]);
 
   // If initial URL had no ?sub=, synchronize URL to reflect the default active subpage
   useEffect(() => {
@@ -132,38 +132,38 @@ export default function CategorySubpageView({
     }
   };
 
-  // Find active department definition
-  const activeDepartment =
-    departments.find((d) => d.id.toLowerCase() === activeSubId.toLowerCase()) ||
-    departments[0];
+  // Find active subcategory definition
+  const activeSubcategory =
+    subcategories.find((d) => d.id.toLowerCase() === activeSubId.toLowerCase()) ||
+    subcategories[0];
 
   // Filter products for the active subpage
   const subpageProducts = useMemo(() => {
-    if (!activeDepartment) return allProducts;
-    return allProducts.filter((p) => matchProductToSubpage(activeDepartment.id, p));
-  }, [allProducts, activeDepartment]);
+    if (!activeSubcategory) return allProducts;
+    return allProducts.filter((p) => matchProductToSubpage(activeSubcategory.id, p));
+  }, [allProducts, activeSubcategory]);
 
   return (
     <div>
-      {/* Subpage Departments Section (DOM Router Switcher) */}
+      {/* Subcategories Navigation Section (DOM Router) */}
       <section className="border-b border-[#00203F]/15 bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="flex items-center gap-2 mb-6">
             <span className="h-4 w-1 bg-[#36ECDE]" />
             <h2 className="text-xs font-black uppercase tracking-wider text-[#00203F]">
-              {categoryName} Departments
+              Explore {categoryName}
             </h2>
             <span className="text-[11px] font-semibold text-[#2F2F2F]/50 hidden sm:inline">
-              • Select a department subpage to view equipment
+              • Select a subcategory to browse gear
             </span>
           </div>
 
           {/* Subpages Grid / DOM Tabs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" role="tablist">
-            {departments.map((item) => {
+            {subcategories.map((item) => {
               const IconComponent = ICON_MAP[item.icon] || Camera;
-              const isActive = activeDepartment && item.id.toLowerCase() === activeDepartment.id.toLowerCase();
+              const isActive = activeSubcategory && item.id.toLowerCase() === activeSubcategory.id.toLowerCase();
 
               return (
                 <button
@@ -237,15 +237,15 @@ export default function CategorySubpageView({
               <PackageOpen className="h-7 w-7 text-[#00203F]" />
             </div>
             <h3 className="text-base font-black uppercase tracking-wide text-[#00203F]">
-              No Listings in {activeDepartment?.title || 'This Department'} Currently
+              No Listings in {activeSubcategory?.title || 'This Category'} Currently
             </h3>
             <p className="mt-2 text-xs text-[#2F2F2F]/70 max-w-md">
               There are no verified equipment listings currently active in this specialized subcategory.
-              Browse other departments above or list your gear now.
+              Browse other categories above or list your gear now.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              {departments
-                .filter((d) => d.id !== activeDepartment?.id)
+              {subcategories
+                .filter((d) => d.id !== activeSubcategory?.id)
                 .slice(0, 3)
                 .map((d) => (
                   <button
@@ -261,13 +261,13 @@ export default function CategorySubpageView({
         </div>
       ) : (
         <ProductCatalog
-          key={`${canonicalSlug}-${activeDepartment?.id || 'all'}`}
+          key={`${canonicalSlug}-${activeSubcategory?.id || 'all'}`}
           initialProducts={subpageProducts}
           initialCategory={canonicalSlug}
           initialCondition={initialCondition || 'all'}
           initialSearch={initialSearch || ''}
-          title={`${categoryName.toUpperCase()} — ${activeDepartment?.title.toUpperCase() || 'CATALOG'}`}
-          description={activeDepartment?.description || categoryTagline}
+          title={`${categoryName.toUpperCase()} — ${activeSubcategory?.title.toUpperCase() || 'CATALOG'}`}
+          description={activeSubcategory?.description || categoryTagline}
           showCategoryFilter={false}
         />
       )}

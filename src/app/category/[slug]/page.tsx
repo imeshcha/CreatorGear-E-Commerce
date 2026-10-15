@@ -188,7 +188,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         </div>
       </section>
 
-      {/* Subpage Departments Section (DOM Router Switcher) & Product Catalog */}
+      {/* Category Subpages & Product Catalog */}
       <Suspense
         fallback={
           <div className="mx-auto max-w-[1760px] px-4 py-16 text-center text-xs font-semibold text-neutral-500">
