@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import ProductCatalog from '@/components/ProductCatalog';
-import CategoryDepartments from '@/components/CategoryDepartments';
+import CategorySubpageView from '@/components/CategorySubpageView';
 import { getProducts } from '@/lib/db/products';
 import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight } from 'lucide-react';
 
@@ -117,6 +116,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   const condition = typeof resolvedSearchParams.condition === 'string' ? resolvedSearchParams.condition : undefined;
   const search = typeof resolvedSearchParams.search === 'string' ? resolvedSearchParams.search : undefined;
+  const sub = typeof resolvedSearchParams.sub === 'string' ? resolvedSearchParams.sub : undefined;
 
   const info = CATEGORY_MAP[slug] || {
     name: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
@@ -188,14 +188,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         </div>
       </section>
 
-      {/* Subcategories / Departments Section */}
-      <CategoryDepartments
-        categorySlug={slug}
-        categoryName={info.name}
-        activeSearch={search}
-      />
-
-      {/* Main Filter System & Product Grid */}
+      {/* Subpage Departments Section (DOM Router Switcher) & Product Catalog */}
       <Suspense
         fallback={
           <div className="mx-auto max-w-[1760px] px-4 py-16 text-center text-xs font-semibold text-neutral-500">
@@ -203,15 +196,15 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           </div>
         }
       >
-        <ProductCatalog
-          key={`${info.canonicalSlug}-${search || 'all'}-${condition || 'all'}`}
-          initialProducts={products}
-          initialCategory={info.canonicalSlug}
-          initialCondition={condition || 'all'}
-          initialSearch={search || ''}
-          title={`${info.name.toUpperCase()} CATALOG`}
-          description={info.tagline}
-          showCategoryFilter={false}
+        <CategorySubpageView
+          categorySlug={slug}
+          canonicalSlug={info.canonicalSlug}
+          categoryName={info.name}
+          categoryTagline={info.tagline}
+          initialSubId={sub}
+          allProducts={products}
+          initialCondition={condition}
+          initialSearch={search}
         />
       </Suspense>
 

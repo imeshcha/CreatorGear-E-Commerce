@@ -63,10 +63,10 @@ export default function Navbar() {
   const isStudio = pathname === '/category/studio-sets' || pathname === '/category/video-production';
 
   const navItems = [
-    { id: 'cameras', label: 'Cameras', href: '/category/cameras', isActive: isCameras },
-    { id: 'audio', label: 'Audio', href: '/category/audio', isActive: isAudio },
-    { id: 'lighting', label: 'Lighting', href: '/category/lighting', isActive: isLighting },
-    { id: 'studio-sets', label: 'Studio Sets', href: '/category/studio-sets', isActive: isStudio },
+    { id: 'cameras', label: 'Cameras', href: '/category/cameras?sub=photography', isActive: isCameras },
+    { id: 'audio', label: 'Audio', href: '/category/audio?sub=wireless', isActive: isAudio },
+    { id: 'lighting', label: 'Lighting', href: '/category/lighting?sub=continuous', isActive: isLighting },
+    { id: 'studio-sets', label: 'Studio Sets', href: '/category/studio-sets?sub=gimbals', isActive: isStudio },
   ];
 
   return (
