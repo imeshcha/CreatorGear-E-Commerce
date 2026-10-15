@@ -2,7 +2,6 @@ import { getAdminSupabase } from '@/lib/supabase/admin';
 
 // Default authorized administrator emails (hardened fallback)
 export const DEFAULT_ADMIN_EMAILS = [
-  'saimeshchathurak@gmail.com',
   'saimeshchathurak1@gmail.com',
 ];
 

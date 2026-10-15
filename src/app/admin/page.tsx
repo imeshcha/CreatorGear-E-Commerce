@@ -372,7 +372,7 @@ export default function AdminDashboardPage() {
             </p>
 
             <p className="mt-2 text-xs text-[#2F2F2F]/60">
-              If this is an error or you require administrator credentials, contact the primary platform owner at <span className="font-semibold text-[#00203F]">saimeshchathurak@gmail.com</span>.
+              If this is an error or you require administrator credentials, contact the primary platform owner at <span className="font-semibold text-[#00203F]">saimeshchathurak1@gmail.com</span>.
             </p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
