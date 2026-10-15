@@ -141,8 +141,81 @@ export const CATEGORY_DROPDOWN_DATA: Record<string, NavigationCategory> = {
         title: 'Lens Control & Rigging',
         description: 'Wireless follow focus motors & teleprompters',
         icon: 'Sliders',
-        href: '/category/studio-sets?search=focus',
+        href: '/category/studio-sets?search=matte',
+      },
+    ],
+  },
+
+  streaming: {
+    id: 'streaming',
+    label: 'Streaming',
+    href: '/category/streaming',
+    viewAllLabel: 'All Streaming & Content Gear',
+    items: [
+      {
+        title: 'Stream Controllers',
+        description: 'Macro switchers, studio decks & audio dials',
+        icon: 'Sliders',
+        href: '/category/streaming?search=deck',
+      },
+      {
+        title: 'Capture Cards & Video Links',
+        description: 'Low-latency 4K PCIe & USB capture interfaces',
+        icon: 'Monitor',
+        href: '/category/streaming?search=capture',
+      },
+      {
+        title: 'Creator Microphones',
+        description: 'USB podcast mics, dynamic capsules & boom arms',
+        icon: 'Mic',
+        href: '/category/audio?search=mic',
+      },
+      {
+        title: 'Lighting & Backdrops',
+        description: 'Key lights, desktop panels & collapsible chroma screens',
+        icon: 'Sun',
+        href: '/category/lighting?search=led',
+      },
+    ],
+  },
+
+  accessories: {
+    id: 'accessories',
+    label: 'Accessories',
+    href: '/category/accessories',
+    viewAllLabel: 'All Gear Accessories',
+    items: [
+      {
+        title: 'Memory Cards & Media',
+        description: 'CFexpress Type A/B, V90 SD cards & high-speed readers',
+        icon: 'Box',
+        href: '/category/accessories?search=card',
+      },
+      {
+        title: 'Lens Filters & Polarizers',
+        description: 'Variable ND filters, circular polarizers & UV glass',
+        icon: 'Eye',
+        href: '/category/accessories?search=filter',
+      },
+      {
+        title: 'Batteries & Power Systems',
+        description: 'High-capacity V-Mount batteries & multi-bay chargers',
+        icon: 'Zap',
+        href: '/category/accessories?search=battery',
+      },
+      {
+        title: 'Flight Cases & Hard Shells',
+        description: 'Waterproof Pelican-style flight cases & foam dividers',
+        icon: 'Layers',
+        href: '/category/accessories?search=case',
       },
     ],
   },
 };
+
+// Aliases for route slugs
+CATEGORY_DROPDOWN_DATA['cameras-and-lenses'] = CATEGORY_DROPDOWN_DATA.cameras;
+CATEGORY_DROPDOWN_DATA['audio-equipment'] = CATEGORY_DROPDOWN_DATA.audio;
+CATEGORY_DROPDOWN_DATA['lighting-and-studio'] = CATEGORY_DROPDOWN_DATA.lighting;
+CATEGORY_DROPDOWN_DATA['video-production'] = CATEGORY_DROPDOWN_DATA['studio-sets'];
+CATEGORY_DROPDOWN_DATA['streaming-and-content'] = CATEGORY_DROPDOWN_DATA.streaming;

@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import ProductCatalog from '@/components/ProductCatalog';
+import CategoryDepartments from '@/components/CategoryDepartments';
 import { getProducts } from '@/lib/db/products';
 import { ShieldCheck, Truck, RefreshCw, Lock, ChevronRight } from 'lucide-react';
 
@@ -187,6 +188,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         </div>
       </section>
 
+      {/* Subcategories / Departments Section */}
+      <CategoryDepartments
+        categorySlug={slug}
+        categoryName={info.name}
+        activeSearch={search}
+      />
+
       {/* Main Filter System & Product Grid */}
       <Suspense
         fallback={
@@ -196,7 +204,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         }
       >
         <ProductCatalog
-          key={info.canonicalSlug}
+          key={`${info.canonicalSlug}-${search || 'all'}-${condition || 'all'}`}
           initialProducts={products}
           initialCategory={info.canonicalSlug}
           initialCondition={condition || 'all'}
