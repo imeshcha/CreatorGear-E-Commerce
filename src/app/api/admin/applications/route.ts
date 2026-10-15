@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
+import { verifyAdminRequest } from '@/lib/auth/admin';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authResult = await verifyAdminRequest(request);
+    if (!authResult.authorized) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+
     const supabase = getAdminSupabase();
     const { data, error } = await supabase
       .from('seller_verification_applications')

@@ -4,11 +4,13 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { User, SellerProfile } from '@/types';
 import type { User as SupabaseAuthUser } from '@supabase/supabase-js';
+import { isAdminEmail } from '@/lib/auth/admin';
 
 interface AuthContextType {
   authUser: SupabaseAuthUser | null;
   userProfile: User | null;
   sellerProfile: SellerProfile | null;
+  isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error?: string }>;
@@ -29,6 +31,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchUserData = async (sbUser: SupabaseAuthUser) => {
     try {
+      const shouldBeAdmin = isAdminEmail(sbUser.email);
+
       // 1. Fetch public.users profile
       const { data: profile } = await supabase
         .from('users')
@@ -37,17 +41,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single();
 
       if (profile) {
+        if (shouldBeAdmin && profile.role !== 'admin') {
+          try {
+            await supabase.from('users').update({ role: 'admin' }).eq('id', sbUser.id);
+            profile.role = 'admin';
+          } catch (promoteErr) {
+            console.error('Error updating admin role:', promoteErr);
+          }
+        }
         setUserProfile(profile as User);
       } else {
         // Fallback user profile derived from auth user metadata
-        setUserProfile({
+        const fallbackProfile: User = {
           id: sbUser.id,
           email: sbUser.email || '',
           full_name: sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0] || 'Creator',
-          role: 'customer',
+          role: shouldBeAdmin ? 'admin' : 'customer',
           status: 'active',
           created_at: sbUser.created_at,
-        });
+        };
+        setUserProfile(fallbackProfile);
+
+        try {
+          await supabase.from('users').upsert(fallbackProfile);
+        } catch (dbErr) {
+          console.error('Error inserting fallback into users table:', dbErr);
+        }
       }
 
       // 2. Fetch public.seller_profiles if exists
@@ -150,12 +169,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (data.user) {
         // Insert user record into public.users
+        const shouldBeAdmin = isAdminEmail(data.user.email);
         try {
           await supabase.from('users').upsert({
             id: data.user.id,
             email: data.user.email,
             full_name: fullName,
-            role: 'customer',
+            role: shouldBeAdmin ? 'admin' : 'customer',
             status: 'active',
           });
         } catch (dbErr) {
@@ -204,12 +224,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const isAdmin = Boolean(
+    (authUser?.email && isAdminEmail(authUser.email)) ||
+    userProfile?.role === 'admin'
+  );
+
   return (
     <AuthContext.Provider
       value={{
         authUser,
         userProfile,
         sellerProfile,
+        isAdmin,
         loading,
         signIn,
         signUp,

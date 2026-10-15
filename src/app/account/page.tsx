@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export default function AccountPage() {
-  const { authUser, userProfile, sellerProfile, loading, signOut } = useAuth();
+  const { authUser, userProfile, sellerProfile, isAdmin, loading, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<'buyer' | 'seller'>('buyer');
 
   const [realOrders, setRealOrders] = useState<any[]>([]);
@@ -150,7 +150,12 @@ export default function AccountPage() {
                 <h1 className="text-xl font-black text-[#00203F]">
                   {userProfile?.full_name || 'Creator'}
                 </h1>
-                {sellerProfile?.is_verified ? (
+                {isAdmin || userProfile?.role === 'admin' ? (
+                  <span className="inline-flex items-center gap-1 bg-[#00203F] text-[#36ECDE] border border-[#00203F] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
+                    <ShieldCheck className="h-3 w-3 text-[#36ECDE]" />
+                    Platform Admin
+                  </span>
+                ) : sellerProfile?.is_verified ? (
                   <span className="inline-flex items-center gap-1 bg-[#36ECDE]/20 border border-[#36ECDE]/40 px-2 py-0.5 text-[10px] font-bold text-[#00203F]">
                     <ShieldCheck className="h-3 w-3 text-[#00203F]" />
                     Verified Seller
@@ -172,6 +177,16 @@ export default function AccountPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            {(isAdmin || userProfile?.role === 'admin') && (
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 bg-[#00203F] px-4 py-2 text-xs font-bold text-[#36ECDE] hover:bg-[#2F2F2F] transition shadow-xs"
+              >
+                <ShieldCheck className="h-3.5 w-3.5 text-[#36ECDE]" />
+                <span>Admin Dashboard</span>
+              </Link>
+            )}
+
             {!sellerProfile && (
               <Link
                 href="/seller/apply"

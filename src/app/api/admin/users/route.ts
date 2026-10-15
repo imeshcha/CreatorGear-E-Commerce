@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
+import { verifyAdminRequest } from '@/lib/auth/admin';
 
 export interface AdminUserListItem {
   id: string;
@@ -23,8 +24,13 @@ export interface AdminUserListItem {
   } | null;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authResult = await verifyAdminRequest(request);
+    if (!authResult.authorized) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+
     const supabase = getAdminSupabase();
 
     // 1. Fetch all users from Supabase Auth (includes Google OAuth and Email users)

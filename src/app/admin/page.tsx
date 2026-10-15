@@ -1,9 +1,19 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { useAuth } from '@/context/AuthContext';
+import { isAdminEmail } from '@/lib/auth/admin';
+import { createClient } from '@/lib/supabase/client';
 import {
   ShieldCheck,
+  ShieldAlert,
+  Lock,
+  LogIn,
+  LogOut,
+  ArrowRight,
   CheckCircle,
   XCircle,
   AlertCircle,
@@ -77,6 +87,16 @@ interface VerificationApp {
 }
 
 export default function AdminDashboardPage() {
+  const { authUser, userProfile, isAdmin, loading, signOut } = useAuth();
+  const router = useRouter();
+
+  // Authorize either by hardcoded/configured admin whitelist OR role='admin' in DB
+  const isAuthorizedAdmin = Boolean(
+    (authUser?.email && isAdminEmail(authUser.email)) ||
+    isAdmin ||
+    userProfile?.role === 'admin'
+  );
+
   const [activeTab, setActiveTab] = useState<'users' | 'applications'>('users');
 
   // Users Directory State
@@ -96,11 +116,34 @@ export default function AdminDashboardPage() {
   const [appsLoading, setAppsLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
 
+  // Retrieve auth token for admin API calls
+  const getAuthHeaders = async (): Promise<Record<string, string>> => {
+    try {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        return {
+          Authorization: `Bearer ${session.access_token}`,
+        };
+      }
+    } catch (e) {
+      console.error('Error acquiring auth session token:', e);
+    }
+    return {};
+  };
+
   // Fetch all users
   const fetchUsers = async () => {
     setUsersLoading(true);
     try {
-      const res = await fetch('/api/admin/users');
+      const headers = await getAuthHeaders();
+      const res = await fetch('/api/admin/users', { headers });
+      if (res.status === 401 || res.status === 403) {
+        console.warn('Unauthorized request to /api/admin/users');
+        return;
+      }
       const data = await res.json();
       if (data.users) {
         setUsers(data.users);
@@ -117,7 +160,12 @@ export default function AdminDashboardPage() {
   const fetchApplications = async () => {
     setAppsLoading(true);
     try {
-      const res = await fetch('/api/admin/applications');
+      const headers = await getAuthHeaders();
+      const res = await fetch('/api/admin/applications', { headers });
+      if (res.status === 401 || res.status === 403) {
+        console.warn('Unauthorized request to /api/admin/applications');
+        return;
+      }
       const data = await res.json();
 
       if (data.applications) {
@@ -152,9 +200,11 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    fetchUsers();
-    fetchApplications();
-  }, []);
+    if (!loading && authUser && isAuthorizedAdmin) {
+      fetchUsers();
+      fetchApplications();
+    }
+  }, [loading, authUser, isAuthorizedAdmin]);
 
   const handleAction = async (status: 'approved' | 'rejected' | 'more_information_required') => {
     if (!selectedApp) return;
@@ -167,9 +217,13 @@ export default function AdminDashboardPage() {
           ? 'Verified identity & compliance documentation.'
           : 'Application review decision recorded.');
 
+      const headers = await getAuthHeaders();
       const res = await fetch('/api/admin/applications/review', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...headers,
+        },
         body: JSON.stringify({
           applicationId: selectedApp.id,
           status,
@@ -186,7 +240,7 @@ export default function AdminDashboardPage() {
         ...selectedApp,
         status,
         reviewNotes: notes,
-        reviewedBy: 'Admin_Compliance',
+        reviewedBy: authUser?.email || 'Admin_Compliance',
         reviewedDate: new Date().toLocaleString(),
       };
 
@@ -221,6 +275,132 @@ export default function AdminDashboardPage() {
     return matchesSearch && matchesRole && matchesProvider;
   });
 
+  // 1. Loading State
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F]">
+        <Navbar />
+        <div className="mx-auto max-w-7xl px-4 py-28 text-center">
+          <div className="inline-flex h-16 w-16 items-center justify-center bg-white border border-[#00203F]/15 mb-4 shadow-xs">
+            <Loader2 className="h-8 w-8 animate-spin text-[#00203F]" />
+          </div>
+          <h2 className="text-sm font-black uppercase tracking-wider text-[#00203F]">
+            Verifying Administrator Credentials
+          </h2>
+          <p className="mt-1 text-xs text-[#2F2F2F]/70">
+            Checking session integrity and platform security policies...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Unauthenticated State (Not Logged In)
+  if (!authUser) {
+    return (
+      <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F]">
+        <Navbar />
+        <div className="mx-auto max-w-lg px-4 py-24">
+          <div className="border border-[#00203F]/20 bg-white p-8 shadow-sm">
+            <div className="flex h-14 w-14 items-center justify-center bg-[#00203F] text-[#36ECDE] mb-6">
+              <Lock className="h-7 w-7" />
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#00203F]/10 text-[#00203F] text-[10px] font-black uppercase tracking-wider mb-2">
+              401 • Restricted Area
+            </div>
+
+            <h1 className="text-xl font-black text-[#00203F] uppercase tracking-wide">
+              Administrator Sign In Required
+            </h1>
+
+            <p className="mt-3 text-xs leading-relaxed text-[#2F2F2F]/80">
+              The CreatorGear administration dashboard and user directory are restricted to authorized platform personnel. You must be signed in with an authorized administrative account to access this portal.
+            </p>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/login?redirect=/admin"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#00203F] px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] transition-colors shadow-xs"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Sign In as Admin</span>
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex items-center justify-center border border-[#00203F]/20 bg-white px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#00203F] hover:bg-[#E6E9EC] transition-colors"
+              >
+                <span>Storefront</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Unauthorized State (Logged In, but Not Admin)
+  if (!isAuthorizedAdmin) {
+    return (
+      <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F]">
+        <Navbar />
+        <div className="mx-auto max-w-xl px-4 py-24">
+          <div className="border border-red-300 bg-white p-8 shadow-sm">
+            <div className="flex h-14 w-14 items-center justify-center bg-red-600 text-white mb-6">
+              <ShieldAlert className="h-7 w-7" />
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-black uppercase tracking-wider mb-2">
+              403 • Access Denied
+            </div>
+
+            <h1 className="text-xl font-black text-red-900 uppercase tracking-wide">
+              Administrative Access Forbidden
+            </h1>
+
+            <div className="mt-3 bg-[#E6E9EC]/70 border border-[#00203F]/10 p-3">
+              <span className="block text-[11px] font-bold text-[#00203F] uppercase tracking-wider">
+                Current Authenticated Identity:
+              </span>
+              <span className="block text-xs font-mono text-[#2F2F2F] mt-0.5 truncate">
+                {authUser.email}
+              </span>
+            </div>
+
+            <p className="mt-4 text-xs leading-relaxed text-[#2F2F2F]/80">
+              Your account does not possess platform administrator privileges. This portal contains privileged customer databases, financial transaction ledgers, and compliance controls.
+            </p>
+
+            <p className="mt-2 text-xs text-[#2F2F2F]/60">
+              If this is an error or you require administrator credentials, contact the primary platform owner at <span className="font-semibold text-[#00203F]">saimeshchathurak@gmail.com</span>.
+            </p>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  await signOut();
+                  router.push('/login?redirect=/admin');
+                }}
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#00203F] px-4 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] transition-colors shadow-xs"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Switch to Admin Account</span>
+              </button>
+              <Link
+                href="/"
+                className="inline-flex items-center justify-center border border-[#00203F]/20 bg-white px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#00203F] hover:bg-[#E6E9EC] transition-colors"
+              >
+                <span>Return to Storefront</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. Authorized Admin Dashboard View
   return (
     <div className="min-h-screen bg-[#E6E9EC] text-[#2F2F2F]">
       <Navbar />
@@ -238,6 +418,13 @@ export default function AdminDashboardPage() {
             <p className="text-xs text-[#2F2F2F]/70 mt-0.5">
               Manage platform accounts, customer directories, and seller compliance verification.
             </p>
+            <div className="mt-2 flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 bg-white border border-[#00203F]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#00203F] shadow-2xs">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Active Administrator:</span>
+                <span className="font-mono font-bold">{authUser.email}</span>
+              </span>
+            </div>
           </div>
 
           {/* Tab Switcher */}

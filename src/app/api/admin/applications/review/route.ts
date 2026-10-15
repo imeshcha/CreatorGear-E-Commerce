@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
+import { verifyAdminRequest } from '@/lib/auth/admin';
 
 export async function POST(request: Request) {
   try {
+    const authResult = await verifyAdminRequest(request);
+    if (!authResult.authorized) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+
     const { applicationId, status, notes } = await request.json();
 
     if (!applicationId || !status) {
@@ -23,11 +29,13 @@ export async function POST(request: Request) {
     }
 
     // 2. Update application status
+    const reviewerIdentifier = authResult.email || 'Admin';
     const { error: updateErr } = await supabase
       .from('seller_verification_applications')
       .update({
         verification_status: status,
         review_notes: notes || 'Reviewed by admin compliance',
+        reviewed_by: reviewerIdentifier,
         reviewed_date: new Date().toISOString(),
       })
       .eq('id', applicationId);
