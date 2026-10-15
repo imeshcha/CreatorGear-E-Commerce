@@ -139,13 +139,21 @@ export default function Navbar() {
           {authUser ? (
             <Link
               href="/account"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00203F] hover:text-[#2F2F2F] px-2 py-1 transition"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-[#00203F] hover:text-[#2F2F2F] px-1.5 py-1 transition group"
               title="My Account"
             >
-              <div className="flex h-6 w-6 items-center justify-center bg-[#00203F] text-[10px] font-bold text-[#36ECDE]">
-                {(userProfile?.full_name || authUser.email || 'U')[0].toUpperCase()}
+              <div className="rounded-circle flex h-7 w-7 items-center justify-center bg-[#00203F] text-[#36ECDE] shrink-0 border border-[#00203F]/20 shadow-xs overflow-hidden">
+                {userProfile?.avatar_url ? (
+                  <img
+                    src={userProfile.avatar_url}
+                    alt={userProfile.full_name || 'Profile'}
+                    className="rounded-circle h-full w-full object-cover"
+                  />
+                ) : (
+                  <User className="h-3.5 w-3.5" />
+                )}
               </div>
-              <span className="hidden sm:inline max-w-[100px] truncate text-[#00203F]">
+              <span className="hidden sm:inline max-w-[110px] truncate text-[#00203F] font-semibold">
                 {userProfile?.full_name || authUser.email?.split('@')[0]}
               </span>
             </Link>

@@ -32,11 +32,16 @@
   --radius: 0px;
 }
 
-/* Strictly remove all border radiuses across the entire web application */
+/* Strictly remove all border radiuses across the entire web application, except designated circular elements */
 *,
 *::before,
 *::after {
   border-radius: 0 !important;
+}
+
+.rounded-circle,
+.rounded-circle * {
+  border-radius: 9999px !important;
 }
 
 body {
