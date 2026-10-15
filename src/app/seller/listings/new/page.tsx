@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { useAuth } from '@/context/AuthContext';
@@ -21,6 +21,124 @@ import {
   Package,
 } from 'lucide-react';
 import Link from 'next/link';
+
+// Strict Category-to-Brand relevance mapping
+const CATEGORY_BRAND_SLUGS: Record<string, string[]> = {
+  // Cameras & Lenses -> Sony, Canon, Nikon, Fujifilm, Panasonic Lumix, Blackmagic Design, RED, Sigma, Tamron
+  'cameras-and-lenses': [
+    'sony',
+    'canon',
+    'nikon',
+    'fujifilm',
+    'panasonic',
+    'blackmagic-design',
+    'red',
+    'sigma',
+    'tamron',
+  ],
+  cameras: [
+    'sony',
+    'canon',
+    'nikon',
+    'fujifilm',
+    'panasonic',
+    'blackmagic-design',
+    'red',
+    'sigma',
+    'tamron',
+  ],
+  // Lighting & Studio -> Aputure, Amaran, Nanlite, Godox, SmallRig
+  'lighting-and-studio': [
+    'aputure',
+    'amaran',
+    'nanlite',
+    'godox',
+    'smallrig',
+  ],
+  lighting: [
+    'aputure',
+    'amaran',
+    'nanlite',
+    'godox',
+    'smallrig',
+  ],
+  // Audio Equipment -> Røde, Sennheiser, Shure, Audio-Technica, Zoom, Hollyland, Boya, Saramonic, Sony, DJI
+  'audio-equipment': [
+    'rode',
+    'sennheiser',
+    'shure',
+    'audio-technica',
+    'zoom',
+    'hollyland',
+    'boya',
+    'saramonic',
+    'sony',
+    'dji',
+  ],
+  audio: [
+    'rode',
+    'sennheiser',
+    'shure',
+    'audio-technica',
+    'zoom',
+    'hollyland',
+    'boya',
+    'saramonic',
+    'sony',
+    'dji',
+  ],
+  // Video Production & Gimbals -> DJI, Zhiyun-Tech, Tilta, SmallRig, Feelworld, Atomos, Blackmagic Design, Hollyland
+  'video-production': [
+    'dji',
+    'zhiyun',
+    'tilta',
+    'smallrig',
+    'feelworld',
+    'atomos',
+    'blackmagic-design',
+    'hollyland',
+  ],
+  'studio-sets': [
+    'dji',
+    'zhiyun',
+    'tilta',
+    'smallrig',
+    'feelworld',
+    'atomos',
+    'blackmagic-design',
+    'hollyland',
+  ],
+  // Streaming & Content Creation -> Elgato, Blackmagic Design, Hollyland, Røde, Boya, Shure, Sony
+  'streaming-and-content': [
+    'elgato',
+    'blackmagic-design',
+    'hollyland',
+    'rode',
+    'boya',
+    'shure',
+    'sony',
+  ],
+  streaming: [
+    'elgato',
+    'blackmagic-design',
+    'hollyland',
+    'rode',
+    'boya',
+    'shure',
+    'sony',
+  ],
+  // Accessories & Storage -> SmallRig, Tilta, K&F Concept, SanDisk, Sony, Canon, DJI, Godox
+  accessories: [
+    'smallrig',
+    'tilta',
+    'kf-concept',
+    'sandisk',
+    'sony',
+    'canon',
+    'dji',
+    'godox',
+  ],
+};
 
 export default function NewListingPage() {
   const router = useRouter();
@@ -65,16 +183,32 @@ export default function NewListingPage() {
   useEffect(() => {
     async function fetchTaxonomy() {
       try {
-        const { data: dbCats } = await supabase.from('categories').select('*').order('sort_order');
-        if (dbCats && dbCats.length > 0) {
-          setCategories(dbCats);
-          setCategoryId(dbCats[0].id);
-        }
+        const [catsRes, brandsRes] = await Promise.all([
+          supabase.from('categories').select('*').order('sort_order'),
+          supabase.from('brands').select('*').order('name'),
+        ]);
 
-        const { data: dbBrands } = await supabase.from('brands').select('*').order('name');
-        if (dbBrands && dbBrands.length > 0) {
-          setBrands(dbBrands);
-          setBrandId(dbBrands[0].id);
+        const dbCats = catsRes.data || [];
+        const dbBrands = brandsRes.data || [];
+
+        setCategories(dbCats);
+        setBrands(dbBrands);
+
+        if (dbCats.length > 0) {
+          const firstCat = dbCats[0];
+          setCategoryId(firstCat.id);
+
+          // Find first brand matching the first category
+          const allowedSlugs = CATEGORY_BRAND_SLUGS[firstCat.slug];
+          const firstValidBrand = allowedSlugs
+            ? dbBrands.find((b: any) => allowedSlugs.includes(b.slug))
+            : dbBrands[0];
+
+          if (firstValidBrand) {
+            setBrandId(firstValidBrand.id);
+          } else if (dbBrands.length > 0) {
+            setBrandId(dbBrands[0].id);
+          }
         }
       } catch (err) {
         console.error('Error loading taxonomy from Supabase:', err);
@@ -82,6 +216,36 @@ export default function NewListingPage() {
     }
     fetchTaxonomy();
   }, []);
+
+  // Filter available brands based on the active category
+  const selectedCategory = useMemo(() => {
+    return categories.find((c) => c.id === categoryId);
+  }, [categories, categoryId]);
+
+  const availableBrands = useMemo(() => {
+    if (!selectedCategory) return brands;
+    const allowedSlugs = CATEGORY_BRAND_SLUGS[selectedCategory.slug];
+    if (!allowedSlugs || allowedSlugs.length === 0) return brands;
+    return brands.filter((b) => allowedSlugs.includes(b.slug));
+  }, [brands, selectedCategory]);
+
+  const handleCategoryChange = (newCatId: string) => {
+    setCategoryId(newCatId);
+    const cat = categories.find((c) => c.id === newCatId);
+    if (cat) {
+      const allowedSlugs = CATEGORY_BRAND_SLUGS[cat.slug];
+      if (allowedSlugs && allowedSlugs.length > 0) {
+        const firstMatching = brands.find((b) => allowedSlugs.includes(b.slug));
+        if (firstMatching) {
+          setBrandId(firstMatching.id);
+          return;
+        }
+      }
+    }
+    if (brands.length > 0) {
+      setBrandId(brands[0].id);
+    }
+  };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -369,7 +533,7 @@ export default function NewListingPage() {
                   </label>
                   <select
                     value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
                     className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3.5 py-2.5 text-xs text-[#00203F] focus:outline-none focus:bg-white focus:border-[#00203F]"
                   >
                     {categories.map((c) => (
@@ -389,11 +553,14 @@ export default function NewListingPage() {
                     onChange={(e) => setBrandId(e.target.value)}
                     className="w-full border border-[#00203F]/20 bg-[#E6E9EC]/30 px-3.5 py-2.5 text-xs text-[#00203F] focus:outline-none focus:bg-white focus:border-[#00203F]"
                   >
-                    {brands.map((b) => (
+                    {availableBrands.map((b) => (
                       <option key={b.id} value={b.id}>
                         {b.name}
                       </option>
                     ))}
+                    {availableBrands.length === 0 && (
+                      <option value="">No brands available for this category</option>
+                    )}
                   </select>
                 </div>
               </div>
