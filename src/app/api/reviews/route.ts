@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -11,11 +13,31 @@ export async function GET(request: NextRequest) {
     }
 
     const adminSupabase = getAdminSupabase();
+    let targetProductId = productId;
+
+    // Handle slug or mock ID fallback if not a valid UUID
+    if (!UUID_REGEX.test(productId)) {
+      const { data: prod } = await adminSupabase
+        .from('products')
+        .select('id')
+        .or(`slug.eq.${productId},sku.eq.${productId}`)
+        .maybeSingle();
+
+      if (prod?.id) {
+        targetProductId = prod.id;
+      } else {
+        return NextResponse.json({
+          reviews: [],
+          totalCount: 0,
+          averageRating: 5.0,
+        });
+      }
+    }
 
     const { data: reviews, error } = await adminSupabase
       .from('reviews')
       .select('*, user:users(id, full_name, avatar_url, email)')
-      .eq('product_id', productId)
+      .eq('product_id', targetProductId)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -59,10 +81,26 @@ export async function POST(request: NextRequest) {
     }
 
     const adminSupabase = getAdminSupabase();
+    let targetProductId = productId;
 
-    // Determine user ID (or default/fallback user if not passed)
+    // Resolve product ID if slug or SKU was provided
+    if (!UUID_REGEX.test(productId)) {
+      const { data: prod } = await adminSupabase
+        .from('products')
+        .select('id')
+        .or(`slug.eq.${productId},sku.eq.${productId}`)
+        .maybeSingle();
+
+      if (prod?.id) {
+        targetProductId = prod.id;
+      } else {
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+      }
+    }
+
+    // Determine valid user ID in public.users
     let actualUserId = userId || customerId;
-    if (!actualUserId) {
+    if (!actualUserId || !UUID_REGEX.test(actualUserId)) {
       const { data: anyUser } = await adminSupabase.from('users').select('id').limit(1).single();
       if (anyUser) {
         actualUserId = anyUser.id;
@@ -77,7 +115,7 @@ export async function POST(request: NextRequest) {
     const { data: newReview, error: insertErr } = await adminSupabase
       .from('reviews')
       .insert({
-        product_id: productId,
+        product_id: targetProductId,
         user_id: actualUserId,
         rating: Math.round(rating),
         comment: comment.trim(),
@@ -90,11 +128,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: insertErr.message }, { status: 500 });
     }
 
-    // Recompute product ratings & review count
+    // Recompute product ratings & review count in Supabase
     const { data: allReviews } = await adminSupabase
       .from('reviews')
       .select('rating')
-      .eq('product_id', productId);
+      .eq('product_id', targetProductId);
 
     if (allReviews && allReviews.length > 0) {
       const count = allReviews.length;
@@ -106,7 +144,7 @@ export async function POST(request: NextRequest) {
           rating: avg,
           review_count: count,
         })
-        .eq('id', productId);
+        .eq('id', targetProductId);
     }
 
     return NextResponse.json({ success: true, review: newReview }, { status: 201 });
