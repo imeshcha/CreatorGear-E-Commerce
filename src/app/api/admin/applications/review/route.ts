@@ -28,14 +28,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
-    // 2. Update application status
-    const reviewerIdentifier = authResult.email || 'Admin';
+    // 2. Update application status (reviewed_by must be a UUID matching the user id)
+    const isUuid = (val?: string) =>
+      Boolean(val && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val));
+    const reviewerUserId = isUuid(authResult.userId) ? authResult.userId : null;
+
     const { error: updateErr } = await supabase
       .from('seller_verification_applications')
       .update({
         verification_status: status,
         review_notes: notes || 'Reviewed by admin compliance',
-        reviewed_by: reviewerIdentifier,
+        reviewed_by: reviewerUserId,
         reviewed_date: new Date().toISOString(),
       })
       .eq('id', applicationId);
