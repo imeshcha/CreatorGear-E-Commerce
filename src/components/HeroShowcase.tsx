@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ShieldCheck, ChevronLeft, ChevronRight, Star, Eye } from 'lucide-react';
+import { ShieldCheck, Star, Eye } from 'lucide-react';
 
 const FEATURED_ITEMS = [
   {
@@ -233,26 +233,6 @@ export default function HeroShowcase() {
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
       >
-        {/* Left Arrow Navigation Button */}
-        <button
-          type="button"
-          onClick={prevCard}
-          className="hidden sm:flex absolute -left-2 md:left-2 top-1/2 -translate-y-1/2 z-40 bg-black/60 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
-          aria-label="Previous Featured Gear"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-
-        {/* Right Arrow Navigation Button */}
-        <button
-          type="button"
-          onClick={nextCard}
-          className="hidden sm:flex absolute -right-2 md:right-2 top-1/2 -translate-y-1/2 z-40 bg-black/60 text-white p-3 border border-white/20 hover:bg-[#36ECDE] hover:text-[#00203F] transition-all shadow-xl"
-          aria-label="Next Featured Gear"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
-
         {/* 3D Stage Viewport with Increased Height */}
         <div className="relative min-h-[660px] sm:h-[640px] lg:h-[620px] w-full flex items-center justify-center overflow-visible perspective-[1200px]">
           {FEATURED_ITEMS.map((item, idx) => {
@@ -353,22 +333,14 @@ export default function HeroShowcase() {
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="pt-4 border-t border-[#00203F]/10 flex items-center gap-2">
+                    {/* Action Button */}
+                    <div className="pt-4 border-t border-[#00203F]/10">
                       <Link
                         href={`/product/${item.slug}`}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#00203F] py-3 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] shadow-sm transition"
+                        className="w-full inline-flex items-center justify-center gap-2 bg-[#00203F] py-3.5 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#36ECDE] hover:text-[#00203F] shadow-sm transition"
                       >
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-4 w-4" />
                         <span>View Gear</span>
-                      </Link>
-
-                      <Link
-                        href={`/product/${item.slug}`}
-                        className="inline-flex items-center justify-center border border-[#00203F]/30 bg-white p-3 text-[#00203F] hover:bg-[#E6E9EC] hover:text-[#00203F] shadow-2xs transition"
-                        title="Direct Purchase"
-                      >
-                        <ArrowRight className="h-4 w-4" />
                       </Link>
                     </div>
                   </div>
