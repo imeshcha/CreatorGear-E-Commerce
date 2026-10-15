@@ -47,14 +47,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: updateErr.message }, { status: 500 });
     }
 
-    // 3. If approved, award verified badge to seller_profile
+    // 3. If approved, award verified badge to seller_profile and set role to seller
     if (status === 'approved' && application.user_id) {
-      await supabase
-        .from('seller_profiles')
-        .update({
-          is_verified: true,
-        })
-        .eq('id', application.user_id);
+      await Promise.all([
+        supabase
+          .from('seller_profiles')
+          .update({ is_verified: true })
+          .eq('id', application.user_id),
+        supabase
+          .from('users')
+          .update({ role: 'seller' })
+          .eq('id', application.user_id),
+      ]);
     } else if ((status === 'rejected' || status === 'suspended') && application.user_id) {
       await supabase
         .from('seller_profiles')

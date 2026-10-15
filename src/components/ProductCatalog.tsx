@@ -189,10 +189,16 @@ export default function ProductCatalog({
   dealsOnly = false,
   showCategoryFilter = true,
 }: ProductCatalogProps) {
+  const maxPossiblePrice = useMemo(() => {
+    if (!initialProducts || initialProducts.length === 0) return 3000000;
+    const maxVal = Math.max(...initialProducts.map((p) => Number(p.price) || 0));
+    return Math.max(maxVal, 3000000);
+  }, [initialProducts]);
+
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedCondition, setSelectedCondition] = useState<string>(initialCondition);
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
-  const [maxPrice, setMaxPrice] = useState<number>(6000);
+  const [maxPrice, setMaxPrice] = useState<number>(maxPossiblePrice);
   const [sortBy, setSortBy] = useState<string>('recommended');
   const [search, setSearch] = useState<string>(initialSearch);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -202,7 +208,8 @@ export default function ProductCatalog({
     setSelectedCategory(initialCategory);
     setSelectedCondition(initialCondition);
     setSearch(initialSearch);
-  }, [initialCategory, initialCondition, initialSearch]);
+    setMaxPrice(maxPossiblePrice);
+  }, [initialCategory, initialCondition, initialSearch, maxPossiblePrice]);
 
   // Extract available brands - seeded with category defaults so Brand filter is always available
   const brands = useMemo(() => {
@@ -253,7 +260,9 @@ export default function ProductCatalog({
       result = result.filter(p => p.brand?.slug === selectedBrand);
     }
 
-    result = result.filter(p => p.price <= maxPrice);
+    if (maxPrice < maxPossiblePrice) {
+      result = result.filter(p => p.price <= maxPrice);
+    }
 
     switch (sortBy) {
       case 'price_asc':
@@ -273,13 +282,13 @@ export default function ProductCatalog({
     }
 
     return result;
-  }, [initialProducts, search, selectedCategory, selectedCondition, selectedBrand, maxPrice, sortBy, dealsOnly]);
+  }, [initialProducts, search, selectedCategory, selectedCondition, selectedBrand, maxPrice, maxPossiblePrice, sortBy, dealsOnly]);
 
   const resetFilters = () => {
     setSelectedCategory(initialCategory);
     setSelectedCondition(initialCondition);
     setSelectedBrand('all');
-    setMaxPrice(6000);
+    setMaxPrice(maxPossiblePrice);
     setSortBy('recommended');
     setSearch('');
   };
@@ -439,20 +448,24 @@ export default function ProductCatalog({
           <div className="border-t border-[#00203F]/10 pt-4">
             <div className="flex items-center justify-between text-xs font-bold text-[#00203F] mb-2">
               <span>Maximum Price</span>
-              <span className="text-[#00203F] font-mono">LKR {maxPrice.toLocaleString()}</span>
+              <span className="text-[#00203F] font-mono">
+                {maxPrice >= maxPossiblePrice
+                  ? 'All Prices'
+                  : `LKR ${maxPrice.toLocaleString()}`}
+              </span>
             </div>
             <input
               type="range"
-              min={100}
-              max={6000}
-              step={50}
+              min={1000}
+              max={maxPossiblePrice}
+              step={maxPossiblePrice > 100000 ? 5000 : 500}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
               className="w-full accent-[#00203F] cursor-pointer"
             />
             <div className="mt-1 flex justify-between text-[10px] text-[#2F2F2F]/60">
-              <span>LKR 100</span>
-              <span>LKR 6,000+</span>
+              <span>LKR 1,000</span>
+              <span>LKR {maxPossiblePrice.toLocaleString()}+</span>
             </div>
           </div>
         </aside>
