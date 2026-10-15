@@ -149,28 +149,14 @@ export default function CategorySubpageView({
       <section className="border-b border-[#00203F]/15 bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-[1760px] px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-2">
-              <span className="h-4 w-1 bg-[#36ECDE]" />
-              <h2 className="text-xs font-black uppercase tracking-wider text-[#00203F]">
-                {categoryName} Departments
-              </h2>
-              <span className="text-[11px] font-semibold text-[#2F2F2F]/50 hidden sm:inline">
-                • Select a department subpage to view equipment
-              </span>
-            </div>
-
-            {activeDepartment && (
-              <div className="inline-flex items-center gap-2 self-start sm:self-auto text-xs font-semibold text-[#00203F]">
-                <span className="text-[#2F2F2F]/60">Current Subpage:</span>
-                <span className="bg-[#00203F] text-[#36ECDE] px-2.5 py-0.5 font-bold uppercase tracking-wide text-[11px]">
-                  {activeDepartment.title}
-                </span>
-                <span className="text-[#2F2F2F]/60">
-                  ({subpageProducts.length} listing{subpageProducts.length === 1 ? '' : 's'})
-                </span>
-              </div>
-            )}
+          <div className="flex items-center gap-2 mb-6">
+            <span className="h-4 w-1 bg-[#36ECDE]" />
+            <h2 className="text-xs font-black uppercase tracking-wider text-[#00203F]">
+              {categoryName} Departments
+            </h2>
+            <span className="text-[11px] font-semibold text-[#2F2F2F]/50 hidden sm:inline">
+              • Select a department subpage to view equipment
+            </span>
           </div>
 
           {/* Subpages Grid / DOM Tabs */}
