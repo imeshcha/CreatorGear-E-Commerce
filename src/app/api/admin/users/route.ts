@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
-import { verifyAdminRequest } from '@/lib/auth/admin';
+import { verifyAdminRequest, isAdminEmail } from '@/lib/auth/admin';
 
 export interface AdminUserListItem {
   id: string;
@@ -114,20 +114,23 @@ export async function GET(request: Request) {
       supabase.from('users').upsert(missingDbUsers).then(() => {});
     }
 
+    // Filter out administrator profiles from the platform customer & seller directory
+    const directoryUsers = users.filter((u) => u.role !== 'admin' && !isAdminEmail(u.email));
+
     // Sort by newest registered
-    users.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    directoryUsers.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     // Calculate summary statistics
     const stats = {
-      totalUsers: users.length,
-      customers: users.filter((u) => u.role === 'customer').length,
-      sellers: users.filter((u) => u.role === 'seller').length,
-      verifiedSellers: users.filter((u) => u.seller_profile?.is_verified).length,
-      admins: users.filter((u) => u.role === 'admin').length,
-      googleUsers: users.filter((u) => u.provider === 'google').length,
+      totalUsers: directoryUsers.length,
+      customers: directoryUsers.filter((u) => u.role === 'customer').length,
+      sellers: directoryUsers.filter((u) => u.role === 'seller').length,
+      verifiedSellers: directoryUsers.filter((u) => u.seller_profile?.is_verified).length,
+      admins: users.filter((u) => u.role === 'admin' || isAdminEmail(u.email)).length,
+      googleUsers: directoryUsers.filter((u) => u.provider === 'google').length,
     };
 
-    return NextResponse.json({ users, stats });
+    return NextResponse.json({ users: directoryUsers, stats });
   } catch (err: any) {
     console.error('Error in GET /api/admin/users:', err);
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });

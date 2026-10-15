@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [usersLoading, setUsersLoading] = useState(true);
   const [userSearch, setUserSearch] = useState('');
-  const [userRoleFilter, setUserRoleFilter] = useState<'all' | 'customer' | 'seller' | 'admin'>('all');
+  const [userRoleFilter, setUserRoleFilter] = useState<'all' | 'customer' | 'seller'>('all');
   const [userProviderFilter, setUserProviderFilter] = useState<'all' | 'google' | 'email'>('all');
   const [selectedUser, setSelectedUser] = useState<AdminUserListItem | null>(null);
 
@@ -259,8 +259,11 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Filter users based on search, role, and provider
+  // Filter users based on search, role, and provider (strictly platform customers & sellers)
   const filteredUsers = users.filter((u) => {
+    // Exclude platform administrator accounts from the user directory
+    if (u.role === 'admin' || isAdminEmail(u.email)) return false;
+
     const q = userSearch.toLowerCase().trim();
     const matchesSearch =
       !q ||
@@ -551,7 +554,7 @@ export default function AdminDashboardPage() {
                 <span className="text-[11px] font-bold text-[#2F2F2F]/60 mr-1 hidden md:inline">
                   Role:
                 </span>
-                {(['all', 'customer', 'seller', 'admin'] as const).map((r) => (
+                {(['all', 'customer', 'seller'] as const).map((r) => (
                   <button
                     key={r}
                     type="button"
